@@ -2,7 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --clr-primary: #151717;
+  --clr-secondary: #f7f9fc;
+  --clr-header: #003366;
+  --clr-akcent: #c9d6df;
+  --clr-button: #0077b6;
+}
+
+body {
+  @apply bg-primary text-secondary;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-header;
+}
+
 /* Headers */
 .header {
-  @apply text-4xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-center;
+  @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-center text-transparent;
+  -webkit-text-stroke: 2px var(--clr-header);
+  background: linear-gradient(
+    145deg,
+    var(--clr-header),
+    var(--clr-primary) 50%,
+    var(--clr-secondary) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
