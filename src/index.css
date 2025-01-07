@@ -20,12 +20,12 @@ h3,
 h4,
 h5,
 h6 {
-  @apply text-header;
+  @apply text-header font-bold text-center;
 }
 
 /* Headers */
 .header {
-  @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-center text-transparent;
+  @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-transparent;
   -webkit-text-stroke: 2px var(--clr-header);
   background: linear-gradient(
     145deg,
