@@ -1,6 +1,4 @@
-import { Search } from "heroicons-react";
-
-const Header = () => {
+const Header = ({ setSearch }) => {
   return (
     <header className="flex flex-col justify-center items-center py-4 w-full">
       <div className="flex flex-col justify-center items-center py-4">
@@ -13,11 +11,9 @@ const Header = () => {
         <input
           type="text"
           placeholder="Nazwa wódki..."
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full p-2 text-sm md:text-base rounded-lg outline-none bg-gray-700 transition-colors duration-300 ease-in-out focus:bg-akcent focus:text-primary"
         />
-        <button className="rounded-lg p-2 transition-colors duration-300 ease-in-out shadow-inner-button hover:bg-akcent">
-          <Search className="w-5 md:w-6 h-5 md:h-6" />
-        </button>
       </div>
     </header>
   );

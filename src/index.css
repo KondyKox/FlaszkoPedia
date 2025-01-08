@@ -36,3 +36,7 @@ h6 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.sub-header {
+  @apply text-xl md:text-2xl lg:text-3xl;
+}
