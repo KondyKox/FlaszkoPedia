@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "5gwQvTsolZUqGrnrqiLb+0JzQ1vmtaJIF8Ne6ubVp80=",
+  "Source": "VodkaApi",
+  "BasePath": "_content/VodkaApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
