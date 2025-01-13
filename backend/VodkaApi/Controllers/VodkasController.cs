@@ -100,16 +100,5 @@ namespace VodkaAPI.Controllers
             Vodkas.Remove(vodka);
             return NoContent();
         }
-
-        [HttpGet("group-by-country")]
-        public IActionResult GroupByCountry()
-        {
-            var grouped = Vodkas
-                   .SelectMany(v => v.Stores.Select(s => new { s.StoreName, Vodka = v.Name }))
-                   .GroupBy(x => x.StoreName)
-                   .Select(g => new { StoreName = g.Key, Vodkas = g.Select(x => x.Vodka).ToList() });
-
-            return Ok(grouped);
-        }
     }
 }

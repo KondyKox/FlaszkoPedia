@@ -13,7 +13,7 @@ const Item = ({ vodka, selectedVodka }) => {
     if (!selectedVodka) return { color: "text-akcent", rotate: true };
 
     const selectedStore = selectedVodka.stores.find(
-      (s) => s.store_name === store.store_name
+      (s) => s.storeName === store.storeName
     );
 
     if (store.price < selectedStore.price)
@@ -32,7 +32,7 @@ const Item = ({ vodka, selectedVodka }) => {
     >
       <h4 className="text-purple-600">
         {vodka.name}{" "}
-        <span className="text-akcent">{vodka.alcohol_percentage}%</span>
+        <span className="text-akcent">{vodka.alcoholPercentage}%</span>
       </h4>
       <ul className="grid grid-cols-2 place-items-center md:flex md:justify-center md:items-center gap-4 md:gap-10">
         {vodka.stores.map((store, storeIndex) => {
@@ -43,20 +43,17 @@ const Item = ({ vodka, selectedVodka }) => {
               className="flex flex-col justify-center items-center gap-2 text-center"
             >
               <img
-                src={getStoreImage(store.store_name)}
-                alt={store.store_name}
+                src={getStoreImage(store.storeName)}
+                alt={store.storeName}
                 className="w-10 h-10"
               />
               <div className="flex justify-center items-center gap-2 text-sm">
                 <span className={`${color}`}>{store.price}zł</span>
-                {/* <img
-                  src="/arrow.svg"
-                  alt="Cena"
-                  className={`w-6 h-6 ${color} ${rotate ? "rotate-180" : ""}`}
-                /> */}
-                <ArrowIcon
-                  className={`${color} ${rotate ? "rotate-180" : ""}`}
-                />
+                {selectedVodka && selectedVodka !== vodka && (
+                  <ArrowIcon
+                    className={`${color} ${rotate ? "rotate-180" : ""}`}
+                  />
+                )}
               </div>
             </li>
           );

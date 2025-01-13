@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import vodkaData from "../vodkas.json";
 import Item from "./Item";
 
 // Funkcja do usuwania polskich znaków
@@ -15,7 +14,16 @@ const ItemList = ({ search }) => {
   const [selectedVodka, setSelectedVodka] = useState(null);
 
   useEffect(() => {
-    setVodkas(vodkaData.vodkas);
+    fetch("/api/vodkas")
+      .then((response) => {
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then((data) => setVodkas(data))
+      .catch((error) => {
+        console.error("Błąd podczas pobierania danych:", error);
+      });
   }, []);
 
   const filteredVodkas = vodkas.filter((vodka) =>
