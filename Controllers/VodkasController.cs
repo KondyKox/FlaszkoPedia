@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using VodkaApi.Data;
 using VodkaAPI.Models;
 
 namespace VodkaAPI.Controllers
@@ -7,35 +8,7 @@ namespace VodkaAPI.Controllers
     [Route("api/[controller]")]
     public class VodkasController : ControllerBase
     {
-        private static List<Vodka> Vodkas = new List<Vodka>
-        {
-            new Vodka
-            {
-                Id = 1,
-                Name = "Żubrówka Biała",
-                AlcoholPercentage = 40.0,
-                Stores = new List<Store>
-                {
-                    new Store { StoreName = "Biedronka", Price = 75.99m },
-                    new Store { StoreName = "Lidl", Price = 79.5m },
-                    new Store { StoreName = "Carrefour", Price = 78.0m },
-                    new Store { StoreName = "Auchan", Price = 76.5m }
-                }
-            },
-            new Vodka
-            {
-                Id = 2,
-                Name = "Belvedere",
-                AlcoholPercentage = 40.0,
-                Stores = new List<Store>
-                {
-                    new Store { StoreName = "Biedronka", Price = 179.99m },
-                    new Store { StoreName = "Lidl", Price = 185.0m },
-                    new Store { StoreName = "Carrefour", Price = 183.5m },
-                    new Store { StoreName = "Auchan", Price = 181.0m }
-                }
-            }
-        };
+        private static List<Vodka> Vodkas = VodkaData.Vodkas;
 
         [HttpGet]
         public IActionResult GetAll([FromQuery] string? store = null, [FromQuery] string? sort = null)
