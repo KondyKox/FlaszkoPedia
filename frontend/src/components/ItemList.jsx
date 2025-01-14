@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import Item from "./Item";
 import Filter from "./Filter";
 import SelectedVodka from "./SelectedVodka";
-
-// Funkcja do usuwania polskich znaków
-const normalizeString = (str) => {
-  return str
-    .normalize("NFD") // Rozbija znaki na podstawowe i akcenty
-    .replace(/[\u0300-\u036f]/g, "") // Usuwa akcenty
-    .toLowerCase();
-};
+import { filterVodkasBySearch, sortVodkas } from "../utils/vodkaUtils";
 
 const ItemList = () => {
   const [vodkas, setVodkas] = useState([]);
@@ -42,28 +35,9 @@ const ItemList = () => {
       });
   }, []);
 
-  // Filtrowanie po wpisanej nazwie
-  const filteredVodkas = vodkas.filter((vodka) =>
-    normalizeString(vodka.name).includes(normalizeString(search))
-  );
-
-  // Sortowanie flaszek
-  const sortedVodkas = (search ? filteredVodkas : vodkas).sort((a, b) => {
-    let result = 0;
-
-    switch (sortBy) {
-      case "name":
-        result = a.name.localeCompare(b.name, "pl");
-        break;
-      case "price":
-        result = a.averagePrice - b.averagePrice;
-        break;
-      default:
-        break;
-    }
-
-    return sortAscending ? result : -result;
-  });
+  // Filtrowanie i sortowanie
+  const filteredVodkas = filterVodkasBySearch(vodkas, search);
+  const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
 
   return (
     <>
