@@ -1,10 +1,19 @@
 import { normalizeString } from "./normalizeString";
 
-// Filtrowanie po nazwie
-export const filterVodkasBySearch = (vodkas, search) => {
-  return vodkas.filter((vodka) =>
+// Filtrowanie po nazwie i po pojemności butelki
+export const filterVodkas = (vodkas, search, bottleSizeFilter) => {
+  let filteredVodkas = vodkas.filter((vodka) =>
     normalizeString(vodka.name).includes(normalizeString(search))
   );
+
+  if (bottleSizeFilter) {
+    const selectedSize = parseFloat(bottleSizeFilter);
+    filteredVodkas = filteredVodkas.filter(
+      (vodka) => Math.abs(vodka.bottleSize - selectedSize) < 0.01 // Tolerancja 0.01 dla porównania
+    );
+  }
+
+  return filteredVodkas;
 };
 
 // Sortowanie flaszek

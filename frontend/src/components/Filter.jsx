@@ -6,7 +6,7 @@ const Filter = ({
   setSortBy,
   sortAscending,
   setSortAscending,
-  // setBottleSizeFilter,
+  setBottleSizeFilter,
 }) => {
   return (
     <div className="flex flex-col justify-between items-center gap-2 px-2 w-full md:w-1/2 xl:w-1/3">
@@ -20,28 +20,46 @@ const Filter = ({
 
       <div className="flex justify-between items-center gap-2 w-full">
         {/* Kryterium sortowania */}
-        <select
-          className="select"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="name">Nazwa</option>
-          <option value="price">Średnia cena</option>
-        </select>
+        <div className="w-full">
+          <label
+            htmlFor="sortBy"
+            className="inline-block text-sm font-semibold text-gray-300 mb-1"
+          >
+            Kryterium sortowania
+          </label>
+          <select
+            id="sortBy"
+            className="select w-full"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="name">Nazwa</option>
+            <option value="price">Średnia cena</option>
+          </select>
+        </div>
         {/* Kierunek sortowania (malejąco / rosnąco) */}
-        <button
-          className="rounded border-2 border-button p-1 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-button"
-          onClick={() => setSortAscending(!sortAscending)}
-        >
-          <ArrowIcon className={sortAscending ? "rotate-0" : "rotate-180"} />
-        </button>
+        <div className="mt-auto">
+          <button
+            className="btn p-1"
+            onClick={() => setSortAscending(!sortAscending)}
+            aria-label="Zmień kierunek sortowania"
+          >
+            <ArrowIcon className={sortAscending ? "rotate-0" : "rotate-180"} />
+          </button>
+        </div>
       </div>
 
       {/* Filtrowanie po pojemności */}
-      {/* <div className="w-full text-center">
-        <h3 className="text-lg font-semibold mb-2">Filtruj po pojemności</h3>
+      <div className="w-full">
+        <label
+          htmlFor="bottleSize"
+          className="block text-sm font-semibold text-gray-300 mb-1"
+        >
+          Pojemność
+        </label>
         <select
-          className="select"
+          id="bottleSize"
+          className="select w-full"
           onChange={(e) => setBottleSizeFilter(e.target.value)}
         >
           <option value="">Wszystkie</option>
@@ -49,7 +67,7 @@ const Filter = ({
           <option value="0.7">0.7L</option>
           <option value="1">1L</option>
         </select>
-      </div> */}
+      </div>
     </div>
   );
 };

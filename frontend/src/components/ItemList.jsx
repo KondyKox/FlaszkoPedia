@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Item from "./Item";
 import Filter from "./Filter";
 import SelectedVodka from "./SelectedVodka";
-import { filterVodkasBySearch, sortVodkas } from "../utils/vodkaUtils";
+import { filterVodkas, sortVodkas } from "../utils/vodkaUtils";
 
 const ItemList = () => {
   const [vodkas, setVodkas] = useState([]);
@@ -10,6 +10,7 @@ const ItemList = () => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortAscending, setSortAscending] = useState(true);
+  const [bottleSizeFilter, setBottleSizeFilter] = useState("");
 
   useEffect(() => {
     fetch("/api/vodkas")
@@ -36,7 +37,7 @@ const ItemList = () => {
   }, []);
 
   // Filtrowanie i sortowanie
-  const filteredVodkas = filterVodkasBySearch(vodkas, search);
+  const filteredVodkas = filterVodkas(vodkas, search, bottleSizeFilter);
   const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
 
   return (
@@ -55,13 +56,14 @@ const ItemList = () => {
           setSortBy={setSortBy}
           sortAscending={sortAscending}
           setSortAscending={setSortAscending}
+          setBottleSizeFilter={setBottleSizeFilter}
         />
         <ul className="grid place-items-center grid-cols-1 xl:grid-cols-2 gap-2 w-full md:w-1/2 p-2">
           {sortedVodkas.map((vodka) => (
             <li
               key={vodka.id}
               onClick={() => setSelectedVodka(vodka)}
-              className="w-full "
+              className="w-full"
             >
               <Item vodka={vodka} selectedVodka={selectedVodka} />
             </li>

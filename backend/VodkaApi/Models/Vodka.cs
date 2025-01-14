@@ -1,13 +1,12 @@
-
 namespace VodkaAPI.Models
 {
     public class Vodka
     {
         public int Id { get; set; }
-        public required string Name { get; set; } // Nazwa wódki
-        public double BottleSize { get; set; } // Pojemnoœæ
+        public required string Name { get; set; } // Nazwa wï¿½dki
+        public double BottleSize { get; set; } // Pojemnoï¿½ï¿½
         public double AlcoholPercentage { get; set; } // Procenty
-        public required List<Store> Stores { get; set; } // Lista sklepów
+        public required List<Store> Stores { get; set; } // Lista sklepï¿½w
     }
 
     public class Store
