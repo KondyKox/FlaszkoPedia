@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Item from "./Item";
 import Filter from "./Filter";
+import SelectedVodka from "./SelectedVodka";
 
 // Funkcja do usuwania polskich znaków
 const normalizeString = (str) => {
@@ -10,9 +11,10 @@ const normalizeString = (str) => {
     .toLowerCase();
 };
 
-const ItemList = ({ search }) => {
+const ItemList = () => {
   const [vodkas, setVodkas] = useState([]);
   const [selectedVodka, setSelectedVodka] = useState(null);
+  const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortAscending, setSortAscending] = useState(true);
 
@@ -66,23 +68,21 @@ const ItemList = ({ search }) => {
   return (
     <>
       {selectedVodka && (
-        <div
-          className="flex flex-col justify-center items-center gap-4 w-full md:w-1/3 p-2"
-          onClick={() => setSelectedVodka(null)}
-        >
-          <h2 className="sub-header">Wybrany napój bogów</h2>
-          <Item vodka={selectedVodka} />
-        </div>
+        <SelectedVodka
+          selectedVodka={selectedVodka}
+          setSelectedVodka={setSelectedVodka}
+        />
       )}
       <div className="flex flex-col justify-center items-center gap-4 w-full">
         <h2 className="sub-header">Lista trunków wysokoprocentowych</h2>
         <Filter
+          setSearch={setSearch}
           sortBy={sortBy}
           setSortBy={setSortBy}
           sortAscending={sortAscending}
           setSortAscending={setSortAscending}
         />
-        <ul className="flex flex-col justify-center items-center lg:grid grid-cols-2 gap-2 w-full md:w-1/2 p-2">
+        <ul className="grid place-items-center grid-cols-1 xl:grid-cols-2 gap-2 w-full md:w-1/2 p-2">
           {sortedVodkas.map((vodka) => (
             <li
               key={vodka.id}
