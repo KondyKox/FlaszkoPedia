@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using VodkaApi.Data;
 using VodkaAPI.Models;
 
 namespace VodkaAPI.Controllers
@@ -7,38 +8,10 @@ namespace VodkaAPI.Controllers
     [Route("api/[controller]")]
     public class VodkasController : ControllerBase
     {
-        private static List<Vodka> Vodkas = new List<Vodka>
-        {
-            new Vodka
-            {
-                Id = 1,
-                Name = "Å»ubrÃ³wka BiaÅ‚a",
-                AlcoholPercentage = 40.0,
-                Stores = new List<Store>
-                {
-                    new Store { StoreName = "Biedronka", Price = 75.99m },
-                    new Store { StoreName = "Lidl", Price = 79.5m },
-                    new Store { StoreName = "Carrefour", Price = 78.0m },
-                    new Store { StoreName = "Auchan", Price = 76.5m }
-                }
-            },
-            new Vodka
-            {
-                Id = 2,
-                Name = "Belvedere",
-                AlcoholPercentage = 40.0,
-                Stores = new List<Store>
-                {
-                    new Store { StoreName = "Biedronka", Price = 179.99m },
-                    new Store { StoreName = "Lidl", Price = 185.0m },
-                    new Store { StoreName = "Carrefour", Price = 183.5m },
-                    new Store { StoreName = "Auchan", Price = 181.0m }
-                }
-            }
-        };
+        private static List<Vodka> Vodkas = VodkaData.Vodkas;
 
         [HttpGet]
-        public IActionResult GetAll([FromQuery] string? store = null, [FromQuery] string? sort = null)
+        public IActionResult GetAll([FromQuery] string? store = null, [FromQuery] string? sort = null, [FromQuery] double? size = null)
         {
             var result = Vodkas.AsQueryable();
 
@@ -48,12 +21,19 @@ namespace VodkaAPI.Controllers
                 result = result.Where(v => v.Stores.Any(s => s.StoreName.ToLower() == store.ToLower()));
             }
 
+            // Filtrowanie po pojemnoœci
+            if (size.HasValue)
+            {
+                result = result.Where(v => v.BottleSize == size.Value);
+            }
+
             // Sortowanie
             if (!string.IsNullOrEmpty(sort))
             {
                 result = sort.ToLower() switch
                 {
                     "name" => result.OrderBy(v => v.Name),
+                    "size" => result.OrderBy(v => v.BottleSize),
                     "alcoholpercentage" => result.OrderBy(v => v.AlcoholPercentage),
                     "price" => result.OrderBy(v => v.Stores.Min(s => s.Price)),
                     _ => result
@@ -70,6 +50,7 @@ namespace VodkaAPI.Controllers
             return vodka == null ? NotFound() : Ok(vodka);
         }
 
+        // Dodaj now¹ wódkê
         [HttpPost]
         public IActionResult AddVodka([FromBody] Vodka vodka)
         {
@@ -78,6 +59,7 @@ namespace VodkaAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = vodka.Id }, vodka);
         }
 
+        // Aktualizacja wódki
         [HttpPut("{id}")]
         public IActionResult UpdateVodka(int id, [FromBody] Vodka updatedVodka)
         {
@@ -85,12 +67,14 @@ namespace VodkaAPI.Controllers
             if (vodka == null) return NotFound();
 
             vodka.Name = updatedVodka.Name;
+            vodka.BottleSize = updatedVodka.BottleSize;
             vodka.AlcoholPercentage = updatedVodka.AlcoholPercentage;
             vodka.Stores = updatedVodka.Stores;
 
             return NoContent();
         }
 
+        // Usuwanie wódki
         [HttpDelete("{id}")]
         public IActionResult DeleteVodka(int id)
         {
