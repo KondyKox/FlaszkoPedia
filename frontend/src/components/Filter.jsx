@@ -15,7 +15,7 @@ const Filter = ({
         type="text"
         placeholder="Nazwa wódki..."
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full p-2 text-sm md:text-base rounded-lg outline-none bg-gray-700 transition-colors duration-300 ease-in-out focus:bg-akcent focus:text-primary"
+        className="input"
       />
 
       <div className="flex justify-between items-center gap-2 w-full">

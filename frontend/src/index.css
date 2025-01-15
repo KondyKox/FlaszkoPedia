@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --clr-primary: #151717;
-  --clr-secondary: #f7f9fc;
-  --clr-header: #003366;
-  --clr-akcent: #c9d6df;
+  --clr-primary: #fefefe;
+  --clr-secondary: #212529;
+  --clr-header: #006699;
+  --clr-akcent: #d6d6d6;
+  --clr-golden: #f5deb3;
   --clr-button: #0077b6;
 }
 
@@ -24,31 +25,35 @@ h6 {
 }
 
 /* Headers */
-.header {
+/* .header {
   @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-transparent;
-  -webkit-text-stroke: 2px var(--clr-header);
+  -webkit-text-stroke: 2px var(--clr-button);
   background: linear-gradient(
     145deg,
-    var(--clr-header),
+    var(--clr-button),
     var(--clr-primary) 50%,
     var(--clr-secondary) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
+} */
 
 .sub-header {
   @apply text-xl md:text-2xl lg:text-3xl;
 }
 
 /* Inputs */
+.input {
+  @apply w-full p-2 text-sm md:text-base rounded-lg outline-none bg-akcent transition-colors duration-300 ease-in-out focus:bg-button focus:text-primary;
+}
+
 .select {
-  @apply py-1 px-2 rounded border-2 border-button bg-transparent transition-colors duration-300 ease-in-out hover:bg-button focus:bg-button
-  outline-none cursor-pointer min-w-min md:min-w-64 w-full;
+  @apply py-1 px-2 rounded border-2 border-button bg-transparent transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary
+  focus:bg-button focus:text-primary outline-none cursor-pointer min-w-min md:min-w-64 w-full;
 }
 
 .btn {
-  @apply rounded border-2 border-button cursor-pointer transition-colors duration-300 ease-in-out hover:bg-button;
+  @apply rounded text-primary border-2 border-button bg-button cursor-pointer transition-colors duration-300 ease-in-out hover:bg-primary hover:text-button;
 }
 
 /* Underline */
@@ -64,4 +69,28 @@ h6 {
   width: 90%;
   height: 2px;
   background-color: var(--clr-secondary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* szerokość dla pionowego scrollbar */
+  height: 8px; /* wysokość dla poziomego scrollbar */
+}
+
+/* Tor (tło) scrollbara */
+::-webkit-scrollbar-track {
+  background: var(--clr-primary); /* kolor tła */
+  border-radius: 10px; /* zaokrąglenie toru */
+}
+
+/* Sam uchwyt (rączka) scrollbara */
+::-webkit-scrollbar-thumb {
+  background: var(--clr-button);
+  border-radius: 10px; /* zaokrąglenie rączki */
+}
+
+/* Hover nad uchwytem */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-akcent);
+  cursor: pointer;
 }
