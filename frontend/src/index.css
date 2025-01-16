@@ -56,6 +56,10 @@ h6 {
   @apply rounded text-primary border-2 border-button bg-button cursor-pointer transition-colors duration-300 ease-in-out hover:bg-primary hover:text-button;
 }
 
+.link {
+  @apply font-bold rounded cursor-pointer transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary hover:drop-shadow-logo py-2 px-4;
+}
+
 /* Underline */
 .underline-custom {
   @apply relative py-2;

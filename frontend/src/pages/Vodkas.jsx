@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Item from "./Item";
-import Filter from "./Filter";
-import SelectedVodka from "./SelectedVodka";
+import Item from "../components/Item";
+import Filter from "../components/Filter";
+import SelectedVodka from "../components/SelectedVodka";
 import { filterVodkas, sortVodkas } from "../utils/vodkaUtils";
 
-const ItemList = () => {
+const Vodkas = () => {
   const [vodkas, setVodkas] = useState([]);
   const [selectedVodka, setSelectedVodka] = useState(null);
   const [search, setSearch] = useState("");
@@ -41,7 +41,7 @@ const ItemList = () => {
   const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
 
   return (
-    <>
+    <section className="flex flex-col justify-center items-center gap-4 w-full py-10">
       {selectedVodka && (
         <SelectedVodka
           selectedVodka={selectedVodka}
@@ -70,8 +70,8 @@ const ItemList = () => {
           ))}
         </ul>
       </div>
-    </>
+    </section>
   );
 };
 
-export default ItemList;
+export default Vodkas;
