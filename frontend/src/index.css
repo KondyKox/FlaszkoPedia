@@ -71,6 +71,22 @@ h6 {
   background-color: var(--clr-secondary);
 }
 
+/* Overline */
+.overline-custom {
+  @apply relative py-2;
+}
+
+.overline-custom::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  width: 90%;
+  height: 2px;
+  background-color: var(--clr-secondary);
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px; /* szerokość dla pionowego scrollbar */
