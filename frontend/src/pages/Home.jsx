@@ -23,7 +23,7 @@ const Home = () => {
           <h2 className="sub-header-secondary">
             Dlaczego warto korzystać z FlaszkoPedi?
           </h2>
-          <ul className="flex flex-col md:flex-row gap-8 md:gap-16">
+          <ul className="flex flex-col md:flex-row gap-8 md:gap-16 items-stretch">
             <li className="flex flex-col items-center text-center">
               <ScaleIcon className="w-16 h-16 text-primary mb-4" />
               <p className="text-sm md:text-lg font-semibold">Porównuj ceny</p>
@@ -42,7 +42,7 @@ const Home = () => {
               <SparklesIcon className="w-16 h-16 text-primary mb-4" />
               <p className="text-sm md:text-lg font-semibold">Zdrówko 🍻</p>
               <p className="text-xs md:text-sm text-slate-200">
-                Bo co to za dzień bez browara?
+                Bo co to za dzień bez wódki czy browara?
               </p>
             </li>
           </ul>

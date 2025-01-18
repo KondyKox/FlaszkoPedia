@@ -2,7 +2,7 @@ import { LinkIcon } from "@heroicons/react/24/outline";
 
 const Footer = () => {
   return (
-    <div className="overline-custom w-full flex flex-col justify-center items-center text-center px-2 my-4">
+    <footer className="overline-custom w-full flex flex-col justify-center items-center text-center px-2 my-4">
       <h6 className="text-2xl">
         <a
           href="https://github.com/KondyKox/FlaszkoPedia"
@@ -16,7 +16,7 @@ const Footer = () => {
       <span className="font-bold text-slate-400">
         Od lat najlepsza porównywarka cen wódki w Polsce
       </span>
-    </div>
+    </footer>
   );
 };
 
