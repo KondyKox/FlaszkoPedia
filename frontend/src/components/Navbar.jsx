@@ -46,7 +46,7 @@ const Navbar = () => {
             <img
               src="/github.png"
               alt="GitHub"
-              className="w-12 h-12 rounded-full transition-all duration-300 ease-in-out hover:rounded hover:drop-shadow-logo"
+              className="animated-rounded w-12 h-12 transition-all duration-300 ease-in-out hover:drop-shadow-logo"
             />
           </a>
         </div>
