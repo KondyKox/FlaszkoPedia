@@ -8,10 +8,4 @@ namespace VodkaAPI.Models
         public double AlcoholPercentage { get; set; } // Procenty
         public required List<Store> Stores { get; set; } // Lista sklep�w
     }
-
-    public class Store
-    {
-        public required string StoreName { get; set; } // Nazwa sklepu
-        public required decimal Price { get; set; } // Cena w danym sklepie
-    }
 }

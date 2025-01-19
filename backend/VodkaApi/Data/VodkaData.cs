@@ -263,7 +263,50 @@ namespace VodkaApi.Data
                     new Store { StoreName = "Carrefour", Price = 58.49m },
                     new Store { StoreName = "Auchan", Price = 58.99m }
                 }
-            }
+            },
+            // Żołądkowa Gorzka z miętą
+            new Vodka
+            {
+                Id = 19,
+                Name = "Żołądkowa Gorzka z miętą",
+                BottleSize = 0.5,
+                AlcoholPercentage = 36.0,
+                Stores = new List<Store>
+                {
+                    new Store { StoreName = "Biedronka", Price = 28.99m },
+                    new Store { StoreName = "Lidl", Price = 29.99m },
+                    new Store { StoreName = "Carrefour", Price = 29.49m },
+                    new Store { StoreName = "Auchan", Price = 29.99m }
+                }
+            },
+            new Vodka
+            {
+                Id = 20,
+                Name = "Żołądkowa Gorzka z miętą",
+                BottleSize = 0.7,
+                AlcoholPercentage = 36.0,
+                Stores = new List<Store>
+                {
+                    new Store { StoreName = "Biedronka", Price = 42.99m },
+                    new Store { StoreName = "Lidl", Price = 43.99m },
+                    new Store { StoreName = "Carrefour", Price = 43.49m },
+                    new Store { StoreName = "Auchan", Price = 43.99m }
+                }
+            },
+            new Vodka
+            {
+                Id = 21,
+                Name = "Żołądkowa Gorzka z miętą",
+                BottleSize = 1.0,
+                AlcoholPercentage = 36.0,
+                Stores = new List<Store>
+                {
+                    new Store { StoreName = "Biedronka", Price = 57.99m },
+                    new Store { StoreName = "Lidl", Price = 58.99m },
+                    new Store { StoreName = "Carrefour", Price = 58.49m },
+                    new Store { StoreName = "Auchan", Price = 58.99m }
+                }
+            },
         };
     }
 }
