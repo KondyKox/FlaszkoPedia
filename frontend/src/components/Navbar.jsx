@@ -32,7 +32,7 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="w-full md:max-w-xl lg:max-w-2xl xl:max-w-6xl hidden md:flex justify-between items-center">
-        <img src="/logo.svg" alt="Logo" className="w-32" />
+        <img src="/logo.svg" alt="Logo" className="w-32 drop-shadow-logo" />
         <div className="flex justify-center items-center gap-4">
           <Link to={"/"} className="link">
             Strona główna
