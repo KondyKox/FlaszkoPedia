@@ -47,7 +47,7 @@ const Item = ({ vodka, selectedVodka }) => {
           <span className="text-orange-500">{vodka.alcoholPercentage}%</span>
         </div>
       </div>
-      <ul className="grid grid-cols-2 place-items-center md:flex md:justify-center md:items-center gap-4 md:gap-10">
+      <ul className="flex justify-center items-center gap-x-4 gap-y-4 md:gap-10">
         {vodka.stores.map((store, storeIndex) => {
           const { color, rotate } = comparisePrices(store);
           return (
@@ -58,9 +58,9 @@ const Item = ({ vodka, selectedVodka }) => {
               <img
                 src={getStoreImage(store.storeName)}
                 alt={store.storeName}
-                className="w-10 h-10"
+                className="w-8 md:w-10 h-8 md:h-10"
               />
-              <div className="flex justify-center items-center gap-2 text-sm">
+              <div className="flex justify-center items-center text-xs">
                 <span className={`${color}`}>{store.price}zł</span>
                 {selectedVodka && selectedVodka !== vodka && (
                   <ArrowIcon

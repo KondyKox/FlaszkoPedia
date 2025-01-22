@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`flex justify-center items-center py-2 px-4 w-full ${
+      className={`flex justify-center items-center py-2 px-4 w-full z-40 fixed top-0 ${
         isMd ? "underline-custom" : ""
       }`}
     >
