@@ -1,0 +1,89 @@
+"use client";
+
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const Navbar = () => {
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMd, setIsMd] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMd(window.innerWidth >= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <nav
+      className={`flex justify-center items-center py-2 px-4 w-full z-40 fixed top-0 ${
+        isMd ? "underline-custom" : ""
+      }`}
+    >
+      {/* Hamburger Menu Button (Mobile) */}
+      <button
+        className="fixed top-5 right-5 z-10 md:hidden text-secondary bg-primary rounded-lg focus:outline-none"
+        onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        <Bars3Icon className="h-8 w-8" />
+      </button>
+
+      {/* Desktop Menu */}
+      <div className="w-full md:max-w-xl lg:max-w-2xl xl:max-w-6xl hidden md:flex justify-between items-center">
+        <Link href={"/"}>
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={64}
+            height={64}
+            className="w-32 drop-shadow-logo"
+          />
+        </Link>
+        <div className="flex justify-center items-center gap-4">
+          <Link href={"/"} className="link">
+            Strona główna
+          </Link>
+          <Link href={"/vodkas"} className="link">
+            Porównywarka cen
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed top-0 left-0 w-full h-screen bg-primary flex flex-col justify-center items-center gap-4 md:hidden">
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={64}
+            height={64}
+            className="w-44 drop-shadow-logo"
+          />
+          <div className="underline-custom flex flex-col justify-center items-center">
+            <Link
+              href={"/"}
+              className="link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Strona główna
+            </Link>
+            <Link
+              href={"/vodkas"}
+              className="link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Porównywarka cen
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;

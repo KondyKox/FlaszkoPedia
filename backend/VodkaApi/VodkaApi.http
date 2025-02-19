@@ -1,6 +1,0 @@
-@VodkaApi_HostAddress = http://localhost:5045
-
-GET {{VodkaApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
