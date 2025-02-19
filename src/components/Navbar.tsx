@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`flex justify-center items-center py-2 px-4 w-full z-40 fixed top-0 ${
+      className={`flex justify-center items-center py-2 px-4 w-full z-40 !fixed top-0 bg-primary ${
         isMd ? "underline-custom" : ""
       }`}
     >
@@ -41,6 +41,7 @@ const Navbar = () => {
             alt="Logo"
             width={64}
             height={64}
+            loading="lazy"
             className="w-32 drop-shadow-logo"
           />
         </Link>
@@ -62,6 +63,7 @@ const Navbar = () => {
             alt="Logo"
             width={64}
             height={64}
+            loading="lazy"
             className="w-44 drop-shadow-logo"
           />
           <div className="underline-custom flex flex-col justify-center items-center">

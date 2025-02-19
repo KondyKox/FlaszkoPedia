@@ -11,6 +11,13 @@
   --clr-button: #0077b6;
 }
 
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   @apply bg-primary text-secondary;
 }
@@ -21,22 +28,22 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: "Bebas Neue", sans-serif;
   @apply text-header font-bold text-center;
 }
 
 /* Headers */
-/* .header {
+.header {
   @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-transparent;
-  -webkit-text-stroke: 2px var(--clr-button);
+  /* -webkit-text-stroke: 0.1px var(--clr-button); */
   background: linear-gradient(
     145deg,
     var(--clr-button),
-    var(--clr-primary) 50%,
-    var(--clr-secondary) 100%
+    var(--clr-primary) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-} */
+}
 
 .sub-header {
   @apply text-xl md:text-2xl lg:text-3xl;

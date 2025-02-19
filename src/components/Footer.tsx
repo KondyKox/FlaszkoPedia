@@ -2,7 +2,7 @@ import { LinkIcon } from "@heroicons/react/24/outline";
 
 const Footer = () => {
   return (
-    <footer className="overline-custom w-full flex flex-col justify-center items-center text-center px-2 my-4">
+    <footer className="overline-custom w-full flex flex-col justify-center items-center text-center px-2 my-4 sticky bottom-0">
       <h6 className="text-2xl">
         <a
           href="https://github.com/KondyKox/FlaszkoPedia"
