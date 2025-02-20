@@ -2,6 +2,7 @@ import Vodka from "@/types/VodkaProps";
 import ArrowIcon from "./ArrowIcon";
 import Store from "@/types/StoreProps";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const Item = ({
   vodka,
@@ -11,6 +12,11 @@ const Item = ({
   selectedVodka?: Vodka | null;
 }) => {
   const selected = vodka === selectedVodka;
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const setDivRef = (el: HTMLDivElement | null, index: number) => {
+    if (el) divRef.current = el;
+  };
 
   // Pobierz zdjęcie na podstawie nazwy sklepu
   const getStoreImage = (storeName: string) => {
@@ -44,12 +50,27 @@ const Item = ({
     return "text-secondary"; // Średnia cena taka sama
   };
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (divRef.current) observer.observe(divRef.current);
+    return () => {
+      if (divRef.current) observer.unobserve(divRef.current);
+    };
+  }, []);
+
   return (
     <div
-      className={`flex flex-col justify-center items-center gap-6 bg-akcent rounded-lg p-4 w-full transition-colors duration-300 
+      ref={divRef}
+      className={`flex flex-col justify-center items-center gap-6 bg-akcent rounded-lg p-4 w-full transition-all duration-500 
                     ease-in-out cursor-pointer hover:bg-golden ${
                       selected && "opacity-50 pointer-events-none"
-                    }`}
+                    } ${isVisible ? "opacity-100" : "opacity-0"}`}
     >
       <div className="flex gap-4 justify-center items-center">
         <h4>{vodka.name}</h4>
