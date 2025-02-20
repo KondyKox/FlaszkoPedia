@@ -49,9 +49,9 @@ export default function Home() {
 
   return (
     <>
-      <header className="flex flex-col justify-center items-center py-4 w-full md:h-screen">
+      <header className="flex flex-col justify-center items-center w-full md:h-[calc(100vh-6rem)]">
         <div
-          className={`flex flex-col justify-center items-center py-4 relative transition-opacity duration-500 ease-in-out ${
+          className={`flex flex-col justify-center items-center relative transition-opacity duration-500 ease-in-out ${
             logoFade ? "opacity-100" : "opacity-0"
           }`}
         >

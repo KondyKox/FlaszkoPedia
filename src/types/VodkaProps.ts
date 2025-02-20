@@ -1,7 +1,7 @@
 import Store from "./StoreProps";
 
 interface Vodka {
-  id: number;
+  _id: string;
   name: string;
   averagePrice: number;
   bottleSize: number;

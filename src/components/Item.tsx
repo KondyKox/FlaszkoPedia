@@ -8,7 +8,7 @@ const Item = ({
   selectedVodka,
 }: {
   vodka: Vodka;
-  selectedVodka: Vodka | null;
+  selectedVodka?: Vodka | null;
 }) => {
   const selected = vodka === selectedVodka;
 

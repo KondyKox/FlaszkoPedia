@@ -64,7 +64,7 @@ const Vodkas = () => {
         <ul className="grid place-items-center grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full md:w-1/2 p-2">
           {sortedVodkas.map((vodka) => (
             <li
-              key={vodka.id}
+              key={vodka._id}
               onClick={() => setSelectedVodka(vodka)}
               className="w-full"
             >
