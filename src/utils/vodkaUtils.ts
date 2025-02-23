@@ -5,16 +5,18 @@ import { normalizeString } from "./normalizeString";
 export const filterVodkas = (
   vodkas: Vodka[],
   search: string,
-  bottleSizeFilter: string
+  bottleSizeFilter: number[]
 ) => {
   let filteredVodkas = vodkas.filter((vodka) =>
     normalizeString(vodka.name).includes(normalizeString(search))
   );
 
-  if (bottleSizeFilter) {
-    const selectedSize = parseFloat(bottleSizeFilter);
+  if (bottleSizeFilter.length > 0 && !bottleSizeFilter.includes(0)) {
     filteredVodkas = filteredVodkas.filter(
-      (vodka) => Math.abs(vodka.bottleSize - selectedSize) < 0.01 // Tolerancja 0.01 dla porównania
+      (vodka) =>
+        bottleSizeFilter.some(
+          (size) => Math.abs(vodka.bottleSize - size) < 0.01
+        ) // Tolerancja 0.01 dla porównania
     );
   }
 

@@ -1,28 +1,19 @@
 "use client";
 
+import { useMobile } from "@/hooks/useMobile";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMd, setIsMd] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMd(window.innerWidth >= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const isMobile = useMobile();
 
   return (
     <nav
       className={`flex justify-center items-center py-2 px-4 w-full z-40 !sticky top-0 bg-primary ${
-        isMd ? "underline-custom" : ""
+        !isMobile ? "underline-custom" : ""
       }`}
     >
       {/* Hamburger Menu Button (Mobile) */}

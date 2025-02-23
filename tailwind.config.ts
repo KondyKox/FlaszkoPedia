@@ -23,6 +23,10 @@ export default {
       dropShadow: {
         logo: "0 0 0.5rem var(--clr-button)",
       },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-secondary": "var(--gradient-secondary)",
+      },
     },
   },
   plugins: [],
