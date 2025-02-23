@@ -3,6 +3,7 @@ import ArrowIcon from "./ArrowIcon";
 import Store from "@/types/StoreProps";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { LinkIcon } from "@heroicons/react/24/solid";
 
 const Item = ({
   vodka,
@@ -14,9 +15,6 @@ const Item = ({
   const selected = vodka === selectedVodka;
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
-  const setDivRef = (el: HTMLDivElement | null, index: number) => {
-    if (el) divRef.current = el;
-  };
 
   // Pobierz zdjęcie na podstawie nazwy sklepu
   const getStoreImage = (storeName: string) => {
@@ -67,13 +65,13 @@ const Item = ({
   return (
     <div
       ref={divRef}
-      className={`flex flex-col justify-center items-center gap-6 bg-akcent rounded-lg p-4 w-full transition-all duration-500 
+      className={`relative overflow-visible flex flex-col justify-center items-center gap-6 bg-akcent rounded-lg p-4 w-full transition-all duration-500 
                     ease-in-out cursor-pointer hover:bg-golden ${
                       selected && "opacity-50 pointer-events-none"
                     } ${isVisible ? "opacity-100" : "opacity-0"}`}
     >
-      <div className="flex gap-4 justify-center items-center">
-        <h4>{vodka.name}</h4>
+      <div className="flex md:gap-4 flex-col md:flex-row justify-center items-center">
+        <h4 className="grow">{vodka.name}</h4>
         <div className="flex justify-center items-center gap-2 font-bold">
           <span className="text-primary">{vodka.bottleSize}L</span>
           <span className="text-orange-500">{vodka.alcoholPercentage}%</span>
@@ -112,6 +110,10 @@ const Item = ({
           {vodka.averagePrice}zł
         </span>
       </p>
+
+      <div className="absolute bottom-0 right-0 bg-gray-100 rounded-ss-lg rounded-ee-lg p-1">
+        <LinkIcon className="w-6 h-6 text-header" />
+      </div>
     </div>
   );
 };

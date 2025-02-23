@@ -2,46 +2,26 @@
 
 import Filter from "@/components/Filter";
 import Item from "@/components/Item";
+import LoadingOverlay from "@/components/LoadingOverlay";
 import SelectedVodka from "@/components/SelectedVodka";
+import { useVodkas } from "@/hooks/useVodkas";
 import Vodka from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/utils/vodkaUtils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Vodkas = () => {
-  const [vodkas, setVodkas] = useState<Vodka[]>([]);
+  const { vodkas, loading } = useVodkas();
   const [selectedVodka, setSelectedVodka] = useState<Vodka | null>(null);
   const [search, setSearch] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortAscending, setSortAscending] = useState<boolean>(true);
   const [bottleSizeFilter, setBottleSizeFilter] = useState<string>("");
 
-  useEffect(() => {
-    fetch("/api/vodkas")
-      .then((response) => {
-        if (!response.ok)
-          throw new Error(`HTTP error! status: ${response.status}`);
-        return response.json();
-      })
-      .then((data) => {
-        const vodkasWithAverage = data.map((vodka: Vodka) => {
-          const total = vodka.stores.reduce(
-            (sum, store) => sum + store.price,
-            0
-          );
-          const averagePrice =
-            Math.round((total / vodka.stores.length) * 100) / 100; // Zaokrąglanie do 2 miejsc
-          return { ...vodka, averagePrice };
-        });
-        setVodkas(vodkasWithAverage);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
   // Filtrowanie i sortowanie
   const filteredVodkas = filterVodkas(vodkas, search, bottleSizeFilter);
   const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
+
+  if (loading) return <LoadingOverlay message="Wczytuję alkohol..." />;
 
   return (
     <section className="flex flex-col justify-center items-center gap-4 w-full py-10">
