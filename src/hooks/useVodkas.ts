@@ -16,9 +16,9 @@ export const useVodkas = () => {
      */
     const fetchVodkas = async () => {
       try {
-        const response = await fetch("api/vodkas");
+        const response = await fetch("/api/vodkas");
         if (!response.ok)
-          throw new Error(`HTTP error! statys: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`);
 
         const data: Vodka[] = await response.json();
 

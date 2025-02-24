@@ -4,6 +4,8 @@ import Store from "@/types/StoreProps";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { LinkIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
+import { getStoreImage } from "@/utils/vodkaUtils";
 
 const Item = ({
   vodka,
@@ -15,11 +17,6 @@ const Item = ({
   const selected = vodka === selectedVodka;
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
-
-  // Pobierz zdjęcie na podstawie nazwy sklepu
-  const getStoreImage = (storeName: string) => {
-    return `/stores/${storeName.toLowerCase()}.png`;
-  };
 
   // Porównaj ceny w poszczególnych sklepach
   const comparisePrices = (store: Store) => {
@@ -111,8 +108,10 @@ const Item = ({
         </span>
       </p>
 
-      <div className="absolute bottom-0 right-0 bg-gray-100 rounded-ss-lg rounded-ee-lg p-1">
-        <LinkIcon className="w-6 h-6 text-header" />
+      <div className="absolute bottom-0 right-0 bg-gray-100 rounded-ss-lg rounded-ee-lg p-1 z-10 transition-colors duration-300 ease-in-out hover:bg-orange-400">
+        <Link href={`/vodkas/${vodka._id}`} className="w-full">
+          <LinkIcon className="w-6 h-6 text-header" />
+        </Link>
       </div>
     </div>
   );

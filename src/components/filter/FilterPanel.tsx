@@ -117,7 +117,7 @@ const FilterPanel = ({
               >
                 <ArrowIcon
                   className={`w-6 h-6 ${
-                    sortAscending === option.value ? "rotate-0" : "rotate-180"
+                    option.value ? "rotate-0" : "rotate-180"
                   }`}
                 />
                 {option.label}

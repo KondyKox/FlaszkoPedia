@@ -46,3 +46,8 @@ export const sortVodkas = (
     return sortAscending ? result : -result;
   });
 };
+
+// Pobierz zdjęcie na podstawie nazwy sklepu
+export const getStoreImage = (storeName: string) => {
+  return `/stores/${storeName.toLowerCase()}.png`;
+};

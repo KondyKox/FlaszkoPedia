@@ -7,7 +7,8 @@ interface Vodka {
   bottleSize: number;
   alcoholPercentage: number;
   stores: Store[];
-  // image: string;
+  imageSrc: string;
+  description?: string;
 }
 
 export default Vodka;

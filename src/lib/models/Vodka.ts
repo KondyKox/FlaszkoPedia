@@ -9,6 +9,7 @@ interface IVodka extends Document {
     name: string;
     price: number;
   }[];
+  imageSrc: string;
 }
 
 const VodkaSchema = new Schema<IVodka>({
@@ -22,6 +23,7 @@ const VodkaSchema = new Schema<IVodka>({
       price: { type: Number, required: true },
     },
   ],
+  imageSrc: { type: String, required: true },
 });
 
 export default mongoose.models.Vodka ||
