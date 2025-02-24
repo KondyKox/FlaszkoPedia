@@ -1,4 +1,5 @@
 import Vodka from "@/types/VodkaProps";
+import { calculateAveragePrice } from "@/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 
 /**
@@ -19,7 +20,9 @@ export const useSelectedVodka = (id: string) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
         const data: Vodka = await res.json();
-        setVodka(data);
+        const averagePrice = calculateAveragePrice(data);
+
+        setVodka({ ...data, averagePrice });
       } catch (error) {
         console.error("Error during fetching vodka.", error);
       } finally {

@@ -1,4 +1,5 @@
 import Vodka from "@/types/VodkaProps";
+import { calculateAveragePrice } from "@/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 
 export const useVodkas = () => {
@@ -23,12 +24,7 @@ export const useVodkas = () => {
         const data: Vodka[] = await response.json();
 
         const vodkasWithAverage = data.map((vodka) => {
-          const total = vodka.stores.reduce(
-            (sum, store) => sum + store.price,
-            0
-          );
-          const averagePrice =
-            Math.round((total / vodka.stores.length) * 100) / 100;
+          const averagePrice = calculateAveragePrice(vodka);
           return { ...vodka, averagePrice };
         });
 

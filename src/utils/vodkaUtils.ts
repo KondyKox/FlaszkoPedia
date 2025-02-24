@@ -47,6 +47,12 @@ export const sortVodkas = (
   });
 };
 
+// Oblicz średnią cenę wódki
+export const calculateAveragePrice = (vodka: Vodka) => {
+  const total = vodka.stores.reduce((sum, store) => sum + store.price, 0);
+  return Math.round((total / vodka.stores.length) * 100) / 100;
+};
+
 // Pobierz zdjęcie na podstawie nazwy sklepu
 export const getStoreImage = (storeName: string) => {
   return `/stores/${storeName.toLowerCase()}.png`;

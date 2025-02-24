@@ -49,15 +49,25 @@ const VodkaPage = () => {
                   className="w-8 md:w-10 h-8 md:h-10"
                 />
                 <div className="flex justify-center items-center text-xs">
-                  <span className="font-bold">{store.price}zł</span>
+                  <span className="font-semibold">{store.price}zł</span>
                 </div>
               </li>
             ))}
           </ul>
+          <div className="flex justify-center items-center">
+            <p className="text-slate-500">
+              Średnia cena:{" "}
+              <span className="text-red-500 font-bold">
+                {vodka.averagePrice}zł
+              </span>
+            </p>
+          </div>
         </div>
       </div>
-      <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg">
-        {vodka.description ? vodka.description : "Brak opisu dla tej wódki. :("}
+      <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg whitespace-pre-line">
+        {vodka.description && (
+          <div dangerouslySetInnerHTML={{ __html: vodka.description }} />
+        )}
       </div>
     </section>
   );
