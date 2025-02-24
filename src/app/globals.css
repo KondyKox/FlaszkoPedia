@@ -74,6 +74,10 @@ h6 {
   @apply block text-sm font-semibold text-gray-300 mb-1;
 }
 
+.filter {
+  @apply cursor-pointer transition-colors duration-300 ease-in-out rounded-lg p-2 flex-1 border border-slate-300;
+}
+
 /* BTNs */
 .btn {
   @apply rounded border-2 border-button cursor-pointer transition-colors duration-300 ease-in-out text-sm md:text-base lg:text-lg;
