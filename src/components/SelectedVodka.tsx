@@ -1,13 +1,15 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Item from "./Item";
-import { Vodka } from "@/types/VodkaProps";
+import { Vodka, VodkaVariant } from "@/types/VodkaProps";
 
 const SelectedVodka = ({
   selectedVodka,
   setSelectedVodka,
+  handleVariantChange,
 }: {
   selectedVodka: Vodka;
   setSelectedVodka: Dispatch<SetStateAction<Vodka | null>>;
+  handleVariantChange: (vodkaId: string, variant: VodkaVariant) => void;
 }) => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
 
@@ -38,6 +40,7 @@ const SelectedVodka = ({
           selectedVodka={selectedVodka}
           setSelectedVodka={setSelectedVodka}
           isSelected
+          handleVariantChange={handleVariantChange}
         />
       </div>
     </div>

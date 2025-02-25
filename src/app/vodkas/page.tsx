@@ -8,46 +8,65 @@ import SelectedVodka from "@/components/SelectedVodka";
 import { BOTTLE_SIZE_OPTIONS } from "@/constants/filterOptions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
-import { Vodka } from "@/types/VodkaProps";
+import { Vodka, VodkaVariant } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 
 const Vodkas = () => {
   const { vodkas, loading } = useVodkas();
+  const [vodkaList, setVodkaList] = useState<Vodka[] | null>(null);
   const [selectedVodka, setSelectedVodka] = useState<Vodka | null>(null);
   const [search, setSearch] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortAscending, setSortAscending] = useState<boolean>(true);
-  const [bottleSizeFilter, setBottleSizeFilter] = useState<number[]>([0]);
+  const [bottleSizeFilter, setBottleSizeFilter] = useState<number>(
+    BOTTLE_SIZE_OPTIONS[0].value
+  );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(1024);
 
-  // Filtrowanie i sortowanie
-  const filteredVodkas = filterVodkas(vodkas, search, bottleSizeFilter);
-  const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
-
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+  // Change vodka's selected variant
+  const handleVariantChange = (vodkaId: string, variant: VodkaVariant) => {
+    setVodkaList((prevVodkas) =>
+      prevVodkas
+        ? prevVodkas.map((v) =>
+            v._id === vodkaId ? { ...v, selectedVariant: variant } : v
+          )
+        : []
+    );
+  };
+
   useEffect(() => {
-    // Jeśli tablica jest pusta, ustaw domyślnie [0]
-    if (bottleSizeFilter.length === 0) {
-      setBottleSizeFilter([0]);
-      return;
-    }
+    if (loading || !vodkas) return;
+    setVodkaList(vodkas);
+  }, [loading, vodkas]);
 
-    // Jeśli kliknięto cokolwiek innego niż 0, usuwamy 0
-    if (bottleSizeFilter.length > 1 && bottleSizeFilter.includes(0)) {
-      setBottleSizeFilter((prev) => prev.filter((size) => size !== 0));
-      return;
-    }
+  // Set 'selectedVariant' equal to 'bottleSizeFilter'
+  useEffect(() => {
+    if (loading || !vodkas || !vodkaList) return;
 
-    // Jeśli kliknięto 0 i były inne opcje, zostaw tylko 0
-    if (bottleSizeFilter.length >= BOTTLE_SIZE_OPTIONS.length - 1) {
-      setTimeout(() => {
-        setBottleSizeFilter([0]);
-      }, 100);
-    }
-  }, [bottleSizeFilter]);
+    const updatedVodkas = vodkaList.map((vodka) => {
+      const selectedVariant = vodka.variants.find(
+        (variant) => variant.volume === bottleSizeFilter
+      );
+
+      if (selectedVariant)
+        return {
+          ...vodka,
+          selectedVariant: selectedVariant || vodka.variants[0],
+        };
+
+      return vodka;
+    });
+
+    // Filtrowanie i sortowanie
+    const filteredVodkas = filterVodkas(updatedVodkas, search);
+    const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
+
+    setVodkaList(sortedVodkas);
+  }, [bottleSizeFilter, vodkas, loading, search, sortBy, sortAscending]);
 
   if (loading) return <LoadingOverlay message="Wczytuję alkohol..." />;
 
@@ -57,6 +76,7 @@ const Vodkas = () => {
         <SelectedVodka
           selectedVodka={selectedVodka}
           setSelectedVodka={setSelectedVodka}
+          handleVariantChange={handleVariantChange}
         />
       )}
       <div className="flex flex-col justify-center items-center gap-6 w-full">
@@ -107,12 +127,13 @@ const Vodkas = () => {
 
           {/* List of vodkas */}
           <ul className="grid place-items-center grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full md:w-2/3">
-            {sortedVodkas.map((vodka) => (
+            {vodkaList?.map((vodka) => (
               <li key={vodka._id} className="w-full">
                 <Item
                   vodka={vodka}
                   selectedVodka={selectedVodka}
                   setSelectedVodka={setSelectedVodka}
+                  handleVariantChange={handleVariantChange}
                 />
               </li>
             ))}

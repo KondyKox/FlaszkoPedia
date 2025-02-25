@@ -17,16 +17,18 @@ const FilterOptions = ({
 }: FilterProps) => {
   const handleBottleSizeFilterChange = (option: number) => {
     if (option === 0) {
-      setBottleSizeFilter([0]); // Kliknięcie w 0 resetuje listę
+      setBottleSizeFilter(0); // Kliknięcie w 0 resetuje listę
       return;
     }
 
-    setBottleSizeFilter(
-      (prev) =>
-        prev.includes(option)
-          ? prev.filter((size) => size !== option) // Usuwamy zaznaczoną opcję
-          : [...prev.filter((size) => size !== 0), option] // Dodajemy opcję i usuwamy 0
-    );
+    setBottleSizeFilter(option);
+
+    // setBottleSizeFilter(
+    //   (prev) =>
+    //     prev.includes(option)
+    //       ? prev.filter((size) => size !== option) // Usuwamy zaznaczoną opcję
+    //       : [...prev.filter((size) => size !== 0), option] // Dodajemy opcję i usuwamy 0
+    // );
   };
 
   return (
@@ -60,7 +62,7 @@ const FilterOptions = ({
               onClick={() => setSortBy(option.value)}
               className={`filter ${
                 sortBy === option.value
-                  ? "bg-slate-300 text-button"
+                  ? "bg-slate-300 text-button pointer-events-none"
                   : "text-primary"
               }`}
             >
@@ -82,8 +84,8 @@ const FilterOptions = ({
               value={option.value}
               onClick={() => handleBottleSizeFilterChange(option.value)}
               className={`filter ${
-                bottleSizeFilter?.includes(option.value)
-                  ? "bg-slate-300 text-button"
+                bottleSizeFilter === option.value
+                  ? "bg-slate-300 text-button pointer-events-none"
                   : "text-primary"
               }`}
             >
@@ -108,7 +110,7 @@ const FilterOptions = ({
               onClick={() => setSortAscending(option.value)}
               className={`flex flex-col justify-center items-center filter ${
                 sortAscending === option.value
-                  ? "bg-slate-300 text-button"
+                  ? "bg-slate-300 text-button pointer-events-none"
                   : "text-primary"
               }`}
             >

@@ -6,6 +6,7 @@ export interface Vodka {
   variants: VodkaVariant[];
   imageSrc: string;
   description?: string;
+  selectedVariant?: VodkaVariant;
 }
 
 export interface VodkaVariant {

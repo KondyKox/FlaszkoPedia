@@ -4,31 +4,32 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { getStoreImage } from "@/utils/vodkaUtils";
-import { Store, Vodka } from "@/types/VodkaProps";
+import { Store, Vodka, VodkaVariant } from "@/types/VodkaProps";
 
 const Item = ({
   vodka,
   selectedVodka,
   setSelectedVodka,
   isSelected = false,
+  handleVariantChange,
 }: {
   vodka: Vodka;
   selectedVodka: Vodka | null;
   setSelectedVodka: Dispatch<SetStateAction<Vodka | null>>;
   isSelected?: boolean;
+  handleVariantChange: (vodkaId: string, variant: VodkaVariant) => void;
 }) => {
   const selected = vodka === selectedVodka;
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [selectedVariant, setSelectedVariant] = useState(vodka.variants[0]);
   const divRef = useRef<HTMLDivElement | null>(null);
 
   // Porównaj ceny w poszczególnych sklepach
   const comparisePrices = (store: Store) => {
-    if (!selectedVodka || !selectedVariant)
+    if (!selectedVodka || !vodka.selectedVariant)
       return { color: "text-secondary" /* rotate: true */ };
 
     const selectedStore = selectedVodka.variants
-      .find((variant) => variant.volume === selectedVariant.volume)
+      .find((variant) => variant.volume === vodka.selectedVariant?.volume)
       ?.stores.find((s) => s.name === store.name);
 
     if (selectedStore) {
@@ -75,6 +76,7 @@ const Item = ({
     setSelectedVodka(vodka);
   };
 
+  // Pretty animation
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -113,7 +115,7 @@ const Item = ({
           </span>
         </div>
         <ul className="flex justify-center items-center gap-4 md:gap-10">
-          {selectedVariant.stores.map((store, storeIndex) => {
+          {vodka.selectedVariant?.stores.map((store, storeIndex) => {
             const { color /* rotate */ } = comparisePrices(store);
             return (
               <li
@@ -149,7 +151,7 @@ const Item = ({
             <span
               className={`${compariseAveragePrice()} transition-all duration-500 ease-in-out group-hover:text-primary`}
             >
-              {selectedVariant.averagePrice}zł
+              {vodka.selectedVariant?.averagePrice}zł
             </span>
           </p>
           <span className="text-sm text-button italic transition-all duration-500 ease-in-out group-hover:text-golden">
@@ -163,9 +165,9 @@ const Item = ({
           <div
             key={index}
             className={`text-sm p-1 md:p-2 transition-colors duration-300 ease-in-out hover:bg-blue-500 hover:text-primary w-full flex flex-1 justify-center items-center ${
-              variant === selectedVariant && "bg-button text-primary"
+              variant === vodka.selectedVariant && "bg-button text-primary"
             } cursor-pointer`}
-            onClick={() => setSelectedVariant(variant)}
+            onClick={() => handleVariantChange(vodka._id, variant)}
           >
             {variant.volume}L
           </div>

@@ -4,23 +4,23 @@ import { normalizeString } from "./normalizeString";
 // Filtrowanie po nazwie i po pojemności butelki
 export const filterVodkas = (
   vodkas: Vodka[],
-  search: string,
-  bottleSizeFilter: number[]
+  search: string
+  // bottleSizeFilter: number
 ) => {
   let filteredVodkas = vodkas.filter((vodka) =>
     normalizeString(vodka.name).includes(normalizeString(search))
   );
 
-  if (bottleSizeFilter.length > 0 && !bottleSizeFilter.includes(0)) {
-    filteredVodkas = filteredVodkas.filter((vodka) =>
-      vodka.variants.some(
-        (variant) =>
-          bottleSizeFilter.some(
-            (size) => Math.abs(variant.volume - size) < 0.01
-          ) // Tolerancja 0.01 dla porównania
-      )
-    );
-  }
+  // if (bottleSizeFilter.length > 0 && !bottleSizeFilter.includes(0)) {
+  //   filteredVodkas = filteredVodkas.filter((vodka) =>
+  //     vodka.variants.some(
+  //       (variant) =>
+  //         bottleSizeFilter.some(
+  //           (size) => Math.abs(variant.volume - size) < 0.01
+  //         ) // Tolerancja 0.01 dla porównania
+  //     )
+  //   );
+  // }
 
   return filteredVodkas;
 };

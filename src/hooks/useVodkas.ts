@@ -28,7 +28,11 @@ export const useVodkas = () => {
           return { ...vodka, averagePrice };
         });
 
-        setVodkas(vodkasWithAverage);
+        const finalVodkas = vodkasWithAverage.map((vodka) => {
+          return { ...vodka, selectedVariant: vodka.variants[0] };
+        });
+
+        setVodkas(finalVodkas);
       } catch (error) {
         console.error("Error fetching vodka:", error);
       } finally {

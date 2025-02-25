@@ -6,8 +6,8 @@ type FilterProps = {
   setSortBy: Dispatch<SetStateAction<string>>;
   sortAscending: boolean;
   setSortAscending: Dispatch<SetStateAction<boolean>>;
-  setBottleSizeFilter: Dispatch<SetStateAction<number[]>>;
-  bottleSizeFilter: number[];
+  setBottleSizeFilter: Dispatch<SetStateAction<number>>;
+  bottleSizeFilter: number;
 };
 
 export default FilterProps;
