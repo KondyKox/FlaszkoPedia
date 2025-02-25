@@ -1,11 +1,14 @@
 "use client";
 
-import FilterOptions from "@/components/FilterOptions";
+import FilterOptions from "@/components/filter/FilterOptions";
 import Item from "@/components/Item";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import Modal from "@/components/Modal";
 import SelectedVodka from "@/components/SelectedVodka";
-import { BOTTLE_SIZE_OPTIONS } from "@/constants/filterOptions";
+import {
+  BOTTLE_SIZE_OPTIONS,
+  VODKA_FLAVOR_OPTIONS,
+} from "@/constants/filterOptions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
 import { Vodka, VodkaVariant } from "@/types/VodkaProps";
@@ -21,6 +24,9 @@ const Vodkas = () => {
   const [sortAscending, setSortAscending] = useState<boolean>(true);
   const [bottleSizeFilter, setBottleSizeFilter] = useState<number>(
     BOTTLE_SIZE_OPTIONS[0].value
+  );
+  const [flavorFilter, setFlavorFilter] = useState<string>(
+    VODKA_FLAVOR_OPTIONS[0].value
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(1024);
@@ -47,26 +53,25 @@ const Vodkas = () => {
   useEffect(() => {
     if (loading || !vodkas || !vodkaList) return;
 
-    const updatedVodkas = vodkaList.map((vodka) => {
-      const selectedVariant = vodka.variants.find(
-        (variant) => variant.volume === bottleSizeFilter
-      );
-
-      if (selectedVariant)
-        return {
-          ...vodka,
-          selectedVariant: selectedVariant || vodka.variants[0],
-        };
-
-      return vodka;
-    });
-
     // Filtrowanie i sortowanie
-    const filteredVodkas = filterVodkas(updatedVodkas, search);
+    const filteredVodkas = filterVodkas(
+      vodkas,
+      search,
+      flavorFilter,
+      bottleSizeFilter
+    );
     const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
 
     setVodkaList(sortedVodkas);
-  }, [bottleSizeFilter, vodkas, loading, search, sortBy, sortAscending]);
+  }, [
+    bottleSizeFilter,
+    vodkas,
+    loading,
+    search,
+    sortBy,
+    sortAscending,
+    flavorFilter,
+  ]);
 
   if (loading) return <LoadingOverlay message="Wczytuję alkohol..." />;
 
@@ -103,6 +108,8 @@ const Vodkas = () => {
                     setSortAscending={setSortAscending}
                     setBottleSizeFilter={setBottleSizeFilter}
                     bottleSizeFilter={bottleSizeFilter}
+                    flavorFilter={flavorFilter}
+                    setFlavorFilter={setFlavorFilter}
                   />
                 </div>
               </Modal>
@@ -122,11 +129,13 @@ const Vodkas = () => {
               setSortAscending={setSortAscending}
               setBottleSizeFilter={setBottleSizeFilter}
               bottleSizeFilter={bottleSizeFilter}
+              flavorFilter={flavorFilter}
+              setFlavorFilter={setFlavorFilter}
             />
           </div>
 
           {/* List of vodkas */}
-          <ul className="grid place-items-center grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full md:w-2/3">
+          <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full md:w-2/3">
             {vodkaList?.map((vodka) => (
               <li key={vodka._id} className="w-full">
                 <Item

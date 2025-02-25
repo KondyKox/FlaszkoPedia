@@ -14,3 +14,13 @@ export const SORT_ASCENDING_OPTIONS = [
   { value: true, label: "Rosnąco" },
   { value: false, label: "Malejąco" },
 ];
+
+export const VODKA_FLAVOR_OPTIONS = [
+  { value: "", label: "Wszystkie" },
+  { value: "pure", label: "Czysta" },
+  { value: "mint", label: "Miętowa" },
+  { value: "lemon", label: "Cytrynowa" },
+  { value: "cherry", label: "Wiśniowa" },
+  { value: "currant", label: "Porzeczkowa" },
+  { value: "mango", label: "Mango" },
+];

@@ -5,6 +5,7 @@ import { LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { getStoreImage } from "@/utils/vodkaUtils";
 import { Store, Vodka, VodkaVariant } from "@/types/VodkaProps";
+import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 
 const Item = ({
   vodka,
@@ -155,7 +156,9 @@ const Item = ({
             </span>
           </p>
           <span className="text-sm text-button italic transition-all duration-500 ease-in-out group-hover:text-golden">
-            {vodka.flavor}
+            {VODKA_FLAVOR_OPTIONS.find(
+              (option) => vodka.flavor === option.value
+            )?.label || vodka.flavor}
           </span>
         </div>
       </div>
