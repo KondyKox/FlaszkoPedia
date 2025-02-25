@@ -1,4 +1,4 @@
-import Vodka from "@/types/VodkaProps";
+import { Vodka } from "@/types/VodkaProps";
 import { calculateAveragePrice } from "@/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 

@@ -1,14 +1,21 @@
-import Store from "./StoreProps";
-
-interface Vodka {
+export interface Vodka {
   _id: string;
   name: string;
-  averagePrice: number;
-  bottleSize: number;
   alcoholPercentage: number;
-  stores: Store[];
+  flavor: string;
+  variants: VodkaVariant[];
   imageSrc: string;
   description?: string;
 }
 
-export default Vodka;
+export interface VodkaVariant {
+  volume: number;
+  stores: Store[];
+  averagePrice: number;
+}
+
+export interface Store {
+  name: string;
+  price: number;
+  image: string;
+}

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Item from "./Item";
-import Vodka from "@/types/VodkaProps";
+import { Vodka } from "@/types/VodkaProps";
 
 const SelectedVodka = ({
   selectedVodka,
@@ -9,7 +9,7 @@ const SelectedVodka = ({
   selectedVodka: Vodka;
   setSelectedVodka: Dispatch<SetStateAction<Vodka | null>>;
 }) => {
-  const [isSticky, setIsSticky] = useState(false);
+  const [isSticky, setIsSticky] = useState<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,11 +30,15 @@ const SelectedVodka = ({
       className={`flex flex-col justify-center items-center w-full sticky top-0 bg-primary z-40 ${
         isSticky ? "border-b border-button" : ""
       }`}
-      onClick={() => setSelectedVodka(null)}
     >
-      <div className="flex flex-col justify-center items-center gap-4 p-4 w-full md:w-1/2 lg:w-1/3">
+      <div className="flex flex-col justify-center items-center gap-4 py-2 w-full md:w-1/2 lg:w-1/3">
         <h2 className="sub-header">Wybrany napój bogów</h2>
-        <Item vodka={selectedVodka} />
+        <Item
+          vodka={selectedVodka}
+          selectedVodka={selectedVodka}
+          setSelectedVodka={setSelectedVodka}
+          isSelected
+        />
       </div>
     </div>
   );

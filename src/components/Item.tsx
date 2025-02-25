@@ -1,48 +1,78 @@
-import Vodka from "@/types/VodkaProps";
-import ArrowIcon from "./ArrowIcon";
-import Store from "@/types/StoreProps";
+// import ArrowIcon from "./ArrowIcon";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { getStoreImage } from "@/utils/vodkaUtils";
+import { Store, Vodka } from "@/types/VodkaProps";
 
 const Item = ({
   vodka,
   selectedVodka,
+  setSelectedVodka,
+  isSelected = false,
 }: {
   vodka: Vodka;
-  selectedVodka?: Vodka | null;
+  selectedVodka: Vodka | null;
+  setSelectedVodka: Dispatch<SetStateAction<Vodka | null>>;
+  isSelected?: boolean;
 }) => {
   const selected = vodka === selectedVodka;
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [selectedVariant, setSelectedVariant] = useState(vodka.variants[0]);
   const divRef = useRef<HTMLDivElement | null>(null);
 
   // Porównaj ceny w poszczególnych sklepach
   const comparisePrices = (store: Store) => {
-    if (!selectedVodka) return { color: "text-secondary", rotate: true };
+    if (!selectedVodka || !selectedVariant)
+      return { color: "text-secondary" /* rotate: true */ };
 
-    const selectedStore = selectedVodka.stores.find(
-      (s) => s.name === store.name
-    );
+    const selectedStore = selectedVodka.variants
+      .find((variant) => variant.volume === selectedVariant.volume)
+      ?.stores.find((s) => s.name === store.name);
 
     if (selectedStore) {
       if (store.price < selectedStore.price)
-        return { color: "text-green-500", rotate: true }; // Cena niższa
+        return { color: "text-green-500" /* rotate: true */ }; // Cena niższa
       if (store.price > selectedStore.price)
-        return { color: "text-red-500", rotate: false }; // Cena wyższa
+        return { color: "text-red-500" /* rotate: false */ }; // Cena wyższa
     }
-    return { color: "text-secondary", rotate: true }; // Cena taka sama
+    return { color: "text-secondary" /* rotate: true */ }; // Cena taka sama
   };
 
   // Porównaj średnią cenę
   const compariseAveragePrice = () => {
     if (!selectedVodka) return "text-secondary"; // Domyślny kolor, jeśli nic nie wybrano
 
-    if (vodka.averagePrice > selectedVodka.averagePrice) return "text-red-500"; // Średnia cena wyższa
-    if (vodka.averagePrice < selectedVodka.averagePrice)
-      return "text-green-500"; // Średnia cena niższa
+    if (vodka.variants.length > 0 && selectedVodka.variants.length > 0) {
+      const vodkaAveragePrice =
+        vodka.variants.reduce((sum, variant) => sum + variant.averagePrice, 0) /
+        vodka.variants.length;
+
+      const selectedVodkaAveragePrice =
+        selectedVodka.variants.reduce(
+          (sum, variant) => sum + variant.averagePrice,
+          0
+        ) / selectedVodka.variants.length;
+
+      if (vodkaAveragePrice > selectedVodkaAveragePrice) return "text-red-500"; // Średnia cena wyższa
+      if (vodkaAveragePrice < selectedVodkaAveragePrice)
+        return "text-green-500"; // Średnia cena niższa
+    }
+
     return "text-secondary"; // Średnia cena taka sama
+  };
+
+  // Select vodka on click
+  const handleVodkaClick = (vodka: Vodka) => {
+    if (!vodka) return;
+
+    if (selectedVodka === vodka) {
+      setSelectedVodka(null);
+      return;
+    }
+
+    setSelectedVodka(vodka);
   };
 
   useEffect(() => {
@@ -62,54 +92,88 @@ const Item = ({
   return (
     <div
       ref={divRef}
-      className={`relative overflow-visible flex flex-col justify-center items-center gap-6 bg-akcent rounded-lg p-4 w-full transition-all duration-500 
-                    ease-in-out cursor-pointer hover:bg-golden ${
-                      selected && "opacity-50 pointer-events-none"
+      className={`relative overflow-visible flex justify-between items-stretch bg-akcent rounded-lg w-full transition-opacity duration-500 
+                    ${
+                      selected &&
+                      !isSelected &&
+                      "opacity-50 pointer-events-none"
                     } ${isVisible ? "opacity-100" : "opacity-0"}`}
     >
-      <div className="flex md:gap-4 flex-col md:flex-row justify-center items-center">
-        <h4 className="grow">{vodka.name}</h4>
-        <div className="flex justify-center items-center gap-2 font-bold">
-          <span className="text-primary">{vodka.bottleSize}L</span>
-          <span className="text-orange-500">{vodka.alcoholPercentage}%</span>
+      <div
+        className="flex flex-col justify-center items-center gap-6 rounded-ss-lg rounded-es-lg p-4 w-full transition-all duration-500 
+                    ease-in-out cursor-pointer hover:bg-button group flex-1"
+        onClick={() => handleVodkaClick(vodka)}
+      >
+        <div className="flex md:gap-4 flex-col md:flex-row justify-center items-center scale-110 md:scale-125">
+          <h4 className="transition-all duration-500 ease-in-out group-hover:text-primary">
+            {vodka.name}
+          </h4>
+          <span className="text-orange-500 font-bold">
+            {vodka.alcoholPercentage}%
+          </span>
+        </div>
+        <ul className="flex justify-center items-center gap-4 md:gap-10">
+          {selectedVariant.stores.map((store, storeIndex) => {
+            const { color /* rotate */ } = comparisePrices(store);
+            return (
+              <li
+                key={storeIndex}
+                className="flex flex-col justify-center items-center gap-2 text-center"
+              >
+                <Image
+                  src={getStoreImage(store.name)}
+                  alt={store.name}
+                  width={64}
+                  height={64}
+                  className="w-8 md:w-10 h-8 md:h-10"
+                />
+                <div className="flex justify-center items-center text-xs">
+                  <span
+                    className={`${color} transition-all duration-500 ease-in-out group-hover:text-slate-200`}
+                  >
+                    {store.price}zł
+                  </span>
+                  {/* {selectedVodka && selectedVodka !== vodka && (
+                    <ArrowIcon
+                      className={`${color} ${rotate ? "rotate-180" : ""}`}
+                    />
+                  )} */}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="flex flex-col justify-center items-center">
+          <p className="text-slate-500 transition-all duration-500 ease-in-out group-hover:text-slate-300">
+            Średnia cena:{" "}
+            <span
+              className={`${compariseAveragePrice()} transition-all duration-500 ease-in-out group-hover:text-primary`}
+            >
+              {selectedVariant.averagePrice}zł
+            </span>
+          </p>
+          <span className="text-sm text-button italic transition-all duration-500 ease-in-out group-hover:text-golden">
+            {vodka.flavor}
+          </span>
         </div>
       </div>
-      <ul className="flex justify-center items-center gap-x-4 gap-y-4 md:gap-10">
-        {vodka.stores.map((store, storeIndex) => {
-          const { color, rotate } = comparisePrices(store);
-          return (
-            <li
-              key={storeIndex}
-              className="flex flex-col justify-center items-center gap-2 text-center"
-            >
-              <Image
-                src={getStoreImage(store.name)}
-                alt={store.name}
-                width={64}
-                height={64}
-                className="w-8 md:w-10 h-8 md:h-10"
-              />
-              <div className="flex justify-center items-center text-xs">
-                <span className={`${color}`}>{store.price}zł</span>
-                {selectedVodka && selectedVodka !== vodka && (
-                  <ArrowIcon
-                    className={`${color} ${rotate ? "rotate-180" : ""}`}
-                  />
-                )}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-      <p className="text-slate-500">
-        Średnia cena:{" "}
-        <span className={`${compariseAveragePrice()}`}>
-          {vodka.averagePrice}zł
-        </span>
-      </p>
 
-      <div className="absolute bottom-0 right-0 bg-gray-100 rounded-ss-lg rounded-ee-lg p-1 z-10 transition-colors duration-300 ease-in-out hover:bg-orange-400">
-        <Link href={`/vodkas/${vodka._id}`} className="w-full">
+      <div className="bg-gray-100 rounded-se-lg rounded-ee-lg z-10 flex flex-col justify-between items-center min-h-full overflow-hidden">
+        {vodka.variants.map((variant, index) => (
+          <div
+            key={index}
+            className={`text-sm p-1 md:p-2 transition-colors duration-300 ease-in-out hover:bg-blue-500 hover:text-primary w-full flex flex-1 justify-center items-center ${
+              variant === selectedVariant && "bg-button text-primary"
+            } cursor-pointer`}
+            onClick={() => setSelectedVariant(variant)}
+          >
+            {variant.volume}L
+          </div>
+        ))}
+        <Link
+          href={`/vodkas/${vodka._id}`}
+          className="w-full transition-colors duration-300 p-1 md:p-2 ease-in-out hover:bg-golden flex-1 border-t-2 flex justify-center items-center"
+        >
           <LinkIcon className="w-6 h-6 text-header" />
         </Link>
       </div>

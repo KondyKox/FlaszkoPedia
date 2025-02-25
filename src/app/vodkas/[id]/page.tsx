@@ -2,14 +2,23 @@
 
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
+import { VodkaVariant } from "@/types/VodkaProps";
 import { getStoreImage } from "@/utils/vodkaUtils";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const VodkaPage = () => {
   const params = useParams();
   const id = params?.id as string;
   const { vodka, loading } = useSelectedVodka(id);
+  const [selectedVariant, setSelectedVariant] = useState<VodkaVariant>();
+
+  useEffect(() => {
+    if (vodka && vodka.variants.length > 0) {
+      setSelectedVariant(vodka.variants[0]); // Ustawiamy pierwszy wariant
+    }
+  }, [vodka]);
 
   if (loading) return <LoadingOverlay message="Wczytuję wybrany trunek..." />;
   if (!id || !vodka)
@@ -28,15 +37,25 @@ const VodkaPage = () => {
         <div className="flex flex-col justify-center items-center gap-4 lg:scale-125 xl:scale-150">
           <div className="flex justify-center items-center gap-6">
             <h2 className="sub-header">{vodka.name}</h2>
-            <div className="flex justify-center items-center gap-2 font-bold">
-              <span className="text-secondary">{vodka.bottleSize}L</span>
-              <span className="text-orange-500">
-                {vodka.alcoholPercentage}%
-              </span>
-            </div>
+            <span className="text-orange-500 font-bold">
+              {vodka.alcoholPercentage}%
+            </span>
+          </div>
+          <div className="flex justify-center items-center w-full">
+            {vodka.variants.map((variant: VodkaVariant, index: number) => (
+              <div
+                key={index}
+                className={`text-sm p-1 transition-colors duration-300 ease-in-out hover:bg-blue-500 hover:text-primary w-full flex flex-1 justify-center items-center ${
+                  variant === selectedVariant && "bg-button text-primary"
+                } cursor-pointer`}
+                onClick={() => setSelectedVariant(variant)}
+              >
+                {variant.volume}L
+              </div>
+            ))}
           </div>
           <ul className="flex justify-center items-center gap-x-4 lg:gap-x-6">
-            {vodka.stores.map((store, index) => (
+            {selectedVariant?.stores.map((store, index) => (
               <li
                 key={index}
                 className="flex flex-col justify-center items-center gap-2 text-center"
@@ -54,13 +73,14 @@ const VodkaPage = () => {
               </li>
             ))}
           </ul>
-          <div className="flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center">
             <p className="text-slate-500">
               Średnia cena:{" "}
               <span className="text-red-500 font-bold">
-                {vodka.averagePrice}zł
+                {selectedVariant?.averagePrice}zł
               </span>
             </p>
+            <span className="text-sm text-button italic">{vodka.flavor}</span>
           </div>
         </div>
       </div>

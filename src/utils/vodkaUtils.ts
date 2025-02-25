@@ -1,4 +1,4 @@
-import Vodka from "@/types/VodkaProps";
+import { Vodka } from "@/types/VodkaProps";
 import { normalizeString } from "./normalizeString";
 
 // Filtrowanie po nazwie i po pojemności butelki
@@ -12,11 +12,13 @@ export const filterVodkas = (
   );
 
   if (bottleSizeFilter.length > 0 && !bottleSizeFilter.includes(0)) {
-    filteredVodkas = filteredVodkas.filter(
-      (vodka) =>
-        bottleSizeFilter.some(
-          (size) => Math.abs(vodka.bottleSize - size) < 0.01
-        ) // Tolerancja 0.01 dla porównania
+    filteredVodkas = filteredVodkas.filter((vodka) =>
+      vodka.variants.some(
+        (variant) =>
+          bottleSizeFilter.some(
+            (size) => Math.abs(variant.volume - size) < 0.01
+          ) // Tolerancja 0.01 dla porównania
+      )
     );
   }
 
@@ -37,7 +39,22 @@ export const sortVodkas = (
         result = a.name.localeCompare(b.name, "pl");
         break;
       case "price":
-        result = a.averagePrice - b.averagePrice;
+        // Sortowanie po średniej cenie z wariantów
+        const aAveragePrice =
+          a.variants.length > 0
+            ? a.variants.reduce(
+                (sum, variant) => sum + variant.averagePrice,
+                0
+              ) / a.variants.length
+            : 0;
+        const bAveragePrice =
+          b.variants.length > 0
+            ? b.variants.reduce(
+                (sum, variant) => sum + variant.averagePrice,
+                0
+              ) / b.variants.length
+            : 0;
+        result = aAveragePrice - bAveragePrice;
         break;
       default:
         break;
@@ -49,8 +66,12 @@ export const sortVodkas = (
 
 // Oblicz średnią cenę wódki
 export const calculateAveragePrice = (vodka: Vodka) => {
-  const total = vodka.stores.reduce((sum, store) => sum + store.price, 0);
-  return Math.round((total / vodka.stores.length) * 100) / 100;
+  vodka.variants.forEach((variant) => {
+    const total = variant.stores.reduce((sum, store) => sum + store.price, 0);
+    // Przypisz obliczoną średnią cenę do wariantu
+    variant.averagePrice =
+      Math.round((total / variant.stores.length) * 100) / 100;
+  });
 };
 
 // Pobierz zdjęcie na podstawie nazwy sklepu

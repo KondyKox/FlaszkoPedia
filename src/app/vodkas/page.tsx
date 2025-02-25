@@ -8,7 +8,7 @@ import SelectedVodka from "@/components/SelectedVodka";
 import { BOTTLE_SIZE_OPTIONS } from "@/constants/filterOptions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
-import Vodka from "@/types/VodkaProps";
+import { Vodka } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 
@@ -108,12 +108,12 @@ const Vodkas = () => {
           {/* List of vodkas */}
           <ul className="grid place-items-center grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full md:w-2/3">
             {sortedVodkas.map((vodka) => (
-              <li
-                key={vodka._id}
-                onClick={() => setSelectedVodka(vodka)}
-                className="w-full"
-              >
-                <Item vodka={vodka} selectedVodka={selectedVodka} />
+              <li key={vodka._id} className="w-full">
+                <Item
+                  vodka={vodka}
+                  selectedVodka={selectedVodka}
+                  setSelectedVodka={setSelectedVodka}
+                />
               </li>
             ))}
           </ul>
