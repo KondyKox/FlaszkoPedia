@@ -26,41 +26,48 @@ const Item = ({
 
   // Porównaj ceny w poszczególnych sklepach
   const comparisePrices = (store: Store) => {
-    if (!selectedVodka || !vodka.selectedVariant)
-      return { color: "text-secondary" /* rotate: true */ };
+    if (
+      !selectedVodka ||
+      !selectedVodka.selectedVariant ||
+      !vodka.selectedVariant
+    )
+      return { color: "text-secondary" };
 
-    const selectedStore = selectedVodka.variants
-      .find((variant) => variant.volume === vodka.selectedVariant?.volume)
-      ?.stores.find((s) => s.name === store.name);
+    // Pobranie ceny wybranego wariantu porównywanej wódki
+    const vodkaStore = vodka.selectedVariant.stores.find(
+      (s) => s.name === store.name
+    );
 
-    if (selectedStore) {
-      if (store.price < selectedStore.price)
-        return { color: "text-green-500" /* rotate: true */ }; // Cena niższa
-      if (store.price > selectedStore.price)
-        return { color: "text-red-500" /* rotate: false */ }; // Cena wyższa
+    // Pobranie ceny wybranego wariantu aktualnie wybranej wódki
+    const selectedVodkaStore = selectedVodka.selectedVariant.stores.find(
+      (s) => s.name === store.name
+    );
+
+    if (vodkaStore && selectedVodkaStore) {
+      if (vodkaStore.price < selectedVodkaStore.price)
+        return { color: "text-green-500" }; // Tańsza
+      if (vodkaStore.price > selectedVodkaStore.price)
+        return { color: "text-red-500" }; // Droższa
     }
-    return { color: "text-secondary" /* rotate: true */ }; // Cena taka sama
+
+    return { color: "text-secondary" }; // Cena taka sama lub brak danych
   };
 
   // Porównaj średnią cenę
-  const compariseAveragePrice = () => {
-    if (!selectedVodka) return "text-secondary"; // Domyślny kolor, jeśli nic nie wybrano
+  const compareAveragePrice = () => {
+    if (
+      !selectedVodka ||
+      !selectedVodka.selectedVariant ||
+      !vodka.selectedVariant
+    )
+      return "text-secondary";
 
-    if (vodka.variants.length > 0 && selectedVodka.variants.length > 0) {
-      const vodkaAveragePrice =
-        vodka.variants.reduce((sum, variant) => sum + variant.averagePrice, 0) /
-        vodka.variants.length;
+    const vodkaAveragePrice = vodka.selectedVariant.averagePrice;
+    const selectedVodkaAveragePrice =
+      selectedVodka.selectedVariant.averagePrice;
 
-      const selectedVodkaAveragePrice =
-        selectedVodka.variants.reduce(
-          (sum, variant) => sum + variant.averagePrice,
-          0
-        ) / selectedVodka.variants.length;
-
-      if (vodkaAveragePrice > selectedVodkaAveragePrice) return "text-red-500"; // Średnia cena wyższa
-      if (vodkaAveragePrice < selectedVodkaAveragePrice)
-        return "text-green-500"; // Średnia cena niższa
-    }
+    if (vodkaAveragePrice < selectedVodkaAveragePrice) return "text-green-500"; // Tańsza średnio
+    if (vodkaAveragePrice > selectedVodkaAveragePrice) return "text-red-500"; // Droższa średnio
 
     return "text-secondary"; // Średnia cena taka sama
   };
@@ -150,7 +157,7 @@ const Item = ({
           <p className="text-slate-500 transition-all duration-500 ease-in-out group-hover:text-slate-300">
             Średnia cena:{" "}
             <span
-              className={`${compariseAveragePrice()} transition-all duration-500 ease-in-out group-hover:text-primary`}
+              className={`${compareAveragePrice()} transition-all duration-500 ease-in-out group-hover:text-primary`}
             >
               {vodka.selectedVariant?.averagePrice}zł
             </span>
@@ -168,9 +175,13 @@ const Item = ({
           <div
             key={index}
             className={`text-sm p-1 md:p-2 transition-colors duration-300 ease-in-out hover:bg-blue-500 hover:text-primary w-full flex flex-1 justify-center items-center ${
-              variant === vodka.selectedVariant && "bg-button text-primary"
+              variant === vodka.selectedVariant &&
+              "bg-button text-primary pointer-events-none"
             } cursor-pointer`}
-            onClick={() => handleVariantChange(vodka._id, variant)}
+            onClick={() =>
+              (selected && !isSelected) ||
+              (!selected && handleVariantChange(vodka._id, variant))
+            }
           >
             {variant.volume}L
           </div>

@@ -43,24 +43,6 @@ const FilterOptions = ({
         onChange={setSortBy}
       />
 
-      {/* Pojemność */}
-      <FilterList<number>
-        id="bottleSize"
-        label="Pojemność"
-        options={BOTTLE_SIZE_OPTIONS}
-        selectedValue={bottleSizeFilter}
-        onChange={setBottleSizeFilter}
-      />
-
-      {/* Smaki */}
-      <FilterList<string>
-        id="vodkaFlavor"
-        label="Smak"
-        options={VODKA_FLAVOR_OPTIONS}
-        selectedValue={flavorFilter}
-        onChange={setFlavorFilter}
-      />
-
       {/* Kierunek sortowania */}
       <div className="w-full">
         <label htmlFor="sortDirection" className="label">
@@ -90,6 +72,24 @@ const FilterOptions = ({
           ))}
         </ul>
       </div>
+
+      {/* Pojemność */}
+      <FilterList<number>
+        id="bottleSize"
+        label="Pojemność"
+        options={BOTTLE_SIZE_OPTIONS}
+        selectedValue={bottleSizeFilter}
+        onChange={setBottleSizeFilter}
+      />
+
+      {/* Smaki */}
+      <FilterList<string>
+        id="vodkaFlavor"
+        label="Smak"
+        options={VODKA_FLAVOR_OPTIONS}
+        selectedValue={flavorFilter}
+        onChange={setFlavorFilter}
+      />
     </div>
   );
 };
