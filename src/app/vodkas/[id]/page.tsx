@@ -1,6 +1,7 @@
 "use client";
 
 import LoadingOverlay from "@/components/LoadingOverlay";
+import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 import { VodkaVariant } from "@/types/VodkaProps";
 import { getStoreImage } from "@/utils/vodkaUtils";
@@ -80,7 +81,11 @@ const VodkaPage = () => {
                 {selectedVariant?.averagePrice}zł
               </span>
             </p>
-            <span className="text-sm text-button italic">{vodka.flavor}</span>
+            <span className="text-sm text-button italic">
+              {VODKA_FLAVOR_OPTIONS.find(
+                (option) => vodka.flavor === option.value
+              )?.label || vodka.flavor}
+            </span>
           </div>
         </div>
       </div>
