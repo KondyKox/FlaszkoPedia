@@ -1,5 +1,5 @@
 import { FilterOptionsProps } from "@/types/FilterProps";
-import ArrowIcon from "../ArrowIcon";
+import ArrowIcon from "../ui/ArrowIcon";
 import {
   BOTTLE_SIZE_OPTIONS,
   SORT_ASCENDING_OPTIONS,

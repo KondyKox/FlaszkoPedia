@@ -71,7 +71,8 @@ h6 {
 }
 
 .label {
-  @apply block text-sm font-semibold text-gray-300 mb-1;
+  /* @apply block text-sm font-semibold text-gray-300 mb-1; */
+  @apply absolute -top-3 left-3 bg-primary px-2 text-xs md:text-sm text-gray-600 rounded-2xl min-w-24;
 }
 
 .filter {
@@ -80,7 +81,7 @@ h6 {
 
 /* BTNs */
 .btn {
-  @apply rounded border-2 border-button cursor-pointer transition-colors duration-300 ease-in-out text-sm md:text-base lg:text-lg;
+  @apply rounded border-2 border-button cursor-pointer transition-colors duration-300 ease-in-out text-sm md:text-base lg:text-lg hover:drop-shadow-logo px-4;
 }
 .btn-primary {
   @apply text-primary bg-button hover:bg-primary hover:text-button;
