@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingOverlay from "@/components/Loading/LoadingOverlay";
+import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 import { VodkaVariant } from "@/types/VodkaProps";

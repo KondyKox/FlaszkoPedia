@@ -1,5 +1,5 @@
 import AuthFormProps from "@/types/AuthFormProps";
-import LoadingText from "../Loading/LoadingText";
+import LoadingText from "../loading/LoadingText";
 
 const RegisterForm = ({
   setEmail,

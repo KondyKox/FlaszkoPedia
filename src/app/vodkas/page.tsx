@@ -2,7 +2,7 @@
 
 import FilterOptions from "@/components/filter/FilterOptions";
 import Item from "@/components/Item";
-import LoadingOverlay from "@/components/Loading/LoadingOverlay";
+import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import Modal from "@/components/Modal";
 import SelectedVodka from "@/components/SelectedVodka";
 import {
