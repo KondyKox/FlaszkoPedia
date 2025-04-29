@@ -84,10 +84,13 @@ h6 {
   @apply rounded border-2 border-button cursor-pointer transition-colors duration-300 ease-in-out text-sm md:text-base lg:text-lg hover:drop-shadow-logo px-4;
 }
 .btn-primary {
-  @apply text-primary bg-button hover:bg-primary hover:text-button;
+  @apply text-primary bg-button hover:bg-primary hover:text-button py-2;
 }
 .btn-secondary {
   @apply text-button bg-primary hover:bg-button hover:text-primary;
+}
+.btn-provider {
+  @apply p-2 flex-1 text-base text-primary bg-button border-none hover:bg-primary hover:text-button text-center flex justify-between items-center gap-2;
 }
 
 .link {

@@ -2,9 +2,11 @@
 
 import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
+import SocialButton from "@/components/auth/SocialButton";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
-import { loginUser, registerUser } from "@/lib/utils/auth";
+import { registerUser } from "@/lib/utils/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -101,10 +103,21 @@ const AuthPage = () => {
     try {
       setLoading(true);
 
-      const feedbackMessage = await loginUser(email, password);
-      if (feedbackMessage) setFeedback(feedbackMessage);
+      const res = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
 
+      if (res?.error) {
+        setFeedback(res.error || "Nie udało się zalogować.");
+        setSuccessful(false);
+        return;
+      }
+
+      setFeedback("Zalogowano pomyślnie");
       setSuccessful(true);
+
       setTimeout(() => router.push("/"), 2000);
     } catch (error) {
       setFeedback("Nie udało się zalogować");
@@ -117,7 +130,7 @@ const AuthPage = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-8 w-full lg:w-1/2">
       <form
-        className="flex flex-col justify-center items-center gap-4 bg-akcent rounded-xl px-8 py-16 w-full"
+        className="flex flex-col justify-center items-center gap-4 bg-akcent rounded-xl px-8 py-16 w-full shadow-[0_0_1rem_black]"
         onSubmit={handleSubmit}
       >
         <h2 className="sub-header">
@@ -141,6 +154,18 @@ const AuthPage = () => {
             loading={loading}
           />
         )}
+        <div className="flex justify-center items-center gap-4 w-full lg:w-1/2">
+          <SocialButton
+            provider="google"
+            setFeedback={setFeedback}
+            setSuccessful={setSuccessful}
+          />
+          <SocialButton
+            provider="facebook"
+            setFeedback={setFeedback}
+            setSuccessful={setSuccessful}
+          />
+        </div>
         <FeedbackMessage isSuccessful={successful} animate={animate}>
           {feedback}
         </FeedbackMessage>
