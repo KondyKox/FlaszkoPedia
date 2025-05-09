@@ -6,7 +6,7 @@ import SocialButton from "@/components/auth/SocialButton";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import { registerUser } from "@/lib/utils/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -21,6 +21,8 @@ const AuthPage = () => {
   const [animate, setAnimate] = useState<boolean>(false);
   const [successful, setSuccessful] = useState<boolean>(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
+  console.log("SESSION:", session, status);
 
   // UI
   const toggleFormType = () => {

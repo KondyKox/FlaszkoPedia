@@ -1,6 +1,7 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Providers from "./providers";
 
 export default function RootLayout({
   children,
@@ -18,11 +19,13 @@ export default function RootLayout({
         content="wódka, porównywarka cen, porównywarka cen wódki, ceny wódki"
       />
       <body>
-        <Navbar />
-        <main className="flex flex-col justify-center items-center p-4 mb-10 min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main className="flex flex-col justify-center items-center p-4 mb-10 min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

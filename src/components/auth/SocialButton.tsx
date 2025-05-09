@@ -14,7 +14,7 @@ const SocialButton = ({
   const handleClick = async () => {
     try {
       setPending(true);
-      signIn(provider);
+      signIn(provider, { callbackUrl: "/" });
 
       setFeedback(`Zalogowano przy użyciu ${provider}`);
       setSuccessful(true);
@@ -28,7 +28,7 @@ const SocialButton = ({
   };
 
   return (
-    <button className="btn btn-provider" onClick={handleClick}>
+    <button className="btn btn-provider" onClick={handleClick} type="button">
       {pending ? (
         <LoadingText />
       ) : (
