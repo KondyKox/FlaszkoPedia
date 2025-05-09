@@ -3,10 +3,10 @@
 import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
 import SocialButton from "@/components/auth/SocialButton";
+import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import { registerUser } from "@/lib/utils/auth";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -21,8 +21,6 @@ const AuthPage = () => {
   const [animate, setAnimate] = useState<boolean>(false);
   const [successful, setSuccessful] = useState<boolean>(false);
   const router = useRouter();
-  const { data: session, status } = useSession();
-  console.log("SESSION:", session, status);
 
   // UI
   const toggleFormType = () => {
@@ -31,15 +29,10 @@ const AuthPage = () => {
   };
 
   const renderEyeIcon = () => {
-    return showPassword ? (
-      <EyeSlashIcon
-        className="w-6 h-6 absolute -top-1 right-2 translate-y-1/2 cursor-pointer"
-        onClick={() => setShowPassword(false)}
-      />
-    ) : (
-      <EyeIcon
-        className="w-6 h-6 absolute -top-1 right-2 translate-y-1/2 cursor-pointer"
-        onClick={() => setShowPassword(true)}
+    return (
+      <CustomEyeIcon
+        showPassword={showPassword}
+        togglePassword={() => setShowPassword(!showPassword)}
       />
     );
   };

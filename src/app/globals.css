@@ -92,6 +92,9 @@ h6 {
 .btn-provider {
   @apply p-2 flex-1 text-base text-primary bg-button border-none hover:bg-primary hover:text-button text-center flex justify-between items-center gap-2;
 }
+.btn-danger {
+  @apply border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2;
+}
 
 .link {
   @apply font-bold rounded cursor-pointer transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary hover:drop-shadow-logo py-2 px-4;
