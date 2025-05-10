@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { getStoreImage } from "@/utils/vodkaUtils";
+import { getStoreImage } from "@/lib/utils/vodkaUtils";
 import { Store, Vodka, VodkaVariant } from "@/types/VodkaProps";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 

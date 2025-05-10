@@ -1,5 +1,5 @@
 import { Vodka } from "@/types/VodkaProps";
-import { calculateAveragePrice } from "@/utils/vodkaUtils";
+import { calculateAveragePrice } from "@/lib/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 
 /**

@@ -4,7 +4,7 @@ import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 import { VodkaVariant } from "@/types/VodkaProps";
-import { getStoreImage } from "@/utils/vodkaUtils";
+import { getStoreImage } from "@/lib/utils/vodkaUtils";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";

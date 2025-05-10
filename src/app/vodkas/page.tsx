@@ -12,7 +12,7 @@ import {
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
 import { Vodka, VodkaVariant } from "@/types/VodkaProps";
-import { filterVodkas, sortVodkas } from "@/utils/vodkaUtils";
+import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils";
 import { useEffect, useState } from "react";
 
 const Vodkas = () => {
