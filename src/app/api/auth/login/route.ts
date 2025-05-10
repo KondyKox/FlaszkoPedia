@@ -21,14 +21,14 @@ export async function POST(req: NextRequest) {
     const user = await User.findOne({ email });
     if (!user)
       return NextResponse.json(
-        { message: "Nie znaleziono użytkownika" },
+        { message: "Nie znaleziono użytkownika", success: false },
         { status: 401 }
       );
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return NextResponse.json(
-        { message: "Niewłaściwe dane logowania" },
+        { message: "Niewłaściwe dane logowania", success: false },
         { status: 401 }
       );
 
@@ -38,11 +38,15 @@ export async function POST(req: NextRequest) {
       { expiresIn: "7d" }
     );
 
-    return NextResponse.json({ message: "Zalogowano się", token });
+    return NextResponse.json({
+      message: "Zalogowano się",
+      success: true,
+      token,
+    });
   } catch (error) {
     console.error("Server error!", error);
     return NextResponse.json(
-      { message: "Błąd podczas logowania" },
+      { message: "Błąd podczas logowania", success: false },
       { status: 500 }
     );
   }

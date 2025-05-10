@@ -50,11 +50,15 @@ export const authOptions: AuthOptions = {
     signIn: "/auth",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
       }
+
+      if (trigger === "update" && session?.user?.email)
+        token.email = session.user.email;
+
       return token;
     },
     async session({ session, token }) {

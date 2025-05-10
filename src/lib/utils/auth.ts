@@ -15,9 +15,12 @@ export const registerUser = async (email: string, password: string) => {
     }
 
     console.log("Registration successful:", data.message);
-    return data.message;
+    return {
+      message: data.message,
+      success: res.ok && data.success !== false,
+    };
   } catch (error) {
     console.error("Registration error:", error);
-    return "Ups! Coś się nie udało";
+    return { message: "Ups! Coś się nie udało", success: false };
   }
 };

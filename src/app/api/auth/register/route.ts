@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password)
       return NextResponse.json(
-        { message: "Missing email or password" },
+        { message: "Brakujący email / hasło", success: false },
         { status: 400 }
       );
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const userExists = await User.findOne({ email });
     if (userExists)
       return NextResponse.json(
-        { message: "Użytkownik już istnieje." },
+        { message: "Użytkownik już istnieje.", success: false },
         { status: 409 }
       );
 
@@ -26,13 +26,17 @@ export async function POST(req: NextRequest) {
     const user = await User.create({ email, password: hashedPassword });
 
     return NextResponse.json(
-      { message: "Zarejestrowano pomyślnie", user: { email: user.email } },
+      {
+        message: "Zarejestrowano pomyślnie",
+        success: true,
+        user: { email: user.email },
+      },
       { status: 201 }
     );
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { message: "Rejestracja się nie udała" },
+      { message: "Rejestracja się nie udała", success: false },
       { status: 500 }
     );
   }

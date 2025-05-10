@@ -5,6 +5,7 @@ import RegisterForm from "@/components/auth/RegisterForm";
 import SocialButton from "@/components/auth/SocialButton";
 import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
+import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { registerUser } from "@/lib/utils/auth";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -18,8 +19,8 @@ const AuthPage = () => {
   const [repPassword, setRepPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
-  const [animate, setAnimate] = useState<boolean>(false);
   const [successful, setSuccessful] = useState<boolean>(false);
+  const { animate, triggerAnimation } = useAnimateFeedback();
   const router = useRouter();
 
   // UI
@@ -35,13 +36,6 @@ const AuthPage = () => {
         togglePassword={() => setShowPassword(!showPassword)}
       />
     );
-  };
-
-  const animateFeedback = () => {
-    if (animate) return;
-
-    setAnimate(true);
-    setTimeout(() => setAnimate(false), 2000);
   };
 
   // Authorization
@@ -63,7 +57,7 @@ const AuthPage = () => {
         break;
     }
 
-    animateFeedback();
+    triggerAnimation();
   };
 
   const handleRegister = async () => {
@@ -81,9 +75,9 @@ const AuthPage = () => {
         return;
       }
 
-      const feedbackMessage = await registerUser(email, password);
-      if (feedbackMessage) setFeedback(feedbackMessage);
-      setSuccessful(true);
+      const { message, success } = await registerUser(email, password);
+      if (message) setFeedback(message);
+      setSuccessful(success);
 
       handleLogin();
     } catch (error) {
