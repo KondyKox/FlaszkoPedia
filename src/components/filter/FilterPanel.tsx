@@ -1,4 +1,4 @@
-import { FilterOptionsProps } from "@/types/FilterProps";
+import { FilterPanelProps } from "@/types/FilterProps";
 import ArrowIcon from "../ui/ArrowIcon";
 import {
   BOTTLE_SIZE_OPTIONS,
@@ -7,18 +7,20 @@ import {
   VODKA_FLAVOR_OPTIONS,
 } from "@/constants/filterOptions";
 import FilterList from "./FilterList";
+import { useFilters } from "@/hooks/useFilters";
 
-const FilterOptions = ({
-  setSearch,
-  sortBy,
-  setSortBy,
-  sortAscending,
-  setSortAscending,
-  setBottleSizeFilter,
-  bottleSizeFilter,
-  flavorFilter,
-  setFlavorFilter,
-}: FilterOptionsProps) => {
+const FilterPanel = ({ setSearch }: FilterPanelProps) => {
+  const {
+    sortBy,
+    sortAscending,
+    bottleSizeFilter,
+    flavorFilter,
+    setSortBy,
+    setSortAscending,
+    setBottleSizeFilter,
+    setFlavorFilter,
+  } = useFilters();
+
   return (
     <div className="flex flex-col justify-center items-center gap-8 w-full">
       {/* Filtruj po nazwie */}
@@ -94,4 +96,4 @@ const FilterOptions = ({
   );
 };
 
-export default FilterOptions;
+export default FilterPanel;

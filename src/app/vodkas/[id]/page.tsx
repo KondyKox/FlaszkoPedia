@@ -2,7 +2,7 @@
 
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
-import { useSelectedVodka } from "@/hooks/useSelectedVodka";
+import { useVodkaData } from "@/hooks/useVodkaData";
 import { VodkaVariant } from "@/types/VodkaProps";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 const VodkaPage = () => {
   const params = useParams();
   const id = params?.id as string;
-  const { vodka, loading } = useSelectedVodka(id);
+  const { vodka, loading } = useVodkaData(id);
   const [selectedVariant, setSelectedVariant] = useState<VodkaVariant>();
   const { data: session, status } = useSession();
 

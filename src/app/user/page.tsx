@@ -1,16 +1,19 @@
 "use client";
 
+import Item from "@/components/Item";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import LoadingText from "@/components/loading/LoadingText";
 import Modal from "@/components/Modal";
 import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
+import { useFavorites } from "@/hooks/useFavorites";
 import { checkPassword, updateUser } from "@/lib/utils/user";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const UserPage = () => {
+  const { favorites, loading, refresh } = useFavorites();
   const [editing, setEditing] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -152,7 +155,23 @@ const UserPage = () => {
         </aside>
         <aside className="flex flex-col justify-center items-center gap-4">
           <h2 className="sub-header">Ulubione wódki</h2>
-          <div>Brak wódek :(</div>
+          {loading ? (
+            <LoadingText />
+          ) : favorites.length === 0 ? (
+            <div>Brak wódek :(</div>
+          ) : (
+            <div>
+              {" "}
+              {/* {favorites.map((fav) => (
+                // <Item
+                //   key={fav._id}
+                //   vodka={fav}
+                //   selectedVodka={null}
+                //   setSelectedVodka={}
+                // />
+              ))} */}
+            </div>
+          )}
         </aside>
       </section>
 

@@ -17,9 +17,6 @@ export interface VodkaVariant {
 
 export interface VodkaComponentProps {
   vodka: Vodka;
-  selectedVodka: Vodka | null;
-  setSelectedVodka: React.Dispatch<React.SetStateAction<Vodka | null>>;
-  isSelected?: boolean;
   handleVariantChange: (vodkaId: string, variant: VodkaVariant) => void;
 }
 

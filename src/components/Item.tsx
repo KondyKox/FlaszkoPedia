@@ -8,14 +8,10 @@ import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import Store from "./Store";
 import FavoriteIcon from "./ui/FavoriteIcon";
 import { useSession } from "next-auth/react";
+import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 
-const Item = ({
-  vodka,
-  selectedVodka,
-  setSelectedVodka,
-  isSelected = false,
-  handleVariantChange,
-}: VodkaComponentProps) => {
+const Item = ({ vodka, handleVariantChange }: VodkaComponentProps) => {
+  const { selectedVodka, setSelectedVodka } = useSelectedVodka();
   const selected = vodka === selectedVodka;
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -52,11 +48,9 @@ const Item = ({
     <div
       ref={divRef}
       className={`relative overflow-visible flex justify-between items-stretch bg-akcent rounded-lg w-full transition-opacity duration-500 
-                    ${
-                      selected &&
-                      !isSelected &&
-                      "opacity-50 pointer-events-none"
-                    } ${isVisible ? "opacity-100" : "opacity-0"}`}
+                    ${selected && "opacity-50"} ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
     >
       <div
         className="flex flex-col justify-center items-center gap-6 rounded-ss-lg rounded-es-lg p-4 w-full transition-all duration-500 
@@ -72,6 +66,7 @@ const Item = ({
           </span>
         </div>
 
+        {/* Favorite icon */}
         {status === "authenticated" && (
           <div
             className="absolute top-4 right-4 cursor-pointer"
@@ -103,6 +98,7 @@ const Item = ({
           })}
         </ul>
 
+        {/* Average price */}
         <div className="flex flex-col justify-center items-center">
           <p className="text-slate-500 transition-all duration-500 ease-in-out group-hover:text-slate-300">
             Średnia cena:{" "}
@@ -133,8 +129,7 @@ const Item = ({
               "bg-button text-primary pointer-events-none"
             } cursor-pointer`}
             onClick={() =>
-              (selected && !isSelected) ||
-              (!selected && handleVariantChange(vodka._id, variant))
+              selected || (!selected && handleVariantChange(vodka._id, variant))
             }
           >
             {variant.volume}L
