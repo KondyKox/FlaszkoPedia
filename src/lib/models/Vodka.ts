@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IVodka extends Document {
+export interface IVodka extends Document {
   name: string;
   averagePrice: number;
   alcoholPercentage: number;
@@ -17,7 +17,7 @@ interface IVodka extends Document {
   imageSrc: string;
 }
 
-const VodkaSchema = new Schema<IVodka>({
+export const VodkaSchema = new Schema<IVodka>({
   name: { type: String, required: true },
   averagePrice: { type: Number, required: true },
   alcoholPercentage: { type: Number, required: true },
@@ -39,5 +39,7 @@ const VodkaSchema = new Schema<IVodka>({
   imageSrc: { type: String, required: true },
 });
 
-export default mongoose.models.Vodka ||
-  mongoose.model<IVodka>("Vodka", VodkaSchema);
+const Vodka =
+  mongoose.models.Vodka || mongoose.model<IVodka>("Vodka", VodkaSchema);
+
+export default Vodka;

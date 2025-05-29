@@ -15,8 +15,21 @@ export interface VodkaVariant {
   averagePrice: number;
 }
 
+export interface VodkaComponentProps {
+  vodka: Vodka;
+  selectedVodka: Vodka | null;
+  setSelectedVodka: React.Dispatch<React.SetStateAction<Vodka | null>>;
+  isSelected?: boolean;
+  handleVariantChange: (vodkaId: string, variant: VodkaVariant) => void;
+}
+
 export interface Store {
   name: string;
   price: number;
   image: string;
 }
+
+export type StoreComponentProps = {
+  store: Store;
+  className?: string;
+};

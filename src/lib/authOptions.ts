@@ -54,10 +54,16 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+
+        const dbUser = await User.findOne({ email: user.email });
+        token.favorites = dbUser?.favorites ?? [];
       }
 
-      if (trigger === "update" && session?.user?.email)
+      if (trigger === "update" && session?.user?.email) {
+        const dbUser = await User.findOne({ email: session.user.email });
         token.email = session.user.email;
+        token.favorites = dbUser?.favorites ?? [];
+      }
 
       return token;
     },
@@ -65,6 +71,7 @@ export const authOptions: AuthOptions = {
       if (token && session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email;
+        session.user.favorites = token.favorites ?? [];
       }
       return session;
     },

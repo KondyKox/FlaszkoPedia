@@ -23,7 +23,7 @@ const FilterOptions = ({
     <div className="flex flex-col justify-center items-center gap-8 w-full">
       {/* Filtruj po nazwie */}
       <div className="w-full">
-        <label htmlFor="sortBy" className="label">
+        <label htmlFor="sortBy" className="filter-label">
           Nazwa wódki
         </label>
         <input
@@ -45,7 +45,7 @@ const FilterOptions = ({
 
       {/* Kierunek sortowania */}
       <div className="w-full">
-        <label htmlFor="sortDirection" className="label">
+        <label htmlFor="sortDirection" className="filter-label">
           Kierunek sortowania
         </label>
         <ul

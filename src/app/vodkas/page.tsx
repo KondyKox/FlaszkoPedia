@@ -98,7 +98,7 @@ const Vodkas = () => {
             ) : (
               <Modal isOpen={isModalOpen} onClose={() => toggleModal()}>
                 <div className="w-full flex flex-col justify-start items-center gap-6 rounded-lg px-2 py-4">
-                  <h6 className="sub-header-secondary">Filtrowanie</h6>
+                  <h3 className="sub-header-secondary">Filtrowanie</h3>
 
                   <FilterOptions
                     setSearch={setSearch}
@@ -118,8 +118,8 @@ const Vodkas = () => {
 
         <div className="flex justify-center gap-4 w-full">
           {/* Filter panel */}
-          <div className="min-w-72 hidden xl:flex flex-col justify-start items-center gap-6 bg-button rounded-lg p-4">
-            <h6 className="sub-header-secondary">Filtrowanie</h6>
+          <aside className="min-w-72 hidden xl:flex flex-col justify-start items-center gap-6 bg-button rounded-lg p-4">
+            <h3 className="sub-header-secondary">Filtrowanie</h3>
 
             <FilterOptions
               setSearch={setSearch}
@@ -132,21 +132,23 @@ const Vodkas = () => {
               flavorFilter={flavorFilter}
               setFlavorFilter={setFlavorFilter}
             />
-          </div>
+          </aside>
 
           {/* List of vodkas */}
-          <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full md:w-2/3">
-            {vodkaList?.map((vodka) => (
-              <li key={vodka._id} className="w-full">
-                <Item
-                  vodka={vodka}
-                  selectedVodka={selectedVodka}
-                  setSelectedVodka={setSelectedVodka}
-                  handleVariantChange={handleVariantChange}
-                />
-              </li>
-            ))}
-          </ul>
+          <aside className="w-full md:w-2/3">
+            <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
+              {vodkaList?.map((vodka) => (
+                <li key={vodka._id} className="w-full">
+                  <Item
+                    vodka={vodka}
+                    selectedVodka={selectedVodka}
+                    setSelectedVodka={setSelectedVodka}
+                    handleVariantChange={handleVariantChange}
+                  />
+                </li>
+              ))}
+            </ul>
+          </aside>
         </div>
       </div>
     </section>

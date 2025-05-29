@@ -9,7 +9,7 @@ const FilterList = <T extends string | number>({
 }: FilterListProps<T>) => {
   return (
     <div className="w-full">
-      <label htmlFor={id} className="label">
+      <label htmlFor={id} className="filter-label">
         {label}
       </label>
       <ul id={id} className="w-full grid place-items-stretch grid-cols-2 gap-2">

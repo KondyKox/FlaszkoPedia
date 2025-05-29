@@ -4,16 +4,19 @@ import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 import { VodkaVariant } from "@/types/VodkaProps";
-import { getStoreImage } from "@/lib/utils/vodkaUtils";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Store from "@/components/Store";
+import FavoriteIcon from "@/components/ui/FavoriteIcon";
+import { useSession } from "next-auth/react";
 
 const VodkaPage = () => {
   const params = useParams();
   const id = params?.id as string;
   const { vodka, loading } = useSelectedVodka(id);
   const [selectedVariant, setSelectedVariant] = useState<VodkaVariant>();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (vodka && vodka.variants.length > 0) {
@@ -41,6 +44,11 @@ const VodkaPage = () => {
             <span className="text-orange-500 font-bold">
               {vodka.alcoholPercentage}%
             </span>
+            {status === "authenticated" && (
+              <div className="absolute top-0 right-2 cursor-pointer">
+                <FavoriteIcon vodkaId={vodka._id} />
+              </div>
+            )}
           </div>
           <div className="flex justify-center items-center w-full">
             {vodka.variants.map((variant: VodkaVariant, index: number) => (
@@ -61,16 +69,7 @@ const VodkaPage = () => {
                 key={index}
                 className="flex flex-col justify-center items-center gap-2 text-center"
               >
-                <Image
-                  src={getStoreImage(store.name)}
-                  alt={store.name}
-                  width={64}
-                  height={64}
-                  className="w-8 md:w-10 h-8 md:h-10"
-                />
-                <div className="flex justify-center items-center text-xs">
-                  <span className="font-semibold">{store.price}zł</span>
-                </div>
+                <Store store={store} />
               </li>
             ))}
           </ul>

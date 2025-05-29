@@ -1,4 +1,4 @@
-import { Vodka } from "@/types/VodkaProps";
+import { Store, Vodka } from "@/types/VodkaProps";
 import { normalizeString } from "./normalizeString";
 
 // Filtrowanie po nazwie i po pojemności butelki
@@ -78,6 +78,60 @@ export const calculateAveragePrice = (vodka: Vodka) => {
     variant.averagePrice =
       Math.round((total / variant.stores.length) * 100) / 100;
   });
+};
+
+// Porównaj ceny w poszczególnych sklepach
+export const comparisePrices = (
+  store: Store,
+  vodka: Vodka,
+  selectedVodka: Vodka | null
+) => {
+  if (
+    !selectedVodka ||
+    !selectedVodka.selectedVariant ||
+    !vodka.selectedVariant
+  )
+    return { color: "text-secondary" };
+
+  // Pobranie ceny wybranego wariantu porównywanej wódki
+  const vodkaStore = vodka.selectedVariant.stores.find(
+    (s) => s.name === store.name
+  );
+
+  // Pobranie ceny wybranego wariantu aktualnie wybranej wódki
+  const selectedVodkaStore = selectedVodka.selectedVariant.stores.find(
+    (s) => s.name === store.name
+  );
+
+  if (vodkaStore && selectedVodkaStore) {
+    if (vodkaStore.price < selectedVodkaStore.price)
+      return { color: "text-green-500" }; // Tańsza
+    if (vodkaStore.price > selectedVodkaStore.price)
+      return { color: "text-red-500" }; // Droższa
+  }
+
+  return { color: "text-secondary" }; // Cena taka sama lub brak danych
+};
+
+// Porównaj średnią cenę
+export const compareAveragePrice = (
+  vodka: Vodka,
+  selectedVodka: Vodka | null
+) => {
+  if (
+    !selectedVodka ||
+    !selectedVodka.selectedVariant ||
+    !vodka.selectedVariant
+  )
+    return "text-secondary";
+
+  const vodkaAveragePrice = vodka.selectedVariant.averagePrice;
+  const selectedVodkaAveragePrice = selectedVodka.selectedVariant.averagePrice;
+
+  if (vodkaAveragePrice < selectedVodkaAveragePrice) return "text-green-500"; // Tańsza średnio
+  if (vodkaAveragePrice > selectedVodkaAveragePrice) return "text-red-500"; // Droższa średnio
+
+  return "text-secondary"; // Średnia cena taka sama
 };
 
 // Pobierz zdjęcie na podstawie nazwy sklepu
