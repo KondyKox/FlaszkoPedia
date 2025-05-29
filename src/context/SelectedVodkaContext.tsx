@@ -1,3 +1,5 @@
+"use client";
+
 import { Vodka } from "@/types/VodkaProps";
 import { createContext, useState } from "react";
 

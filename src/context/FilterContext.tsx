@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BOTTLE_SIZE_OPTIONS,
   VODKA_FLAVOR_OPTIONS,
