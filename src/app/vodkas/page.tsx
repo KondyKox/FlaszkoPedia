@@ -3,7 +3,7 @@
 import FilterPanel from "@/components/filter/FilterPanel";
 import Item from "@/components/Item";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modal/Modal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
 import { Vodka, VodkaVariant } from "@/types/VodkaProps";

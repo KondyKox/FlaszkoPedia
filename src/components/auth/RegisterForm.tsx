@@ -1,12 +1,11 @@
-import AuthFormProps from "@/types/AuthFormProps";
+import AuthFormProps from "@/types/AuthProps";
 import LoadingText from "../loading/LoadingText";
+import InputPassword from "../ui/InputPassword";
 
 const RegisterForm = ({
   setEmail,
   setPassword,
   setRepPassword,
-  showPassword,
-  renderEyeIcon,
   loading,
 }: AuthFormProps) => {
   return (
@@ -25,36 +24,18 @@ const RegisterForm = ({
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div className="relative border-2 rounded-xl w-full">
-        <label htmlFor="password" className="label">
-          Hasło
-        </label>
-        <input
-          type={showPassword ? "text" : "password"}
-          id="password"
-          name="password"
-          placeholder="Podaj mi hasło..."
-          required
-          className="input"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {renderEyeIcon()}
-      </div>
-      <div className="relative border-2 rounded-xl w-full">
-        <label htmlFor="repPassword" className="label">
-          Powtórz hasło
-        </label>
-        <input
-          type={showPassword ? "text" : "password"}
-          id="repPassword"
-          name="repPassword"
-          placeholder="Powtórz swoje hasło..."
-          required
-          className="input"
-          onChange={(e) => setRepPassword && setRepPassword(e.target.value)}
-        />
-        {renderEyeIcon()}
-      </div>
+      <InputPassword
+        inputId="password"
+        onChange={(e) => setPassword(e.target.value)}
+        label="Hasło"
+        placeholder="Podaj hasło..."
+      />
+      <InputPassword
+        inputId="repPassword"
+        onChange={(e) => setRepPassword && setRepPassword(e.target.value)}
+        label="Hasło"
+        placeholder="Powtórz swoje hasło..."
+      />
       <button className="btn btn-primary w-full">
         {loading ? <LoadingText /> : "Zarejestruj się"}
       </button>

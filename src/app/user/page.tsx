@@ -3,12 +3,13 @@
 import Item from "@/components/Item";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import LoadingText from "@/components/loading/LoadingText";
-import Modal from "@/components/Modal";
+import ConfirmModal from "@/components/modal/confirm-modal";
 import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { useFavorites } from "@/hooks/useFavorites";
-import { checkPassword, updateUser } from "@/lib/utils/user";
+import { updateUser } from "@/lib/utils/user";
+import { FormData } from "@/types/AuthProps";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -18,16 +19,17 @@ const UserPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data: session, status, update } = useSession();
-  const [newEmail, setNewEmail] = useState<string>(session?.user.email || "");
-  const [newPass, setNewPass] = useState<string>("");
-  const [userPass, setUserPass] = useState<string>("");
+  const [formData, setFormData] = useState<FormData>({
+    email: session?.user.email || "",
+    newPassword: "",
+    userPassword: "",
+  });
   const [feedback, setFeedback] = useState<string>("");
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
   const { animate, triggerAnimation } = useAnimateFeedback();
-  const [checking, setChecking] = useState<boolean>(false);
 
   useEffect(() => {
-    setNewEmail(session?.user.email || "");
+    setFormData((prev) => ({ ...prev, email: session?.user.email || "" }));
   }, [session?.user.email]);
 
   const handleEditClick = async () => {
@@ -37,7 +39,10 @@ const UserPage = () => {
     }
 
     try {
-      const { message, success } = await updateUser(newEmail, newPass);
+      const { message, success } = await updateUser(
+        formData.email,
+        formData.newPassword
+      );
       if (message) setFeedback(message);
 
       setIsSuccessful(success);
@@ -52,39 +57,13 @@ const UserPage = () => {
     setEditing(false);
   };
 
-  const handlePasswordCheck = async () => {
-    try {
-      setChecking(true);
-
-      const { message, success } = await checkPassword(userPass);
-      if (message) setFeedback(message);
-      setIsSuccessful(success);
-
-      if (success) {
-        setTimeout(() => {
-          setEditing(true);
-          setIsModalOpen(false);
-        }, 2000);
-      }
-    } catch (error) {
-      console.error(error);
-      setIsSuccessful(false);
-      setFeedback("Nie udało się sprawdzić hasła.");
-    } finally {
-      setChecking(false);
-    }
-
-    triggerAnimation();
-    setUserPass("");
-  };
-
   if (status === "loading")
-    <LoadingOverlay message="Ładowanie danych użytkownika..." />;
+    return <LoadingOverlay message="Ładowanie danych użytkownika..." />;
 
   return (
     <>
-      <section className="flex justify-center items-center gap-8 flex-col lg:flex-row w-full">
-        <aside className="flex flex-col justify-center items-center gap-4 border-b-2 lg:border-b-0 lg:border-r-2 border-button px-4 py-6 rounded-lg bg-akcent">
+      <section className="flex justify-center gap-8 flex-col lg:flex-row w-full">
+        <aside className="flex flex-col justify-center items-center gap-4 w-full lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-button px-4 py-6 rounded-lg bg-akcent">
           <h2 className="sub-header">
             {editing ? "Edytuj dane" : "Twoje dane"}
           </h2>
@@ -99,9 +78,11 @@ const UserPage = () => {
               id="userEmail"
               name="userEmail"
               type="email"
-              value={newEmail}
+              value={formData.email}
               placeholder="Puste pole = brak zmiany"
-              onChange={(e) => setNewEmail(e.target.value)}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              }
               className={`w-full p-2 text-sm md:text-base outline-none bg-primary rounded-e-lg border-2 ${
                 editing ? "border-button" : "border-primary"
               }`}
@@ -125,8 +106,13 @@ const UserPage = () => {
               type={`${showPassword ? "text" : "password"}`}
               className="w-full p-2 text-sm md:text-base outline-none bg-primary rounded-e-lg border-2 border-button"
               placeholder="Puste pole = brak zmiany"
-              value={newPass}
-              onChange={(e) => setNewPass(e.target.value)}
+              value={formData.newPassword}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  newPassword: e.target.value,
+                }))
+              }
             />
             <CustomEyeIcon
               showPassword={showPassword}
@@ -153,60 +139,36 @@ const UserPage = () => {
             </button>
           </nav>
         </aside>
-        <aside className="flex flex-col justify-center items-center gap-4">
+        <aside className="flex flex-col justify-center items-center gap-4 w-full lg:w-1/2">
           <h2 className="sub-header">Ulubione wódki</h2>
-          {loading ? (
-            <LoadingText />
-          ) : favorites.length === 0 ? (
-            <div>Brak wódek :(</div>
-          ) : (
-            <div>
-              {" "}
-              {/* {favorites.map((fav) => (
-                // <Item
-                //   key={fav._id}
-                //   vodka={fav}
-                //   selectedVodka={null}
-                //   setSelectedVodka={}
-                // />
-              ))} */}
-            </div>
-          )}
+          <div className="flex justify-center items-center w-full">
+            {loading ? (
+              <div className="bg-button rounded-full p-2">
+                <LoadingText />
+              </div>
+            ) : favorites.length === 0 ? (
+              <div>Brak wódek :(</div>
+            ) : (
+              <div className="w-full flex flex-col gap-2 overflow-y-auto">
+                {favorites.map((fav) => (
+                  <div key={fav._id} className="flex-1">
+                    <Item vodka={fav} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </aside>
       </section>
 
       {/* Modal for confirming user's password */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="flex flex-col justify-center items-center gap-6 w-full">
-          <div className="justify-center items-stretch w-full relative flex rounded-xl border-2">
-            <label htmlFor="confirmPassword" className="label">
-              Nowe hasło
-            </label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type={`${showPassword ? "text" : "password"}`}
-              className="input"
-              placeholder="Potwierdź hasło..."
-              value={userPass}
-              onChange={(e) => setUserPass(e.target.value)}
-            />
-            <CustomEyeIcon
-              showPassword={showPassword}
-              togglePassword={() => setShowPassword(!showPassword)}
-            />
-          </div>
-          <button
-            className="btn btn-primary w-full"
-            onClick={() => handlePasswordCheck()}
-          >
-            {checking ? <LoadingText /> : "Potwierdź hasło"}
-          </button>
-          <FeedbackMessage isSuccessful={isSuccessful} animate={animate}>
-            {feedback}
-          </FeedbackMessage>
-        </div>
-      </Modal>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        formData={formData}
+        setFormData={setFormData}
+        setEditing={setEditing}
+      />
     </>
   );
 };

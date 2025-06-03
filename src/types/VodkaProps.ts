@@ -17,7 +17,7 @@ export interface VodkaVariant {
 
 export interface VodkaComponentProps {
   vodka: Vodka;
-  handleVariantChange: (vodkaId: string, variant: VodkaVariant) => void;
+  handleVariantChange?: (vodkaId: string, variant: VodkaVariant) => void;
 }
 
 export interface Store {
