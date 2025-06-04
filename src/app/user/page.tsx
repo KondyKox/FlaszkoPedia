@@ -11,6 +11,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { updateUser } from "@/lib/utils/user";
 import { FormData } from "@/types/AuthProps";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const UserPage = () => {
@@ -21,12 +22,13 @@ const UserPage = () => {
   const { data: session, status, update } = useSession();
   const [formData, setFormData] = useState<FormData>({
     email: session?.user.email || "",
-    newPassword: "",
-    userPassword: "",
+    password: "",
+    repPassword: "",
   });
   const [feedback, setFeedback] = useState<string>("");
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
   const { animate, triggerAnimation } = useAnimateFeedback();
+  const router = useRouter();
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, email: session?.user.email || "" }));
@@ -41,7 +43,7 @@ const UserPage = () => {
     try {
       const { message, success } = await updateUser(
         formData.email,
-        formData.newPassword
+        formData.password
       );
       if (message) setFeedback(message);
 
@@ -59,6 +61,10 @@ const UserPage = () => {
 
   if (status === "loading")
     return <LoadingOverlay message="Ładowanie danych użytkownika..." />;
+
+  if (!session?.user) router.push("/");
+
+  console.log(session?.user.role);
 
   return (
     <>
@@ -106,7 +112,7 @@ const UserPage = () => {
               type={`${showPassword ? "text" : "password"}`}
               className="w-full p-2 text-sm md:text-base outline-none bg-primary rounded-e-lg border-2 border-button"
               placeholder="Puste pole = brak zmiany"
-              value={formData.newPassword}
+              value={formData.password}
               onChange={(e) =>
                 setFormData((prev) => ({
                   ...prev,

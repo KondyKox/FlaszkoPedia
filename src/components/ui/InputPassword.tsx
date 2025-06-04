@@ -23,7 +23,7 @@ const InputPassword = ({
         className="input"
         placeholder={placeholder}
         value={value}
-        onChange={() => onChange}
+        onChange={onChange}
         required
       />
       <CustomEyeIcon

@@ -3,25 +3,26 @@
 import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
 import SocialButton from "@/components/auth/SocialButton";
-import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { registerUser } from "@/lib/utils/auth";
+import { FormData } from "@/types/AuthProps";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const AuthPage = () => {
   const [formType, setFormType] = useState<"login" | "register">("register");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [repPassword, setRepPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
   const [successful, setSuccessful] = useState<boolean>(false);
   const { animate, triggerAnimation } = useAnimateFeedback();
   const router = useRouter();
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    password: "",
+    repPassword: "",
+  });
 
   // UI
   const toggleFormType = () => {
@@ -29,19 +30,10 @@ const AuthPage = () => {
     else if (formType === "login") setFormType("register");
   };
 
-  const renderEyeIcon = () => {
-    return (
-      <CustomEyeIcon
-        showPassword={showPassword}
-        togglePassword={() => setShowPassword(!showPassword)}
-      />
-    );
-  };
-
   // Authorization
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!formData.email || !formData.password) {
       console.warn("All fields are required!");
       return;
     }
@@ -61,21 +53,24 @@ const AuthPage = () => {
   };
 
   const handleRegister = async () => {
-    if (!repPassword) {
+    if (!formData.repPassword) {
       console.warn("All fields are required!");
       return;
     }
 
     try {
       setLoading(true);
-      if (password !== repPassword) {
+      if (formData.password !== formData.repPassword) {
         console.error("Passwords do not match!");
         setFeedback("Hasła się nie zgadzają");
         setSuccessful(false);
         return;
       }
 
-      const { message, success } = await registerUser(email, password);
+      const { message, success } = await registerUser(
+        formData.email,
+        formData.password
+      );
       if (message) setFeedback(message);
       setSuccessful(success);
 
@@ -94,8 +89,8 @@ const AuthPage = () => {
 
       const res = await signIn("credentials", {
         redirect: false,
-        email,
-        password,
+        email: formData.email,
+        password: formData.password,
       });
 
       if (res?.error) {
@@ -126,22 +121,9 @@ const AuthPage = () => {
           {formType === "register" ? "Rejestracja" : "Logowanie"}
         </h2>
         {formType === "register" ? (
-          <RegisterForm
-            setEmail={setEmail}
-            setPassword={setPassword}
-            setRepPassword={setRepPassword}
-            showPassword={showPassword}
-            renderEyeIcon={renderEyeIcon}
-            loading={loading}
-          />
+          <RegisterForm setFormData={setFormData} loading={loading} />
         ) : (
-          <LoginForm
-            setEmail={setEmail}
-            setPassword={setPassword}
-            showPassword={showPassword}
-            renderEyeIcon={renderEyeIcon}
-            loading={loading}
-          />
+          <LoginForm setFormData={setFormData} loading={loading} />
         )}
         <div className="flex justify-center items-center gap-4 w-full lg:w-1/2">
           <SocialButton

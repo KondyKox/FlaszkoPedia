@@ -1,16 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 
 interface AuthFormProps {
-  setEmail: Dispatch<SetStateAction<string>>;
-  setPassword: Dispatch<SetStateAction<string>>;
-  setRepPassword?: Dispatch<SetStateAction<string>>;
+  setFormData: Dispatch<SetStateAction<FormData>>;
   loading: boolean;
 }
 
 export interface FormData {
   email: string;
-  newPassword: string;
-  userPassword: string;
+  password: string;
+  repPassword: string;
 }
 
 export interface InputPasswordProps {

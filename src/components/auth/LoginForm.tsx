@@ -2,7 +2,7 @@ import AuthFormProps from "@/types/AuthProps";
 import LoadingText from "../loading/LoadingText";
 import InputPassword from "../ui/InputPassword";
 
-const LoginForm = ({ setEmail, setPassword, loading }: AuthFormProps) => {
+const LoginForm = ({ setFormData, loading }: AuthFormProps) => {
   return (
     <div className="flex flex-col justify-center items-center gap-4 w-full lg:w-1/2">
       <div className="relative border-2 rounded-xl w-full">
@@ -16,12 +16,16 @@ const LoginForm = ({ setEmail, setPassword, loading }: AuthFormProps) => {
           placeholder="Wpisz swój email..."
           required
           className="input"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, email: e.target.value }))
+          }
         />
       </div>
       <InputPassword
         inputId="password"
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) =>
+          setFormData((prev) => ({ ...prev, password: e.target.value }))
+        }
         label="Hasło"
         placeholder="Wpisz swoje hasło..."
       />

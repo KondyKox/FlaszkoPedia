@@ -28,7 +28,7 @@ export const authOptions: AuthOptions = {
         );
         if (!isValid) throw new Error("Invalid password");
 
-        return { id: user._id.toString(), email: user.email };
+        return { id: user._id.toString(), email: user.email, role: user.role };
       },
     }),
 
@@ -54,6 +54,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.role = user.role;
 
         const dbUser = await User.findOne({ email: user.email });
         token.favorites = dbUser?.favorites ?? [];
@@ -71,6 +72,7 @@ export const authOptions: AuthOptions = {
       if (token && session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email;
+        session.user.role = token.role as "admin" | "user";
         session.user.favorites = token.favorites ?? [];
       }
       return session;

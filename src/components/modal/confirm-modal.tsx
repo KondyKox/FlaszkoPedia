@@ -1,6 +1,5 @@
 import { useState } from "react";
 import LoadingText from "../loading/LoadingText";
-import CustomEyeIcon from "../ui/CustomEyeIcon";
 import FeedbackMessage from "../ui/FeedbackMessage";
 import Modal from "./Modal";
 import { checkPassword } from "@/lib/utils/user";
@@ -27,7 +26,7 @@ const ConfirmModal = ({
     try {
       setChecking(true);
 
-      const { message, success } = await checkPassword(formData.userPassword);
+      const { message, success } = await checkPassword(formData.repPassword);
       if (message) setFeedback(message);
       setIsSuccessful(success);
 
