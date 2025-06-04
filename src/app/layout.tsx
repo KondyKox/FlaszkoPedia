@@ -2,6 +2,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "./providers";
+import { VodkasProvider } from "@/context/VodkasContext";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 
 export default function RootLayout({
   children,
@@ -21,9 +23,13 @@ export default function RootLayout({
       <body>
         <Providers>
           <Navbar />
-          <main className="flex flex-col justify-center items-center p-4 mb-10 min-h-screen">
-            {children}
-          </main>
+          <VodkasProvider>
+            <FavoritesProvider>
+              <main className="flex flex-col justify-center items-center p-4 mb-10 min-h-screen">
+                {children}
+              </main>
+            </FavoritesProvider>
+          </VodkasProvider>
           <Footer />
         </Providers>
       </body>

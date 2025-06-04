@@ -1,31 +1,9 @@
-import { Vodka } from "@/types/VodkaProps";
-import { useCallback, useEffect, useState } from "react";
-import { useVodkas } from "./useVodkas";
+import { FavoritesContext } from "@/context/FavoritesContext";
+import { useContext } from "react";
 
 export const useFavorites = () => {
-  const { vodkas } = useVodkas();
-  const [favorites, setFavorites] = useState<Vodka[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const fetchFavoritesIDs = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const res = await fetch("/api/vodkas/favorites");
-      if (!res.ok) throw new Error("Failed to fetch favorites.");
-
-      const data = await res.json();
-      setFavorites(data);
-    } catch (error) {
-      console.error("useFavorites error:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchFavoritesIDs();
-  }, [fetchFavoritesIDs]);
-
-  return { favorites, loading, refresh: fetchFavoritesIDs };
+  const ctx = useContext(FavoritesContext);
+  if (!ctx)
+    throw new Error("useFavorites must be used within FavoritesProvider.");
+  return ctx;
 };

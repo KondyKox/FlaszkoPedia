@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useFavorites } from "@/hooks/useFavorites";
 import { useState } from "react";
 
 const FavoriteIcon = ({
@@ -10,28 +10,13 @@ const FavoriteIcon = ({
   vodkaId: string;
   size?: number;
 }) => {
-  const { data: session } = useSession();
-  const isFavorite = session?.user?.favorites?.includes(vodkaId);
-  const [favorite, setFavorite] = useState<boolean>(isFavorite || false);
+  const { isFavorite, toggleFavorite, loading } = useFavorites();
+  if (loading) return null;
+
+  const favorite = isFavorite(vodkaId);
 
   const handleClick = async () => {
-    const method = favorite ? "DELETE" : "POST";
-    try {
-      const res = await fetch("/api/vodkas/favorites", {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ vodkaId }),
-      });
-
-      if (!res.ok) throw new Error("Failed to add to favorites.");
-
-      const data = await res.json();
-
-      if (data.success) setFavorite(!favorite);
-      else console.error(data.message);
-    } catch (error) {
-      console.error("toggleFavorite error:", error);
-    }
+    await toggleFavorite(vodkaId);
   };
 
   return (

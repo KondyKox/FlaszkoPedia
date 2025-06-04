@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { checkPassword } from "@/lib/utils/user";
 import { ConfirmModalProps } from "@/types/ModalProps";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
+import InputPassword from "../ui/InputPassword";
 
 const ConfirmModal = ({
   isOpen,
@@ -50,29 +51,17 @@ const ConfirmModal = ({
   return (
     <Modal isOpen={isOpen} onClose={() => onClose()}>
       <div className="flex flex-col justify-center items-center gap-6 w-full">
-        <div className="justify-center items-stretch w-full relative flex rounded-xl border-2">
-          <label htmlFor="confirmPassword" className="label">
-            Nowe hasło
-          </label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type={`${showPassword ? "text" : "password"}`}
-            className="input"
-            placeholder="Potwierdź hasło..."
-            value={formData.userPassword}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                userPassword: e.target.value,
-              }))
-            }
-          />
-          <CustomEyeIcon
-            showPassword={showPassword}
-            togglePassword={() => setShowPassword(!showPassword)}
-          />
-        </div>
+        <InputPassword
+          inputId="confirmPassword"
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              userPassword: e.target.value,
+            }))
+          }
+          label="Nowe hasło"
+          placeholder="Potwierdź hasło..."
+        />
         <button
           className="btn btn-primary w-full"
           onClick={() => handlePasswordCheck()}

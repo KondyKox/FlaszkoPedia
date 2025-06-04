@@ -57,7 +57,7 @@ h6 {
 }
 
 .sub-header-secondary {
-  @apply text-xl md:text-2xl lg:text-3xl text-primary;
+  @apply text-xl md:text-2xl lg:text-3xl bg-button text-primary;
 }
 
 /* Inputs */
@@ -129,6 +129,10 @@ h6 {
 }
 .animated-rounded:hover {
   border-radius: 10%;
+}
+
+.eye-icon {
+  @apply w-6 h-6 absolute -top-1 right-2 translate-y-1/2 cursor-pointer;
 }
 
 /* Scrollbar */

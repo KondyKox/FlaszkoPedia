@@ -77,16 +77,10 @@ export async function DELETE(req: NextRequest) {
 
     await connectToDatabase();
 
-    const user = await User.findOne({ email: token.email });
-    if (!user) {
-      return NextResponse.json(
-        { message: "User not found.", success: false },
-        { status: 404 }
-      );
-    }
-
-    user.favorites = user.favorites.filter((id: string) => id !== vodkaId);
-    await user.save();
+    await User.updateOne(
+      { email: token.email },
+      { $pull: { favorites: vodkaId } }
+    );
 
     return NextResponse.json(
       { message: "Deleted from favorites.", success: true },

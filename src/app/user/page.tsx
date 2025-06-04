@@ -14,7 +14,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const UserPage = () => {
-  const { favorites, loading, refresh } = useFavorites();
+  const { favorites, loading } = useFavorites();
   const [editing, setEditing] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -63,7 +63,7 @@ const UserPage = () => {
   return (
     <>
       <section className="flex justify-center gap-8 flex-col lg:flex-row w-full">
-        <aside className="flex flex-col justify-center items-center gap-4 w-full lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-button px-4 py-6 rounded-lg bg-akcent">
+        <aside className="flex flex-col items-center gap-8 w-full lg:w-1/4 border-b-2 lg:border-b-0 lg:border-r-2 border-button px-4 py-10 rounded-lg bg-akcent">
           <h2 className="sub-header">
             {editing ? "Edytuj dane" : "Twoje dane"}
           </h2>
@@ -139,25 +139,27 @@ const UserPage = () => {
             </button>
           </nav>
         </aside>
-        <aside className="flex flex-col justify-center items-center gap-4 w-full lg:w-1/2">
-          <h2 className="sub-header">Ulubione wódki</h2>
-          <div className="flex justify-center items-center w-full">
-            {loading ? (
-              <div className="bg-button rounded-full p-2">
-                <LoadingText />
-              </div>
-            ) : favorites.length === 0 ? (
-              <div>Brak wódek :(</div>
-            ) : (
-              <div className="w-full flex flex-col gap-2 overflow-y-auto">
-                {favorites.map((fav) => (
-                  <div key={fav._id} className="flex-1">
-                    <Item vodka={fav} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+        <aside className="flex flex-col justify-between items-center gap-4 w-full lg:w-1/3">
+          <h2 className="sub-header-secondary w-full rounded-xl p-2">
+            Ulubione wódki
+          </h2>
+          {loading ? (
+            <div className="bg-button rounded-full py-2 w-full">
+              <LoadingText />
+            </div>
+          ) : favorites.length === 0 ? (
+            <div className="flex flex-1 justify-center items-center text-2xl bg-red-600 text-primary w-full rounded-2xl font-bold uppercase">
+              Brak wódek 😔
+            </div>
+          ) : (
+            <div className="w-full flex flex-col gap-2 overflow-y-auto max-h-[500px]">
+              {favorites.map((fav) => (
+                <div key={fav._id} className="flex-1">
+                  <Item vodka={fav} />
+                </div>
+              ))}
+            </div>
+          )}
         </aside>
       </section>
 
