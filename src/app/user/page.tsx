@@ -11,6 +11,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { updateUser } from "@/lib/utils/user";
 import { FormData } from "@/types/AuthProps";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -62,9 +63,7 @@ const UserPage = () => {
   if (status === "loading")
     return <LoadingOverlay message="Ładowanie danych użytkownika..." />;
 
-  if (!session?.user) router.push("/");
-
-  console.log(session?.user.role);
+  if (!session?.user) router.replace("/");
 
   return (
     <>
@@ -129,22 +128,34 @@ const UserPage = () => {
           <FeedbackMessage isSuccessful={isSuccessful} animate={animate}>
             {feedback}
           </FeedbackMessage>
+
           {/* User buttons */}
-          <nav className="flex justify-center items-center flex-col lg:flex-row gap-4 w-full border-t-2 py-4">
-            <button
-              className="btn btn-primary flex-1 w-full"
-              onClick={() => handleEditClick()}
-            >
-              {editing ? "Zapisz" : "Edycja"}
-            </button>
-            <button
-              className="btn btn-danger flex-1 w-full"
-              onClick={() => signOut()}
-            >
-              Wyloguj
-            </button>
+          <nav className="flex justify-center items-center flex-col gap-4 w-full border-t-2 py-4">
+            <div className="flex justify-center items-center gap-2 w-full">
+              <button
+                className="btn btn-primary flex-1 w-full"
+                onClick={() => handleEditClick()}
+              >
+                {editing ? "Zapisz" : "Edycja"}
+              </button>
+              <button
+                className="btn btn-danger flex-1 w-full"
+                onClick={() => signOut()}
+              >
+                Wyloguj
+              </button>
+            </div>
+            {session?.user.role === "admin" && (
+              <Link
+                href={"/admin"}
+                className="btn btn-secondary py-2 uppercase font-bold flex-1 w-full text-center"
+              >
+                Admin
+              </Link>
+            )}
           </nav>
         </aside>
+
         <aside className="flex flex-col justify-between items-center gap-4 w-full lg:w-1/3">
           <h2 className="sub-header-secondary w-full rounded-xl p-2">
             Ulubione wódki
@@ -158,7 +169,7 @@ const UserPage = () => {
               Brak wódek 😔
             </div>
           ) : (
-            <div className="w-full flex flex-col gap-2 overflow-y-auto max-h-[500px]">
+            <div className="w-full flex flex-col gap-2 overflow-y-auto max-h-[500px] pr-2">
               {favorites.map((fav) => (
                 <div key={fav._id} className="flex-1">
                   <Item vodka={fav} />

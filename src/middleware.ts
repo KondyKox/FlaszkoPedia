@@ -4,25 +4,30 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const { pathname } = req.nextUrl;
 
-  console.log(`Middleware for path: ${req.nextUrl.pathname}`);
+  console.log(`Middleware for path: ${pathname}`);
 
   // Cache-control
-  if (!token && req.nextUrl.pathname === "/")
+  if (!token && pathname === "/")
     NextResponse.next().headers.set("Cache-Control", "public, max-age=60");
 
-  const isAuthPage = req.nextUrl.pathname.startsWith("/auth");
-  const isUserPage = req.nextUrl.pathname.startsWith("/user");
+  const isAuthPage = pathname.startsWith("/auth");
+  const isUserPage = pathname.startsWith("/user");
+  const isAdminPage = pathname.startsWith("/admin");
 
-  if (isUserPage && !token)
+  if ((isUserPage || isAdminPage) && !token)
     return NextResponse.redirect(new URL("/", req.nextUrl));
 
   if (isAuthPage && token)
+    return NextResponse.redirect(new URL("/", req.nextUrl));
+
+  if (isAdminPage && token?.role !== "admin")
     return NextResponse.redirect(new URL("/", req.nextUrl));
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/user/:path*", "/auth/:path*"],
+  matcher: ["/user/:path*", "/auth/:path*", "/admin/:path"],
 };

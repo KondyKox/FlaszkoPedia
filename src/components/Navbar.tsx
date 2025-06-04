@@ -82,6 +82,13 @@ const Navbar = () => {
               Porównywarka cen
             </Link>
           </div>
+
+          <Link
+            href={`${status === "authenticated" ? "/user" : "/auth"}`}
+            className="cursor-pointer rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary hover:drop-shadow-logo"
+          >
+            <UserIcon className="w-10 h-10" />
+          </Link>
         </div>
       )}
     </nav>
