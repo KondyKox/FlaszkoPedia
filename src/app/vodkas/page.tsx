@@ -7,7 +7,7 @@ import Modal from "@/components/modal/Modal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
 import { Vodka, VodkaVariant } from "@/types/VodkaProps";
-import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils";
+import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils/filter";
 import { useEffect, useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
 

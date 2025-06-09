@@ -1,4 +1,3 @@
-import { getStoreImage } from "@/lib/utils/vodkaUtils";
 import { StoreComponentProps } from "@/types/VodkaProps";
 import Image from "next/image";
 
@@ -6,7 +5,7 @@ const Store = ({ store, className }: StoreComponentProps) => {
   return (
     <>
       <Image
-        src={getStoreImage(store.name)}
+        src={store.image}
         alt={store.name}
         width={64}
         height={64}

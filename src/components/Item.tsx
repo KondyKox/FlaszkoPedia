@@ -2,7 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { compareAveragePrice, comparisePrices } from "@/lib/utils/vodkaUtils";
+import {
+  compareAveragePrice,
+  comparisePrices,
+} from "@/lib/utils/vodkaUtils/price";
 import { Vodka, VodkaComponentProps } from "@/types/VodkaProps";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import Store from "./Store";
@@ -61,9 +64,9 @@ const Item = ({ vodka, handleVariantChange }: VodkaComponentProps) => {
           <h4 className="transition-all duration-500 ease-in-out group-hover:text-primary">
             {vodka.name}
           </h4>
-          <span className="text-orange-500 font-bold">
+          <h4 className="text-orange-500 font-bold">
             {vodka.alcoholPercentage}%
-          </span>
+          </h4>
         </div>
 
         {/* Favorite icon */}

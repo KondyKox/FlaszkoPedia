@@ -1,6 +1,5 @@
 "use client";
 
-import { calculateAveragePrice } from "@/lib/utils/vodkaUtils";
 import { Vodka } from "@/types/VodkaProps";
 import { createContext, useEffect, useState } from "react";
 
@@ -27,14 +26,7 @@ export const VodkasProvider = ({ children }: { children: React.ReactNode }) => {
       if (!response.ok) throw new Error("Nie udało się pobrać wódek.");
 
       const data: Vodka[] = await response.json();
-
-      const withAverage = data.map((vodka) => ({
-        ...vodka,
-        averagePrice: calculateAveragePrice(vodka),
-        selectedVariant: vodka.variants[0],
-      }));
-
-      setVodkas(withAverage);
+      setVodkas(data);
     } catch (err) {
       console.error("Błąd przy fetchowaniu wódek:", err);
     } finally {

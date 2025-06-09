@@ -1,6 +1,7 @@
 import Vodka from "@/lib/models/Vodka";
 import { connectToDatabase } from "@/lib/mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { formatVodkaForFrontend } from "@/lib/utils/vodkaUtils/format";
+import { NextResponse } from "next/server";
 
 // GET /api/vodkas
 export async function GET() {
@@ -10,30 +11,6 @@ export async function GET() {
   if (!vodkas || vodkas.length === 0)
     return NextResponse.json({ message: "No vodkas found!" }, { status: 404 });
 
-  return NextResponse.json(vodkas);
-}
-
-// POST /api/vodkas
-export async function POST(req: NextRequest) {
-  try {
-    const { name, averagePrice, bottleSize, alcoholPercentage, stores } =
-      await req.json();
-
-    await connectToDatabase();
-    const newVodka = new Vodka({
-      name,
-      averagePrice,
-      bottleSize,
-      alcoholPercentage,
-      stores,
-    });
-
-    await newVodka.save();
-    return NextResponse.json(newVodka, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Error during adding vodka." },
-      { status: 500 }
-    );
-  }
+  const formatted = vodkas.map(formatVodkaForFrontend);
+  return NextResponse.json(formatted);
 }
