@@ -41,11 +41,11 @@ const VodkaPage = () => {
         <div className="flex flex-col justify-center items-center gap-4 lg:scale-125 xl:scale-150">
           <div className="flex justify-center items-center gap-6">
             <h2 className="sub-header">{vodka.name}</h2>
-            <span className="text-orange-500 font-bold">
+            <h2 className="sub-header text-orange-500 font-bold">
               {vodka.alcoholPercentage}%
-            </span>
+            </h2>
             {status === "authenticated" && (
-              <div className="absolute top-0 right-2 cursor-pointer">
+              <div className="absolute top-0 right-0 cursor-pointer">
                 <FavoriteIcon vodkaId={vodka._id} />
               </div>
             )}
