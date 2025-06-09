@@ -28,7 +28,12 @@ export const authOptions: AuthOptions = {
         );
         if (!isValid) throw new Error("Invalid password");
 
-        return { id: user._id.toString(), email: user.email, role: user.role };
+        return {
+          id: user._id.toString(),
+          _id: user._id.toString(),
+          email: user.email,
+          role: user.role,
+        };
       },
     }),
 
@@ -52,7 +57,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (user) {
-        token.id = user.id;
+        token._id = user._id;
         token.email = user.email;
         token.role = user.role;
 
@@ -70,7 +75,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id as string;
+        session.user._id = token._id as string;
         session.user.email = token.email;
         session.user.role = token.role as "admin" | "user";
         session.user.favorites = token.favorites ?? [];
