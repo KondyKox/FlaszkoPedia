@@ -7,7 +7,7 @@ import { ConfirmModalProps } from "@/types/ModalProps";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import InputPassword from "../ui/InputPassword";
 
-const ConfirmModal = ({
+const ConfirmPassword = ({
   isOpen,
   onClose,
   formData,
@@ -19,7 +19,6 @@ const ConfirmModal = ({
   const [checking, setChecking] = useState<boolean>(false);
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { animate, triggerAnimation } = useAnimateFeedback();
 
   const handlePasswordCheck = async () => {
@@ -47,6 +46,7 @@ const ConfirmModal = ({
     triggerAnimation();
     setFormData((prev) => ({ ...prev, userPassword: "" }));
   };
+
   return (
     <Modal isOpen={isOpen} onClose={() => onClose()}>
       <div className="flex flex-col justify-center items-center gap-6 w-full">
@@ -75,4 +75,4 @@ const ConfirmModal = ({
   );
 };
 
-export default ConfirmModal;
+export default ConfirmPassword;

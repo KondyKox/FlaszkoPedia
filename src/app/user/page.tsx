@@ -3,7 +3,7 @@
 import Item from "@/components/Item";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import LoadingText from "@/components/loading/LoadingText";
-import ConfirmModal from "@/components/modal/confirm-modal";
+import ConfirmPassword from "@/components/modal/confirm-password";
 import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
@@ -181,7 +181,7 @@ const UserPage = () => {
       </section>
 
       {/* Modal for confirming user's password */}
-      <ConfirmModal
+      <ConfirmPassword
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         formData={formData}
