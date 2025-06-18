@@ -1,19 +1,18 @@
+import { ModalProps } from "@/types/ModalProps";
 import { XMarkIcon } from "@heroicons/react/16/solid";
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-}
-
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  children,
+}: ModalProps & { children: React.ReactNode }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 w-full bg-slate-900 bg-opacity-70">
       <div
-        className="group rounded-lg py-32 px-4 md:px-8 mx-4 w-full md:w-2/3 lg:w-1/2 flex flex-col justify-center items-center
-                    transition-all duration-300 ease-in-out relative bg-gradient-secondary"
+        className="group rounded-lg py-10 px-4 md:px-8 mx-4 w-full md:w-2/3 lg:w-1/2 flex flex-col justify-center items-center
+                    transition-all duration-300 ease-in-out relative bg-gradient-secondary max-h-screen overflow-y-auto"
       >
         <button
           onClick={onClose}

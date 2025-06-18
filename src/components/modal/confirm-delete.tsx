@@ -1,20 +1,18 @@
-import { ConfirmDeleteProps } from "@/types/ModalProps";
+import { VodkaModalProps } from "@/types/ModalProps";
 import Modal from "./Modal";
 import FeedbackMessage from "../ui/FeedbackMessage";
 import { useState } from "react";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
-import { useVodkas } from "@/hooks/useVodkas";
 import { deleteVodka } from "@/lib/utils/admin/vodkas";
 
 const ConfirmDelete = ({
   isOpen,
   onClose,
   selectedVodka,
-  setSelectedVodka,
-}: ConfirmDeleteProps) => {
+  refreshVodkas,
+}: VodkaModalProps) => {
   if (!isOpen) return;
 
-  const { refreshVodkas } = useVodkas();
   const [successful, setSuccessful] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>("");
   const { animate, triggerAnimation } = useAnimateFeedback();
@@ -27,10 +25,6 @@ const ConfirmDelete = ({
       const { message, success } = await deleteVodka(vodkaId);
       if (message) setFeedback(message);
       setSuccessful(success);
-
-      if (success) {
-        setTimeout(() => onClose(), 2000);
-      }
     } catch (error) {
       setSuccessful(false);
       setFeedback("Nie udało się usunąć wódki.");
@@ -38,9 +32,9 @@ const ConfirmDelete = ({
     }
 
     triggerAnimation();
-    setTimeout(async () => {
-      setSelectedVodka(null);
-      await refreshVodkas();
+    setTimeout(() => {
+      onClose();
+      refreshVodkas();
     }, 2000);
   };
 

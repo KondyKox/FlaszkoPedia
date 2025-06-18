@@ -61,11 +61,11 @@ const Item = ({ vodka, handleVariantChange }: VodkaComponentProps) => {
         onClick={() => handleVodkaClick(vodka)}
       >
         <div className="flex md:gap-4 flex-col md:flex-row justify-center items-center scale-110 md:scale-125">
-          <h4 className="transition-all duration-500 ease-in-out group-hover:text-primary">
+          <h4 className="transition-all duration-500 ease-in-out group-hover:text-primary flex gap-2">
             {vodka.name}
-          </h4>
-          <h4 className="text-orange-500 font-bold">
-            {vodka.alcoholPercentage}%
+            <span className="text-orange-500 font-bold">
+              {vodka.alcoholPercentage}%
+            </span>
           </h4>
         </div>
 
