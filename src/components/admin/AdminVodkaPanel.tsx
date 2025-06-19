@@ -9,7 +9,7 @@ const AdminVodkaPanel = () => {
   const { vodkas, loading, refreshVodkas } = useVodkas();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedVodka, setSelectedVodka] = useState<Vodka | null>(null);
-  const [modalType, setModalType] = useState<"edit" | "delete">("edit");
+  const [modalType, setModalType] = useState<"add" | "edit" | "delete">("add");
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -32,6 +32,12 @@ const AdminVodkaPanel = () => {
     setModalType("edit");
     setIsModalOpen(true);
     setSelectedVodka(vodka);
+  };
+
+  // Add new vodka
+  const handleAddVodka = () => {
+    setModalType("add");
+    setIsModalOpen(true);
   };
 
   if (loading) return <LoadingText />;
@@ -64,6 +70,9 @@ const AdminVodkaPanel = () => {
             </li>
           ))}
         </ul>
+        <button className="btn btn-primary uppercase" onClick={handleAddVodka}>
+          Dodaj wódkę
+        </button>
       </div>
       {modalType === "delete" ? (
         <ConfirmDelete
@@ -78,7 +87,7 @@ const AdminVodkaPanel = () => {
           onClose={closeModal}
           selectedVodka={selectedVodka}
           refreshVodkas={refreshVodkas}
-          action="edit"
+          action={modalType}
         />
       )}
     </>

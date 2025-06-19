@@ -1,3 +1,4 @@
+import { STORE_LIST } from "@/constants/stores";
 import { VodkaFormData } from "@/types/VodkaProps";
 
 export const addVodka = async (formData: VodkaFormData) => {
@@ -78,15 +79,15 @@ export const getInitialFormData = (
       variants: selectedVodka.variants ?? [
         {
           volume: 0.5,
-          stores: [],
+          stores: generateEmptyStores(),
         },
         {
           volume: 0.7,
-          stores: [],
+          stores: generateEmptyStores(),
         },
         {
           volume: 1,
-          stores: [],
+          stores: generateEmptyStores(),
         },
       ],
       description: selectedVodka.description ?? "",
@@ -101,17 +102,25 @@ export const getInitialFormData = (
     variants: [
       {
         volume: 0.5,
-        stores: [],
+        stores: generateEmptyStores(),
       },
       {
         volume: 0.7,
-        stores: [],
+        stores: generateEmptyStores(),
       },
       {
         volume: 1,
-        stores: [],
+        stores: generateEmptyStores(),
       },
     ],
     description: "",
   };
 };
+
+const generateEmptyStores = () =>
+  STORE_LIST.map((store) => ({
+    name: store.name,
+    image: store.image,
+    priceHistory: [],
+    price: 0,
+  }));

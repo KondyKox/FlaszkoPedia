@@ -7,6 +7,35 @@ import { NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET as string;
 
+export async function PUT(req: NextRequest) {
+  try {
+    const token = await getToken({ req, secret });
+    if (!token || token.role !== "admin") {
+      return NextResponse.json(
+        { message: "Brak autoryzacji.", success: false },
+        { status: 403 }
+      );
+    }
+
+    const { formData } = await req.json();
+
+    await connectToDatabase();
+
+    const vodka = await Vodka.create(formData);
+
+    return NextResponse.json(
+      { message: "Dodano nową wódkę.", vodka, success: true },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Adding vodka error:", error);
+    return NextResponse.json(
+      { message: "Server Error", success: false, error: String(error) },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(req: NextRequest) {
   try {
     const token = await getToken({ req, secret });
