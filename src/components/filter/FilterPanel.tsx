@@ -8,6 +8,7 @@ import {
 } from "@/constants/filterOptions";
 import FilterList from "./FilterList";
 import { useFilters } from "@/hooks/useFilters";
+import { useSession } from "next-auth/react";
 
 const FilterPanel = ({ setSearch }: FilterPanelProps) => {
   const {
@@ -19,21 +20,49 @@ const FilterPanel = ({ setSearch }: FilterPanelProps) => {
     setSortAscending,
     setBottleSizeFilter,
     setFlavorFilter,
+    onlyFavorites,
+    setOnlyFavorites,
   } = useFilters();
+  const { data: session, status } = useSession();
 
   return (
     <div className="flex flex-col justify-center items-center gap-8 w-full">
-      {/* Filtruj po nazwie */}
-      <div className="w-full">
-        <label htmlFor="sortBy" className="filter-label">
-          Nazwa wódki
-        </label>
-        <input
-          type="text"
-          placeholder="Tu wpisz nazwę..."
-          onChange={(e) => setSearch(e.target.value)}
-          className="input"
-        />
+      <div className="w-full flex flex-col gap-4">
+        {/* Filtruj po nazwie */}
+        <div className="w-full">
+          <label htmlFor="sortBy" className="filter-label">
+            Nazwa wódki
+          </label>
+          <input
+            id="sortBy"
+            name="sortBy"
+            type="text"
+            placeholder="Tu wpisz nazwę..."
+            onChange={(e) => setSearch(e.target.value)}
+            className="input"
+          />
+        </div>
+
+        {/* Filtruj tylko ulubione */}
+        {status === "authenticated" && (
+          <div className="w-full flex justify-between items-center">
+            <label htmlFor="onlyFav" className="filter-label">
+              Tylko ulubione
+            </label>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="onlyFav"
+                name="onlyFav"
+                checked={onlyFavorites}
+                onChange={(e) => setOnlyFavorites(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-400 rounded-full peer peer-checked:bg-header transition-all duration-300 ease-in-out"></div>
+              <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-primary rounded-full transition-all duration-300 peer-checked:translate-x-full"></div>
+            </label>
+          </div>
+        )}
       </div>
 
       {/* Kryterium sortowania */}

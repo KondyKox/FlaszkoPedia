@@ -20,6 +20,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
   const [flavorFilter, setFlavorFilter] = useState<string>(
     VODKA_FLAVOR_OPTIONS[0].value
   );
+  const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
 
   return (
     <FilterContext.Provider
@@ -32,6 +33,8 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
         setBottleSizeFilter,
         flavorFilter,
         setFlavorFilter,
+        onlyFavorites,
+        setOnlyFavorites,
       }}
     >
       {children}

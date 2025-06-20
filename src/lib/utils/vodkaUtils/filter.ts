@@ -1,12 +1,15 @@
 import { VodkaProps } from "@/types/VodkaProps";
 import { normalizeString } from "../normalizeString";
+import { Session } from "next-auth";
 
 // Filtrowanie po nazwie i po pojemności butelki
 export const filterVodkas = (
   vodkas: VodkaProps[],
   search: string,
   flavorFilter: string,
-  bottleSizeFilter: number
+  bottleSizeFilter: number,
+  onlyFavorites: boolean,
+  session: Session | null
 ) => {
   let filteredVodkas = vodkas.filter((vodka) =>
     normalizeString(vodka.name).includes(normalizeString(search))
@@ -16,6 +19,12 @@ export const filterVodkas = (
     filteredVodkas = filteredVodkas.filter(
       (vodka) => vodka.flavor === flavorFilter
     );
+
+  if (onlyFavorites && session?.user?.favorites) {
+    filteredVodkas = filteredVodkas.filter((vodka) =>
+      session.user.favorites?.includes(vodka._id)
+    );
+  }
 
   // Filtrowanie po pojemności (modyfikacja selectedVariant)
   filteredVodkas = filteredVodkas.map((vodka) => {
@@ -49,14 +58,14 @@ export const sortVodkas = (
         const aAveragePrice =
           a.variants.length > 0
             ? a.variants.reduce(
-                (sum, variant) => sum + variant.averagePrice,
+                (sum, variant) => sum + variant.averagePrice!,
                 0
               ) / a.variants.length
             : 0;
         const bAveragePrice =
           b.variants.length > 0
             ? b.variants.reduce(
-                (sum, variant) => sum + variant.averagePrice,
+                (sum, variant) => sum + variant.averagePrice!,
                 0
               ) / b.variants.length
             : 0;

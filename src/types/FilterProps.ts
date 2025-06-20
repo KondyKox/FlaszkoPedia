@@ -9,6 +9,8 @@ export interface FilterOptions {
   setSortAscending: Dispatch<SetStateAction<boolean>>;
   setBottleSizeFilter: Dispatch<SetStateAction<number>>;
   setFlavorFilter: Dispatch<SetStateAction<string>>;
+  onlyFavorites: boolean;
+  setOnlyFavorites: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface FilterPanelProps {

@@ -5,33 +5,29 @@ import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import Modal from "@/components/modal/Modal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
-import { VodkaProps, VodkaVariant } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils/filter";
 import { useEffect, useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
 import Vodka from "@/components/Vodka";
+import { useSession } from "next-auth/react";
 
 const VodkasPage = () => {
   const { vodkas, loading } = useVodkas();
-  const { sortBy, sortAscending, bottleSizeFilter, flavorFilter } =
-    useFilters();
+  const {
+    sortBy,
+    sortAscending,
+    bottleSizeFilter,
+    flavorFilter,
+    onlyFavorites,
+  } = useFilters();
   const [vodkaList, setVodkaList] = useState<VodkaProps[] | null>(null);
   const [search, setSearch] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(1024);
+  const { data: session, status } = useSession();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-  // Change vodka's selected variant
-  const handleVariantChange = (vodkaId: string, variant: VodkaVariant) => {
-    setVodkaList((prevVodkas) =>
-      prevVodkas
-        ? prevVodkas.map((v) =>
-            v._id === vodkaId ? { ...v, selectedVariant: variant } : v
-          )
-        : []
-    );
-  };
 
   useEffect(() => {
     if (loading || !vodkas) return;
@@ -47,7 +43,9 @@ const VodkasPage = () => {
       vodkas,
       search,
       flavorFilter,
-      bottleSizeFilter
+      bottleSizeFilter,
+      onlyFavorites,
+      session
     );
     const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
 
@@ -60,6 +58,7 @@ const VodkasPage = () => {
     sortBy,
     sortAscending,
     flavorFilter,
+    onlyFavorites,
   ]);
 
   if (loading) return <LoadingOverlay message="Wczytuję alkohol..." />;
