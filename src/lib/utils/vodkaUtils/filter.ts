@@ -1,9 +1,9 @@
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { normalizeString } from "../normalizeString";
 
 // Filtrowanie po nazwie i po pojemności butelki
 export const filterVodkas = (
-  vodkas: Vodka[],
+  vodkas: VodkaProps[],
   search: string,
   flavorFilter: string,
   bottleSizeFilter: number
@@ -33,7 +33,7 @@ export const filterVodkas = (
 
 // Sortowanie flaszek
 export const sortVodkas = (
-  vodkas: Vodka[],
+  vodkas: VodkaProps[],
   sortBy: string,
   sortAscending: boolean
 ) => {

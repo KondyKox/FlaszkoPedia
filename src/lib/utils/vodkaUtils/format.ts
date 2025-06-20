@@ -1,8 +1,8 @@
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { calculateAveragePrice, getLastPriceFromHistory } from "./price";
 
 // Format vodka object
-export const formatVodkaForFrontend = (vodka: Vodka) => {
+export const formatVodkaForFrontend = (vodka: VodkaProps) => {
   const variants = vodka.variants.map((variant) => {
     const stores = variant.stores.map((store) => {
       const priceHistory = store.priceHistory ?? [];

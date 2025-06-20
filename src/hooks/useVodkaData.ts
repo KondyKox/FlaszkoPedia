@@ -1,4 +1,4 @@
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import {
   calculateAveragePrice,
   getLastPriceFromHistory,
@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
  * @returns {object} - Object with 'vodka' and 'loading' state
  */
 export const useVodkaData = (id: string) => {
-  const [vodka, setVodka] = useState<Vodka | null>(null);
+  const [vodka, setVodka] = useState<VodkaProps | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const useVodkaData = (id: string) => {
         const res = await fetch(`/api/vodkas/${id}`);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
-        const data: Vodka = await res.json();
+        const data: VodkaProps = await res.json();
 
         const variantsWithAvg = data.variants.map((variant) => {
           const stores = variant.stores.map((store) => ({

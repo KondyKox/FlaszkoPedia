@@ -1,14 +1,18 @@
 "use client";
 
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { createContext, useEffect, useState } from "react";
 
 interface VodkasContextType {
-  vodkas: Vodka[];
+  vodkas: VodkaProps[];
   loading: boolean;
+  handleVariantChange: (
+    vodkaId: string,
+    variant: VodkaProps["selectedVariant"]
+  ) => void;
   refreshVodkas: () => Promise<void>;
-  addVodka: (vodka: Vodka) => void;
-  updateVodka: (updatedVodka: Vodka) => void;
+  addVodka: (vodka: VodkaProps) => void;
+  updateVodka: (updatedVodka: VodkaProps) => void;
   deleteVodka: (id: string) => void;
 }
 
@@ -17,7 +21,7 @@ export const VodkasContext = createContext<VodkasContextType | undefined>(
 );
 
 export const VodkasProvider = ({ children }: { children: React.ReactNode }) => {
-  const [vodkas, setVodkas] = useState<Vodka[]>([]);
+  const [vodkas, setVodkas] = useState<VodkaProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchVodkas = async () => {
@@ -25,8 +29,13 @@ export const VodkasProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await fetch("/api/vodkas");
       if (!response.ok) throw new Error("Nie udało się pobrać wódek.");
 
-      const data: Vodka[] = await response.json();
-      setVodkas(data);
+      const data: VodkaProps[] = await response.json();
+
+      const sorted = data.sort((a, b) =>
+        a.name.localeCompare(b.name, "pl", { sensitivity: "base" })
+      );
+
+      setVodkas(sorted);
     } catch (err) {
       console.error("Błąd przy fetchowaniu wódek:", err);
     } finally {
@@ -38,17 +47,30 @@ export const VodkasProvider = ({ children }: { children: React.ReactNode }) => {
     fetchVodkas();
   }, []);
 
+  // Change vodka variant
+  const handleVariantChange = (
+    vodkaId: string,
+    variant: VodkaProps["selectedVariant"]
+  ) => {
+    setVodkas((prev) =>
+      prev.map((v) =>
+        v._id === vodkaId ? { ...v, selectedVariant: variant } : v
+      )
+    );
+  };
+
+  // Refresh vodkas list
   const refreshVodkas = async () => {
     setLoading(true);
     await fetchVodkas();
   };
 
   // TODO: Update in MongoDB
-  const addVodka = (vodka: Vodka) => {
+  const addVodka = (vodka: VodkaProps) => {
     setVodkas((prev) => [...prev, vodka]);
   };
 
-  const updateVodka = (updated: Vodka) => {
+  const updateVodka = (updated: VodkaProps) => {
     setVodkas((prev) => prev.map((v) => (v._id === updated._id ? updated : v)));
   };
 
@@ -61,6 +83,7 @@ export const VodkasProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         vodkas,
         loading,
+        handleVariantChange,
         refreshVodkas,
         addVodka,
         updateVodka,

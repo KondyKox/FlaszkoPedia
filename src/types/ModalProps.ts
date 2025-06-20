@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { FormData } from "./AuthProps";
-import { Vodka, VodkaFormData } from "./VodkaProps";
+import { VodkaProps, VodkaFormData } from "./VodkaProps";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ export interface ConfirmModalProps extends ModalProps {
 }
 
 export interface VodkaModalProps extends ModalProps {
-  selectedVodka: Vodka | null;
+  selectedVodka: VodkaProps | null;
   refreshVodkas: () => void;
 }
 

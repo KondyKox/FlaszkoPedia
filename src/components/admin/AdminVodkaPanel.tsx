@@ -1,14 +1,14 @@
 import { useVodkas } from "@/hooks/useVodkas";
 import LoadingText from "../loading/LoadingText";
 import { useState } from "react";
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import ConfirmDelete from "../modal/confirm-delete";
 import VodkaModal from "../modal/vodka-modal";
 
 const AdminVodkaPanel = () => {
   const { vodkas, loading, refreshVodkas } = useVodkas();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedVodka, setSelectedVodka] = useState<Vodka | null>(null);
+  const [selectedVodka, setSelectedVodka] = useState<VodkaProps | null>(null);
   const [modalType, setModalType] = useState<"add" | "edit" | "delete">("add");
 
   const closeModal = () => {
@@ -17,7 +17,7 @@ const AdminVodkaPanel = () => {
   };
 
   // Delete vodka
-  const confirmDeleteVodka = (vodka: Vodka) => {
+  const confirmDeleteVodka = (vodka: VodkaProps) => {
     if (!vodka) return;
 
     setModalType("delete");
@@ -26,7 +26,7 @@ const AdminVodkaPanel = () => {
   };
 
   // Update vodka
-  const handleUpdateVodka = (vodka: Vodka) => {
+  const handleUpdateVodka = (vodka: VodkaProps) => {
     if (!vodka) return;
 
     setModalType("edit");

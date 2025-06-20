@@ -1,21 +1,21 @@
 "use client";
 
 import FilterPanel from "@/components/filter/FilterPanel";
-import Item from "@/components/Item";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import Modal from "@/components/modal/Modal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
-import { Vodka, VodkaVariant } from "@/types/VodkaProps";
+import { VodkaProps, VodkaVariant } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils/filter";
 import { useEffect, useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
+import Vodka from "@/components/Vodka";
 
-const Vodkas = () => {
+const VodkasPage = () => {
   const { vodkas, loading } = useVodkas();
   const { sortBy, sortAscending, bottleSizeFilter, flavorFilter } =
     useFilters();
-  const [vodkaList, setVodkaList] = useState<Vodka[] | null>(null);
+  const [vodkaList, setVodkaList] = useState<VodkaProps[] | null>(null);
   const [search, setSearch] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(1024);
@@ -101,10 +101,7 @@ const Vodkas = () => {
             <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
               {vodkaList?.map((vodka) => (
                 <li key={vodka._id} className="w-full">
-                  <Item
-                    vodka={vodka}
-                    handleVariantChange={handleVariantChange}
-                  />
+                  <Vodka vodka={vodka} />
                 </li>
               ))}
             </ul>
@@ -115,4 +112,4 @@ const Vodkas = () => {
   );
 };
 
-export default Vodkas;
+export default VodkasPage;

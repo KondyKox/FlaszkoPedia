@@ -1,6 +1,6 @@
 "use client";
 
-import Item from "@/components/Item";
+import Vodka from "@/components/Vodka";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import LoadingText from "@/components/loading/LoadingText";
 import ConfirmPassword from "@/components/modal/confirm-password";
@@ -172,7 +172,7 @@ const UserPage = () => {
             <div className="w-full flex flex-col gap-2 overflow-y-auto max-h-[500px] pr-2">
               {favorites.map((fav) => (
                 <div key={fav._id} className="flex-1">
-                  <Item vodka={fav} />
+                  <Vodka vodka={fav} />
                 </div>
               ))}
             </div>

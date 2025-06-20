@@ -6,22 +6,24 @@ import {
   compareAveragePrice,
   comparisePrices,
 } from "@/lib/utils/vodkaUtils/price";
-import { Vodka, VodkaComponentProps } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import Store from "./Store";
 import FavoriteIcon from "./ui/FavoriteIcon";
 import { useSession } from "next-auth/react";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
+import { useVodkas } from "@/hooks/useVodkas";
 
-const Item = ({ vodka, handleVariantChange }: VodkaComponentProps) => {
+const Vodka = ({ vodka }: { vodka: VodkaProps }) => {
   const { selectedVodka, setSelectedVodka } = useSelectedVodka();
+  const { handleVariantChange } = useVodkas();
   const selected = vodka === selectedVodka;
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
   const { data: session, status } = useSession();
 
   // Select vodka on click
-  const handleVodkaClick = (vodka: Vodka) => {
+  const handleVodkaClick = (vodka: VodkaProps) => {
     if (!vodka) return;
 
     if (selectedVodka === vodka) {
@@ -150,4 +152,4 @@ const Item = ({ vodka, handleVariantChange }: VodkaComponentProps) => {
   );
 };
 
-export default Item;
+export default Vodka;

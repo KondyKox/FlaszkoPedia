@@ -125,7 +125,7 @@ const AuthPage = () => {
         ) : (
           <LoginForm setFormData={setFormData} loading={loading} />
         )}
-        <div className="flex justify-center items-center gap-4 w-full lg:w-1/2">
+        {/* <div className="flex justify-center items-center gap-4 w-full lg:w-1/2">
           <SocialButton
             provider="google"
             setFeedback={setFeedback}
@@ -136,7 +136,7 @@ const AuthPage = () => {
             setFeedback={setFeedback}
             setSuccessful={setSuccessful}
           />
-        </div>
+        </div> */}
         <FeedbackMessage isSuccessful={successful} animate={animate}>
           {feedback}
         </FeedbackMessage>

@@ -1,11 +1,11 @@
 "use client";
 
 import { useVodkas } from "@/hooks/useVodkas";
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { createContext, useCallback, useEffect, useState } from "react";
 
 interface FavoritesContextType {
-  favorites: Vodka[];
+  favorites: VodkaProps[];
   isFavorite: (id: string) => boolean;
   toggleFavorite: (id: string) => void;
   loading: boolean;
@@ -20,7 +20,7 @@ export const FavoritesProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [favorites, setFavorites] = useState<Vodka[]>([]);
+  const [favorites, setFavorites] = useState<VodkaProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { vodkas } = useVodkas();
 
@@ -28,7 +28,7 @@ export const FavoritesProvider = ({
     try {
       const res = await fetch("/api/vodkas/favorites");
       if (!res.ok) throw new Error("Błąd ładowania ulubionych.");
-      const data: Vodka[] = await res.json();
+      const data: VodkaProps[] = await res.json();
       setFavorites(data);
     } catch (err) {
       console.error("Favorites fetch error:", err);

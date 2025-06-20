@@ -1,5 +1,5 @@
 // Types
-export interface Vodka {
+export interface VodkaProps {
   _id: string;
   name: string;
   imageSrc: string;
@@ -35,12 +35,6 @@ export interface Store {
   image: string;
   priceHistory: PriceHistory[];
   price: number;
-}
-
-// Component props
-export interface VodkaComponentProps {
-  vodka: Vodka;
-  handleVariantChange?: (vodkaId: string, variant: VodkaVariant) => void;
 }
 
 export interface InputGroupProps {

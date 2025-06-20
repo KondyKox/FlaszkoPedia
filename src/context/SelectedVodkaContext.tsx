@@ -1,11 +1,11 @@
 "use client";
 
-import { Vodka } from "@/types/VodkaProps";
+import { VodkaProps } from "@/types/VodkaProps";
 import { createContext, useState } from "react";
 
 interface SelectedVodkaContextType {
-  selectedVodka: Vodka | null;
-  setSelectedVodka: (vodka: Vodka | null) => void;
+  selectedVodka: VodkaProps | null;
+  setSelectedVodka: (vodka: VodkaProps | null) => void;
 }
 
 export const SelectedVodkaContext = createContext<
@@ -17,7 +17,7 @@ export const SelectedVodkaProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [selectedVodka, setSelectedVodka] = useState<Vodka | null>(null);
+  const [selectedVodka, setSelectedVodka] = useState<VodkaProps | null>(null);
 
   return (
     <SelectedVodkaContext.Provider value={{ selectedVodka, setSelectedVodka }}>

@@ -1,10 +1,10 @@
-import { PriceHistory, Store, Vodka } from "@/types/VodkaProps";
+import { PriceHistory, Store, VodkaProps } from "@/types/VodkaProps";
 
 // Porównaj ceny w poszczególnych sklepach
 export const comparisePrices = (
   store: Store,
-  vodka: Vodka,
-  selectedVodka: Vodka | null
+  vodka: VodkaProps,
+  selectedVodka: VodkaProps | null
 ) => {
   if (
     !selectedVodka ||
@@ -41,8 +41,8 @@ export const comparisePrices = (
 
 // Porównaj średnią cenę
 export const compareAveragePrice = (
-  vodka: Vodka,
-  selectedVodka: Vodka | null
+  vodka: VodkaProps,
+  selectedVodka: VodkaProps | null
 ) => {
   if (
     !selectedVodka ||
