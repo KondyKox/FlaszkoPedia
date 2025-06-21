@@ -40,13 +40,13 @@ const VodkaPage = () => {
           className="drop-shadow-logo w-24 lg:w-32 xl:w-40"
         />
         <div className="flex flex-col justify-center items-center gap-4 lg:scale-125 xl:scale-150">
-          <div className="flex justify-center items-center gap-6">
+          <div className="flex justify-center items-center gap-6 relative">
             <h2 className="sub-header">{vodka.name}</h2>
             <h2 className="sub-header text-orange-500 font-bold">
               {vodka.alcoholPercentage}%
             </h2>
             {status === "authenticated" && (
-              <div className="absolute top-0 right-0 cursor-pointer">
+              <div className="flex justify-center items-center -translate-y-1">
                 <FavoriteIcon vodkaId={vodka._id} />
               </div>
             )}
@@ -89,13 +89,14 @@ const VodkaPage = () => {
           </div>
         </div>
       </div>
-      <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg whitespace-pre-line">
-        <PriceHistoryChart
-          variant={vodka.selectedVariant || vodka.variants[0]}
-        />
-        {vodka.description && (
-          <div dangerouslySetInnerHTML={{ __html: vodka.description }} />
-        )}
+      <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg whitespace-pre-line flex flex-col gap-4">
+        <PriceHistoryChart variant={selectedVariant} />
+        <div className="flex flex-col border-t-2 py-4">
+          <h4 className="sub-header-secondary">Opis wódki</h4>
+          {vodka.description && (
+            <div dangerouslySetInnerHTML={{ __html: vodka.description }} />
+          )}
+        </div>
       </div>
     </section>
   );

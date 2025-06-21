@@ -1,3 +1,4 @@
+import { getStoreColor } from "@/lib/utils/vodkaUtils/store";
 import { VodkaVariant } from "@/types/VodkaProps";
 import Image from "next/image";
 import {
@@ -11,10 +12,13 @@ import {
   YAxis,
 } from "recharts";
 
-const colors = ["#8884d8", "#82ca9d", "#ff7300", "#ff0000", "#00bfff"];
-const getColor = (index: number) => colors[index % colors.length];
+const PriceHistoryChart = ({
+  variant,
+}: {
+  variant: VodkaVariant | undefined;
+}) => {
+  if (variant === undefined) return null;
 
-const PriceHistoryChart = ({ variant }: { variant: VodkaVariant }) => {
   const allDatesSet = new Set<string>();
   const storePricesMap = new Map<string, { [date: string]: number }>();
   const storeMetaMap = new Map<string, { image: string }>();
@@ -45,15 +49,15 @@ const PriceHistoryChart = ({ variant }: { variant: VodkaVariant }) => {
 
   const CustomLegend = () => {
     return (
-      <ul className="flex flex-wrap gap-4 mt-2">
-        {Array.from(storePricesMap.keys()).map((storeName, index) => {
+      <ul className="flex justify-center items-center flex-wrap gap-4 mt-2">
+        {Array.from(storePricesMap.keys()).map((storeName) => {
           const meta = storeMetaMap.get(storeName);
 
           return (
             <li key={storeName} className="flex items-center gap-2 text-sm">
               <div
                 className="w-4 h-4 rounded-full"
-                style={{ backgroundColor: getColor(index) }}
+                style={{ backgroundColor: getStoreColor(storeName) }}
               />
               {meta?.image && (
                 <Image
@@ -64,7 +68,6 @@ const PriceHistoryChart = ({ variant }: { variant: VodkaVariant }) => {
                   className="rounded-full object-contain"
                 />
               )}
-              <span className="text-white">{storeName}</span>
             </li>
           );
         })}
@@ -73,28 +76,30 @@ const PriceHistoryChart = ({ variant }: { variant: VodkaVariant }) => {
   };
 
   return (
-    <div className="w-full h-96 bg-primary text-white rounded-lg p-4 shadow-lg mt-8">
+    <div className="w-full bg-primary rounded-lg p-4 shadow-lg mt-8">
       <h4 className="sub-header mb-2">Historia cen</h4>
 
-      <ResponsiveContainer width="100%" height="85%">
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-          <XAxis dataKey="date" stroke="#ddd" />
-          <YAxis stroke="#ddd" unit="zł" />
-          <Tooltip />
-          <Legend content={<CustomLegend />} />
-          {Array.from(storePricesMap.keys()).map((storeName, index) => (
-            <Line
-              key={storeName}
-              type="monotone"
-              dataKey={storeName}
-              stroke={getColor(index)}
-              strokeWidth={2}
-              connectNulls
-            />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="w-full aspect-[4/3] min-h-[250px]">
+        <ResponsiveContainer width="100%" height="85%">
+          <LineChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+            <XAxis dataKey="date" stroke="#ddd" />
+            <YAxis stroke="#ddd" unit="zł" />
+            <Tooltip />
+            <Legend content={<CustomLegend />} />
+            {Array.from(storePricesMap.keys()).map((storeName) => (
+              <Line
+                key={storeName}
+                type="monotone"
+                dataKey={storeName}
+                stroke={getStoreColor(storeName)}
+                strokeWidth={2}
+                connectNulls
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
