@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import Store from "@/components/Store";
 import FavoriteIcon from "@/components/ui/FavoriteIcon";
 import { useSession } from "next-auth/react";
+import PriceHistoryChart from "@/components/PriceHistoryChart";
 
 const VodkaPage = () => {
   const params = useParams();
@@ -89,6 +90,9 @@ const VodkaPage = () => {
         </div>
       </div>
       <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg whitespace-pre-line">
+        <PriceHistoryChart
+          variant={vodka.selectedVariant || vodka.variants[0]}
+        />
         {vodka.description && (
           <div dangerouslySetInnerHTML={{ __html: vodka.description }} />
         )}

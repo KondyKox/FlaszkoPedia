@@ -18,7 +18,8 @@
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "recharts": "^2.15.4"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.9",
