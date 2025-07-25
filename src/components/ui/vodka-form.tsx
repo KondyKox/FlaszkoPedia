@@ -191,7 +191,7 @@ const VodkaForm = ({
         </div>
 
         {/* Vodka description */}
-        <InputGroup
+        {/* <InputGroup
           label="Opis wódki (opcjonalne)"
           id="vodkaDesc"
           value={formData.description}
@@ -203,7 +203,7 @@ const VodkaForm = ({
           }
           placeholder="Jaka jest historia tej wódki..."
           isTextArea
-        />
+        /> */}
 
         <button className="btn btn-primary w-full font-bold uppercase">
           {action === "add" ? "Dodaj wódkę" : "Aktualizuj"}

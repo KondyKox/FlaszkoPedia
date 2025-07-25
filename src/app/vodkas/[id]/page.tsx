@@ -91,12 +91,13 @@ const VodkaPage = () => {
       </div>
       <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg whitespace-pre-line flex flex-col gap-4">
         <PriceHistoryChart variant={selectedVariant} />
-        <div className="flex flex-col border-t-2 py-4">
+        {/* Vodka description */}
+        {/* <div className="flex flex-col border-t-2 py-4">
           <h4 className="sub-header-secondary">Opis wódki</h4>
           {vodka.description && (
             <div dangerouslySetInnerHTML={{ __html: vodka.description }} />
           )}
-        </div>
+        </div> */}
       </div>
     </section>
   );

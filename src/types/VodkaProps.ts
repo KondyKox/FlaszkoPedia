@@ -6,7 +6,7 @@ export interface VodkaProps {
   alcoholPercentage: number;
   flavor: VodkaFlavor;
   variants: VodkaVariant[];
-  description?: string;
+  // description?: string;
   selectedVariant?: VodkaVariant;
 }
 
@@ -66,5 +66,5 @@ export interface VodkaFormData {
   alcoholPercentage: number;
   flavor: string;
   variants: VodkaVariant[];
-  description: string;
+  // description: string;
 }

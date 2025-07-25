@@ -21,7 +21,7 @@ export interface IVodka extends Document {
   flavor: string;
   variants: Variant[];
   imageSrc: string;
-  description: string;
+  // description: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -48,7 +48,7 @@ export const VodkaSchema = new Schema<IVodka>(
     flavor: { type: String, required: true },
     variants: { type: [VariantSchema], default: [] },
     imageSrc: { type: String, required: true },
-    description: { type: String, default: "", required: false },
+    // description: { type: String, default: "", required: false },
   },
   { timestamps: true }
 );

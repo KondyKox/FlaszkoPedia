@@ -1,5 +1,6 @@
 import Vodka from "@/lib/models/Vodka";
 import { connectToDatabase } from "@/lib/mongodb";
+// import { getWikiDescription } from "@/lib/utils/vodkaUtils/wikipedia";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request, context: { params: { id: string } }) {
@@ -16,30 +17,13 @@ export async function GET(req: Request, context: { params: { id: string } }) {
     return NextResponse.json({ error: "Vodka not found." }, { status: 404 });
 
   console.log(`Request for vodka with ID: ${id}`);
-  try {
-    const formattedName = `${vodka.name} (wódka)`;
-    const res = await fetch(
-      `https://pl.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
-        formattedName
-      )}`
-    );
-    if (!res.ok) {
-      console.error(
-        `Error fetching description from Wikipedia. Status: ${res.status}`
-      );
-    }
 
-    const data = await res.json();
+  // --- Vodka description from Wikipedia ---
+  // TODO: Uncomment for vodka description from Wikipedia
+  // const wikiDescription = await getWikiDescription(vodka.name);
+  // const vodkaDescription = vodka.description || "Brak opisu wódki. :(";
 
-    const wikiDescription = data.extract || "Brak opisu wódki z Wikipedii. :(";
-    const vodkaDescription = vodka.description || "Brak opisu wódki. :(";
-    const description = `${vodkaDescription}<br/><br/><span class='font-bold'>Opis z Wikipedii:</span><br/>${wikiDescription}`;
+  // const description = `${vodkaDescription}<br/><br/><span class='font-bold'>Opis z Wikipedii:</span><br/>${wikiDescription}`;
 
-    return NextResponse.json({ ...vodka.toObject(), description });
-  } catch (error) {
-    return NextResponse.json({
-      ...vodka.toObject(),
-      description: "Brak opisu wódki z Wikipedii. :(",
-    });
-  }
+  return NextResponse.json({ ...vodka.toObject() /* description */ });
 }
