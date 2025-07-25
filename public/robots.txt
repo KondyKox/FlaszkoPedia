@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: hhtps://flaszkopedia.vercel.app/sitemap.xml

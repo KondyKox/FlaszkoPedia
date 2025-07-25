@@ -4,6 +4,46 @@ import Footer from "@/components/Footer";
 import Providers from "./providers";
 import { VodkasProvider } from "@/context/VodkasContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Flaszkopedia – Porównywarka cen wódki",
+  description:
+    "Flaszkopedia to porównywarka cen alkoholu. Znajdź najtańszą flaszkę i porównaj ceny w sklepach.",
+  keywords: [
+    "flaszkopedia",
+    "wódka",
+    "porównywarka cen",
+    "alkohol",
+    "ranking alkoholi",
+  ],
+  metadataBase: new URL("https://flaszkopedia.vercel.app"), // później podmień na swoją domenę
+  openGraph: {
+    title: "Flaszkopedia",
+    description: "Porównuj ceny wódki w sklepach – szybko i przejrzyście.",
+    url: "https://flaszkopedia.vercel.app",
+    siteName: "Flaszkopedia",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Flaszkopedia - porównywarka cen wódki",
+      },
+    ],
+    locale: "pl_PL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Flaszkopedia",
+    description: "Znajdź najlepszą i najtańszą wódkę.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: "/logo.svg",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -12,14 +52,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-      <title>FlaszkoPedia</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="description" content="Porównywarka cen wódki." />
-      <meta
-        name="keywords"
-        content="wódka, porównywarka cen, porównywarka cen wódki, ceny wódki"
-      />
       <body>
         <Providers>
           <Navbar />
