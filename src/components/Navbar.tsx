@@ -45,6 +45,9 @@ const Navbar = () => {
           <Link href={"/vodkas"} className="link">
             Porównywarka cen
           </Link>
+          <Link href={"/about"} className="link">
+            O nas
+          </Link>
         </div>
 
         <Link
@@ -80,6 +83,13 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Porównywarka cen
+            </Link>
+            <Link
+              href={"/about"}
+              className="link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              O nas
             </Link>
           </div>
 
