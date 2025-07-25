@@ -27,6 +27,20 @@ export default {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-secondary": "var(--gradient-secondary)",
       },
+      keyframes: {
+        "slide-left": {
+          "0%": { opacity: "0", transform: "translateX(20px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        "slide-right": {
+          "0%": { opacity: "0", transform: "translateX(-20px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        "slide-left": "slide-left 0.6s ease-out forwards",
+        "slide-right": "slide-right 0.6s ease-out forwards",
+      },
     },
   },
   plugins: [],

@@ -13,8 +13,21 @@ const AboutPage = () => {
     <section className="max-w-7xl mx-auto px-4 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* LEWA KOLUMNA - OPIS */}
-        <div className="space-y-4">
-          <h1 className="header whitespace-nowrap">O Flaszkopedii</h1>
+        <article className="space-y-4 animate-slide-right">
+          <header className="flex flex-col items-center space-y-2">
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={96}
+              height={96}
+              priority
+              className="drop-shadow-logo"
+            />
+            <h1 className="header whitespace-nowrap text-center">
+              O Flaszkopedii
+            </h1>
+          </header>
+
           <p className="text-gray-700">
             <strong>Flaszkopedia</strong> to niezależny projekt, który powstał z
             potrzeby serca (i portfela) – żeby <strong>porównać ceny</strong>{" "}
@@ -34,28 +47,23 @@ const AboutPage = () => {
             tak jak ja polujesz na najlepszą cenę ulubionego trunku –{" "}
             <strong>ta strona jest właśnie dla Ciebie</strong>!
           </p>
-          <div className="flex justify-center items-center">
-            <Image
-              src="/logo.svg"
-              alt="Logo"
-              width={128}
-              height={128}
-              priority
-              className="w-64 md:w-1/2 lg:w-2/3 xl:w-5/6 drop-shadow-logo"
-            />
-          </div>
-        </div>
+        </article>
 
         {/* PRAWA KOLUMNA - FAQ */}
-        <article className="space-y-4 bg-button p-6 rounded-xl text-primary shadow-md">
+        <article className="space-y-4 bg-button p-6 rounded-xl text-primary shadow-md animate-slide-left">
           <h2 className="sub-header-secondary">FAQ</h2>
           <div className="space-y-2">
             {FAQ.map((faq, index) => (
-              <details key={index} className="border px-4 py-2 rounded-md">
+              <details
+                key={index}
+                className="border px-4 py-2 rounded-md transition-all duration-300 open:bg-secondary/80"
+              >
                 <summary className="font-medium cursor-pointer">
                   {faq.question}
                 </summary>
-                <p className="mt-2 text-sm text-golden">{faq.answer}</p>
+                <div className="overflow-hidden transition-all duration-300 mt-2">
+                  <p className="text-sm text-golden">{faq.answer}</p>
+                </div>
               </details>
             ))}
           </div>
