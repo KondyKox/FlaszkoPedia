@@ -44,18 +44,14 @@ export const compareAveragePrice = (
   vodka: VodkaProps,
   selectedVodka: VodkaProps | null
 ) => {
-  if (
-    !selectedVodka ||
-    !selectedVodka.selectedVariant ||
-    !vodka.selectedVariant
-  )
+  const v = vodka.selectedVariant;
+  const s = selectedVodka?.selectedVariant;
+
+  if (!v || !s || v.averagePrice === undefined || s.averagePrice === undefined)
     return "text-secondary";
 
-  const vodkaAvg = vodka.selectedVariant.averagePrice;
-  const selectedAvg = selectedVodka.selectedVariant.averagePrice;
-
-  if (vodkaAvg < selectedAvg) return "text-green-500";
-  if (vodkaAvg > selectedAvg) return "text-red-500";
+  if (v.averagePrice < s.averagePrice) return "text-green-500";
+  if (v.averagePrice > s.averagePrice) return "text-red-500";
 
   return "text-secondary"; // Średnia cena taka sama
 };
