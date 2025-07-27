@@ -14,7 +14,11 @@ const AdminPage = () => {
   const [activeTab, setActiveTab] = useState<string>(ADMIN_TABS[0].id);
 
   useEffect(() => {
-    if (!session || session.user.role !== "admin") router.replace("/");
+    if (status === "loading") return;
+
+    if (!session || session.user?.role !== "admin") {
+      router.replace("/");
+    }
   }, [session, status, router]);
 
   if (status === "loading")
