@@ -1,7 +1,7 @@
 import Vodka from "@/lib/models/Vodka";
 import { connectToDatabase } from "@/lib/mongodb";
 // import { getWikiDescription } from "@/lib/utils/vodkaUtils/wikipedia";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 type Context = {
   params: {
@@ -9,7 +9,7 @@ type Context = {
   };
 };
 
-export async function GET(req: Request, { params }: Context) {
+export async function GET(req: NextRequest, { params }: Context) {
   await connectToDatabase();
 
   const { id } = await params;
