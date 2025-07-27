@@ -90,7 +90,7 @@ export const getInitialFormData = (
           stores: generateEmptyStores(),
         },
       ],
-      description: selectedVodka.description ?? "",
+      // description: selectedVodka.description ?? "",
     };
   }
 
@@ -113,7 +113,7 @@ export const getInitialFormData = (
         stores: generateEmptyStores(),
       },
     ],
-    description: "",
+    // description: "",
   };
 };
 
