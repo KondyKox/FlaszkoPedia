@@ -6,6 +6,7 @@ import { VodkasProvider } from "@/context/VodkasContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Flaszkopedia – Porównywarka cen wódki",
@@ -77,6 +78,7 @@ export default function RootLayout({
             <FavoritesProvider>
               <main className="flex flex-col justify-center items-center p-4 mb-10 min-h-screen">
                 {children}
+                <Analytics />
               </main>
             </FavoritesProvider>
           </VodkasProvider>
