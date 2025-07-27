@@ -5,6 +5,7 @@ import Providers from "./providers";
 import { VodkasProvider } from "@/context/VodkasContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Flaszkopedia – Porównywarka cen wódki",
@@ -52,6 +53,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
+      <head>
+        {/* <!-- Google tag (gtag.js) --> */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-GDEMHH03NC"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-GDEMHH03NC');
+      `}
+        </Script>
+      </head>
       <body>
         <Providers>
           <Navbar />
