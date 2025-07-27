@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
     vodka.alcoholPercentage = formData.alcoholPercentage;
     vodka.flavor = formData.flavor;
     vodka.imageSrc = formData.imageSrc;
-    vodka.description = formData.description;
+    // vodka.description = formData.description;
 
     for (let i = 0; i < formData.variants.length; i++) {
       const incomingVariant = formData.variants[i];
