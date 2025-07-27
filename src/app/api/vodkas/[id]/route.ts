@@ -3,13 +3,10 @@ import { connectToDatabase } from "@/lib/mongodb";
 // import { getWikiDescription } from "@/lib/utils/vodkaUtils/wikipedia";
 import { NextRequest, NextResponse } from "next/server";
 
-type Context = {
-  params: {
-    id: string;
-  };
-};
-
-export async function GET(req: NextRequest, { params }: Context) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await connectToDatabase();
 
   const { id } = await params;
