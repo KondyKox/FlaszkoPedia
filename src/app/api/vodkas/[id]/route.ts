@@ -3,10 +3,16 @@ import { connectToDatabase } from "@/lib/mongodb";
 // import { getWikiDescription } from "@/lib/utils/vodkaUtils/wikipedia";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(req: Request, { params }: Context) {
   await connectToDatabase();
 
-  const { id } = await context.params;
+  const { id } = await params;
 
   if (!id)
     return NextResponse.json({ error: "No ID in params." }, { status: 400 });
