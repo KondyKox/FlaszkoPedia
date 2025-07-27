@@ -5,11 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
   await connectToDatabase();
 
-  const id = context.params.id;
+  const { id } = context.params;
 
   if (!id)
     return NextResponse.json({ error: "No ID in params." }, { status: 400 });
