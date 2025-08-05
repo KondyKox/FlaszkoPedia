@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CustomEyeIcon from "./CustomEyeIcon";
+import CustomEyeIcon from "../ui/CustomEyeIcon";
 import { InputPasswordProps } from "@/types/AuthProps";
 
 const InputPassword = ({

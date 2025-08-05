@@ -1,6 +1,6 @@
 import AuthFormProps from "@/types/AuthProps";
 import LoadingText from "../loading/LoadingText";
-import InputPassword from "../ui/InputPassword";
+import InputPassword from "./InputPassword";
 
 const LoginForm = ({ setFormData, loading }: AuthFormProps) => {
   return (

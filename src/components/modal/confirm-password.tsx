@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import { checkPassword } from "@/lib/utils/user";
 import { ConfirmModalProps } from "@/types/ModalProps";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
-import InputPassword from "../ui/InputPassword";
+import InputPassword from "../auth/InputPassword";
 
 const ConfirmPassword = ({
   isOpen,

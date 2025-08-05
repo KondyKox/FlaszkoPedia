@@ -1,8 +1,8 @@
 import Image from "next/image";
-import InputGroup from "./InputGroup";
+import InputGroup from "../auth/InputGroup";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import Store from "../Store";
-import FeedbackMessage from "./FeedbackMessage";
+import FeedbackMessage from "../ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { useState } from "react";
 import { addVodka, updateVodka } from "@/lib/utils/admin/vodkas";

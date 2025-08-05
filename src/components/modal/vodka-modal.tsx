@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import { useState } from "react";
 import { VodkaFormData } from "@/types/VodkaProps";
 import { getInitialFormData } from "@/lib/utils/admin/vodkas";
-import VodkaForm from "../ui/vodka-form";
+import VodkaForm from "../admin/vodka-form";
 
 const VodkaModal = ({
   isOpen,
