@@ -6,7 +6,8 @@ export interface VodkaProps {
   alcoholPercentage: number;
   flavor: VodkaFlavor;
   variants: VodkaVariant[];
-  // description?: string;
+  averageRating: number;
+  ratingsCount: number;
   selectedVariant?: VodkaVariant;
 }
 
@@ -23,6 +24,13 @@ export interface VodkaVariant {
   volume: number;
   stores: Store[];
   averagePrice?: number;
+}
+
+export interface VodkaRating {
+  _id: string;
+  userId: string;
+  vodkaId: string;
+  value: number;
 }
 
 export interface PriceHistory {

@@ -1,4 +1,4 @@
-import FeedbackMessageProps from "@/types/FeedbackMessage";
+import { FeedbackMessageProps } from "@/types/UIProps";
 
 const FeedbackMessage = ({
   isSuccessful,

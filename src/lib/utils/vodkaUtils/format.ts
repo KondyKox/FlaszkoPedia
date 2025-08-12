@@ -30,5 +30,7 @@ export const formatVodkaForFrontend = (vodka: VodkaProps) => {
     flavor: vodka.flavor,
     variants,
     selectedVariant: variants[0],
+    averageRating: vodka.averageRating,
+    ratingsCount: vodka.ratingsCount,
   };
 };

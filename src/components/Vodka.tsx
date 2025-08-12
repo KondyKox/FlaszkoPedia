@@ -13,6 +13,8 @@ import FavoriteIcon from "./ui/FavoriteIcon";
 import { useSession } from "next-auth/react";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 import { useVodkas } from "@/hooks/useVodkas";
+import RatingStars from "./ui/RatingStars";
+import { useRating } from "@/hooks/useRating";
 
 const Vodka = ({ vodka }: { vodka: VodkaProps }) => {
   const { selectedVodka, setSelectedVodka } = useSelectedVodka();
@@ -21,6 +23,10 @@ const Vodka = ({ vodka }: { vodka: VodkaProps }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement | null>(null);
   const { data: session, status } = useSession();
+  const { averageRating, ratingsCount, userRating, rate } = useRating(
+    vodka._id,
+    session?.user._id
+  );
 
   // Select vodka on click
   const handleVodkaClick = (vodka: VodkaProps) => {
@@ -75,9 +81,7 @@ const Vodka = ({ vodka }: { vodka: VodkaProps }) => {
         {status === "authenticated" && (
           <div
             className="absolute top-4 right-4 cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
+            onClick={(e) => e.stopPropagation()}
           >
             <FavoriteIcon vodkaId={vodka._id} />
           </div>
@@ -103,8 +107,20 @@ const Vodka = ({ vodka }: { vodka: VodkaProps }) => {
           })}
         </ul>
 
-        {/* Average price */}
-        <div className="flex flex-col justify-center items-center">
+        <div
+          className="flex flex-col justify-center items-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Rating */}
+          <RatingStars
+            averageRating={averageRating}
+            userRating={userRating}
+            ratingsCount={ratingsCount}
+            editable={!!session}
+            onRate={rate}
+          />
+
+          {/* Average price */}
           <p className="text-slate-500 transition-all duration-500 ease-in-out group-hover:text-slate-300">
             Średnia cena:{" "}
             <span
@@ -116,6 +132,8 @@ const Vodka = ({ vodka }: { vodka: VodkaProps }) => {
               {vodka.selectedVariant?.averagePrice}zł
             </span>
           </p>
+
+          {/* Flavor */}
           <span className="text-sm text-button italic transition-all duration-500 ease-in-out group-hover:text-golden">
             {VODKA_FLAVOR_OPTIONS.find(
               (option) => vodka.flavor === option.value

@@ -1,4 +1,4 @@
-import EyeIconProps from "@/types/EyeIconProps";
+import { EyeIconProps } from "@/types/UIProps";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 const CustomEyeIcon = ({

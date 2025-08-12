@@ -2,7 +2,7 @@ import { useState } from "react";
 import LoadingText from "../loading/LoadingText";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { signIn } from "next-auth/react";
-import SocialButtonProps from "@/types/SocialButtonProps";
+import { SocialButtonProps } from "@/types/AuthProps";
 
 const SocialButton = ({
   provider,
