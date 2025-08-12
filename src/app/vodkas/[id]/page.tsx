@@ -11,6 +11,8 @@ import Store from "@/components/Store";
 import FavoriteIcon from "@/components/ui/FavoriteIcon";
 import { useSession } from "next-auth/react";
 import PriceHistoryChart from "@/components/PriceHistoryChart";
+import { useRating } from "@/hooks/useRating";
+import RatingStars from "@/components/ui/RatingStars";
 
 const VodkaPage = () => {
   const params = useParams();
@@ -18,6 +20,10 @@ const VodkaPage = () => {
   const { vodka, loading } = useVodkaData(id);
   const [selectedVariant, setSelectedVariant] = useState<VodkaVariant>();
   const { data: session, status } = useSession();
+  const { averageRating, ratingsCount, userRating, rate } = useRating(
+    id,
+    session?.user._id
+  );
 
   useEffect(() => {
     if (vodka && vodka.variants.length > 0) {
@@ -75,6 +81,13 @@ const VodkaPage = () => {
             ))}
           </ul>
           <div className="flex flex-col justify-center items-center">
+            <RatingStars
+              averageRating={averageRating}
+              ratingsCount={ratingsCount}
+              userRating={userRating}
+              editable={!!session}
+              onRate={rate}
+            />
             <p className="text-slate-500">
               Średnia cena:{" "}
               <span className="text-red-500 font-bold">
