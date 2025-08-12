@@ -9,25 +9,25 @@ import { useState } from "react";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery(768);
+  const isMobile = useMediaQuery(1024);
   const { data: session, status } = useSession();
 
   return (
     <nav
-      className={`flex justify-center items-center py-2 px-4 w-full z-40 !sticky top-0 bg-primary ${
+      className={`flex justify-center items-center py-2 px-4 w-full z-40 !sticky top-0 bg-primary text-center ${
         !isMobile ? "underline-custom" : ""
       }`}
     >
       {/* Hamburger Menu Button (Mobile) */}
       <button
-        className="fixed top-5 right-5 z-10 md:hidden text-secondary bg-primary rounded-lg focus:outline-none"
+        className="fixed top-5 right-5 z-10 lg:hidden text-secondary bg-primary rounded-lg focus:outline-none"
         onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
       >
         <Bars3Icon className="h-8 w-8" />
       </button>
 
       {/* Desktop Menu */}
-      <div className="w-full md:max-w-xl lg:max-w-2xl xl:max-w-6xl hidden md:flex justify-between items-center">
+      <div className="w-full md:max-w-xl lg:max-w-2xl xl:max-w-6xl hidden lg:flex justify-between items-center">
         <Link href={"/"}>
           <Image
             src="/logo.svg"
@@ -60,7 +60,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed top-0 left-0 w-full h-screen bg-primary flex flex-col justify-center items-center gap-4 md:hidden">
+        <div className="fixed top-0 left-0 w-full h-screen bg-primary flex flex-col justify-center items-center gap-4 lg:hidden">
           <Image
             src="/logo.svg"
             alt="Logo"
