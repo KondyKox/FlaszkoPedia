@@ -30,6 +30,27 @@
   font-style: normal;
 }
 
+@layer utilities {
+  /* Underline */
+  .underline-custom {
+    @apply relative py-2;
+  }
+  .underline-custom::before {
+    content: "";
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2 w-9/12 h-[2px] bg-secondary;
+  }
+
+  /* Overline */
+  .overline-custom {
+    @apply relative py-2;
+  }
+
+  .overline-custom::before {
+    content: "";
+    @apply absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 w-9/12 h-[2px] bg-secondary;
+  }
+}
+
 body {
   @apply bg-primary text-secondary;
 }
@@ -105,34 +126,6 @@ h6 {
 
 .link {
   @apply font-bold rounded cursor-pointer transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary hover:drop-shadow-logo py-2 px-4;
-}
-
-/* Underline */
-.underline-custom {
-  @apply relative py-2;
-}
-.underline-custom::before {
-  content: "";
-  @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2 w-9/12 h-[2px] bg-secondary;
-}
-
-/* Overline */
-.overline-custom {
-  @apply relative py-2;
-}
-
-.overline-custom::before {
-  content: "";
-  @apply absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 w-9/12 h-[2px] bg-secondary;
-}
-
-/* Border radius animation */
-.animated-rounded {
-  @apply transition-all duration-300 ease-in-out;
-  border-radius: 50%;
-}
-.animated-rounded:hover {
-  border-radius: 10%;
 }
 
 .eye-icon {

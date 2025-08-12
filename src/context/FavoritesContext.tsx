@@ -2,6 +2,7 @@
 
 import { useVodkas } from "@/hooks/useVodkas";
 import { VodkaProps } from "@/types/VodkaProps";
+import { useSession } from "next-auth/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 
 interface FavoritesContextType {
@@ -23,11 +24,18 @@ export const FavoritesProvider = ({
   const [favorites, setFavorites] = useState<VodkaProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { vodkas } = useVodkas();
+  const { data: session, status } = useSession();
 
   const fetchFavorites = useCallback(async () => {
+    if (status !== "authenticated") {
+      setFavorites([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/vodkas/favorites");
-      if (!res.ok) throw new Error("Błąd ładowania ulubionych.");
+      if (!res.ok) throw new Error("Fetch favorites error.");
       const data: VodkaProps[] = await res.json();
       setFavorites(data);
     } catch (err) {
@@ -50,7 +58,7 @@ export const FavoritesProvider = ({
         body: JSON.stringify({ vodkaId: id }),
       });
 
-      if (!res.ok) throw new Error("Nie udało się zmienić ulubionych");
+      if (!res.ok) throw new Error("Failed to update favorites.");
 
       if (isFav) {
         setFavorites((prev) => prev.filter((vodka) => vodka._id !== id));

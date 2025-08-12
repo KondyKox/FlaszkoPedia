@@ -114,7 +114,7 @@ const AuthPage = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-8 w-full lg:w-1/2">
       <form
-        className="flex flex-col justify-center items-center gap-4 bg-akcent rounded-xl px-8 py-16 w-full shadow-[0_0_1rem_black]"
+        className="flex flex-col justify-center items-center gap-4 bg-akcent rounded-xl px-8 py-16 w-full shadow-[0_0_1rem_black] min-h-[500px]"
         onSubmit={handleSubmit}
       >
         <h2 className="sub-header">

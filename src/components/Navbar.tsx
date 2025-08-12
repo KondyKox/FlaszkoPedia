@@ -1,6 +1,5 @@
 "use client";
 
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Bars3Icon, UserIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -9,15 +8,10 @@ import { useState } from "react";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery(1024);
   const { data: session, status } = useSession();
 
   return (
-    <nav
-      className={`flex justify-center items-center py-2 px-4 w-full z-40 !sticky top-0 bg-primary text-center ${
-        !isMobile ? "underline-custom" : ""
-      }`}
-    >
+    <nav className="flex justify-center items-center py-2 px-4 w-full z-40 !sticky top-0 bg-primary text-center lg:underline-custom">
       {/* Hamburger Menu Button (Mobile) */}
       <button
         className="fixed top-5 right-5 z-10 lg:hidden text-secondary bg-primary rounded-lg focus:outline-none"
