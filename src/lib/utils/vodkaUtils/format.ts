@@ -1,5 +1,6 @@
 import { VodkaProps } from "@/types/VodkaProps";
 import { calculateAveragePrice, getLastPriceFromHistory } from "./price";
+import { getLastDateFromHistory } from "./date";
 
 // Format vodka object
 export const formatVodkaForFrontend = (vodka: VodkaProps) => {
@@ -12,6 +13,7 @@ export const formatVodkaForFrontend = (vodka: VodkaProps) => {
         image: `/stores/${store.name.toLowerCase()}.png`,
         priceHistory,
         price: getLastPriceFromHistory(priceHistory),
+        lastUpdate: getLastDateFromHistory(priceHistory),
       };
     });
 

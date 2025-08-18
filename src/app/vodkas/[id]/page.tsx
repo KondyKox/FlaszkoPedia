@@ -7,10 +7,10 @@ import { VodkaVariant } from "@/types/VodkaProps";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Store from "@/components/Store";
+import Store from "@/components/vodka/Store";
 import FavoriteIcon from "@/components/ui/FavoriteIcon";
 import { useSession } from "next-auth/react";
-import PriceHistoryChart from "@/components/PriceHistoryChart";
+import PriceHistoryChart from "@/components/vodka/PriceHistoryChart";
 import { useRating } from "@/hooks/useRating";
 import RatingStars from "@/components/ui/RatingStars";
 

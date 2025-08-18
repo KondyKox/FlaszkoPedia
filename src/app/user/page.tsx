@@ -1,11 +1,11 @@
 "use client";
 
-import Vodka from "@/components/Vodka";
 import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import LoadingText from "@/components/loading/LoadingText";
 import ConfirmPassword from "@/components/modal/confirm-password";
 import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
 import FeedbackMessage from "@/components/ui/FeedbackMessage";
+import VodkaCard from "@/components/vodka/VodkaCard";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { useFavorites } from "@/hooks/useFavorites";
 import { updateUser } from "@/lib/utils/user";
@@ -172,7 +172,7 @@ const UserPage = () => {
             <div className="w-full flex flex-col gap-2 overflow-y-auto max-h-[500px] pr-2">
               {favorites.map((fav) => (
                 <div key={fav._id} className="flex-1">
-                  <Vodka vodka={fav} />
+                  <VodkaCard vodka={fav} />
                 </div>
               ))}
             </div>

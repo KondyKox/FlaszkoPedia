@@ -43,6 +43,7 @@ export interface Store {
   image: string;
   priceHistory: PriceHistory[];
   price: number;
+  lastUpdate: Date | null;
 }
 
 export interface InputGroupProps {

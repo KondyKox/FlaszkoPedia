@@ -81,6 +81,10 @@ h6 {
   @apply text-xl md:text-2xl lg:text-3xl bg-button text-primary;
 }
 
+.vodka-header {
+  @apply text-xl md:text-3xl lg:text-4xl;
+}
+
 /* Inputs */
 .input {
   @apply w-full p-2 text-sm md:text-base rounded-lg outline-none bg-akcent transition-colors duration-300 ease-in-out focus:bg-primary focus:text-secondary;

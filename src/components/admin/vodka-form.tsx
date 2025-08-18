@@ -1,7 +1,7 @@
 import Image from "next/image";
 import InputGroup from "../auth/InputGroup";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
-import Store from "../Store";
+import Store from "../vodka/Store";
 import FeedbackMessage from "../ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { useState } from "react";

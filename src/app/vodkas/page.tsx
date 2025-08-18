@@ -9,8 +9,8 @@ import { VodkaProps } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils/filter";
 import { useEffect, useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
-import Vodka from "@/components/Vodka";
 import { useSession } from "next-auth/react";
+import VodkaCard from "@/components/vodka/VodkaCard";
 
 const VodkasPage = () => {
   const { vodkas, loading } = useVodkas();
@@ -100,7 +100,7 @@ const VodkasPage = () => {
             <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
               {vodkaList?.map((vodka) => (
                 <li key={vodka._id} className="w-full">
-                  <Vodka vodka={vodka} />
+                  <VodkaCard vodka={vodka} />
                 </li>
               ))}
             </ul>

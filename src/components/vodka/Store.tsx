@@ -1,3 +1,4 @@
+import { formatDate } from "@/lib/utils/vodkaUtils/date";
 import { StoreComponentProps } from "@/types/VodkaProps";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -40,18 +41,25 @@ const Store = ({
   };
 
   return (
-    <>
+    <div
+      className="flex flex-col items-center justify-center gap-1 p-2 rounded-xl bg-white/70 shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+      title={
+        store.lastUpdate
+          ? `Ostatnia aktualizacja: ${formatDate(store.lastUpdate)}`
+          : ""
+      }
+    >
       <Image
         src={store.image}
         alt={store.name}
         width={64}
         height={64}
-        className="w-8 md:w-10 h-8 md:h-10"
+        className="w-10 md:w-12 h-10 md:h-12 rounded-full bg-white p-2"
       />
       <div className="flex justify-center items-center text-xs">
         {!isAdmin ? (
           <span
-            className={`${className} transition-all duration-500 ease-in-out group-hover:text-slate-200`}
+            className={`${className} font-semibold px-2 py-0.5 rounded-md bg-slate-100 group-hover:bg-slate-200 transition-colors`}
           >
             {store.price}zł
           </span>
@@ -73,7 +81,7 @@ const Store = ({
           <ArrowIcon className={`${color} ${rotate ? "rotate-180" : ""}`} />
         )} */}
       </div>
-    </>
+    </div>
   );
 };
 

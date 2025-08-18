@@ -25,7 +25,10 @@ const FavoriteIcon = ({
   return (
     <Icon
       onClick={handleClick}
-      className="cursor-pointer transition-all duration-300 ease-in-out hover:scale-110"
+      title="Dodaj do ulubionych"
+      className={`cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 ${
+        favorite ? "text-red-500" : "text-black hover:text-red-500" // outline -> czarny, ale hover zmienia stroke na czerwony
+      }`}
       width={size}
       height={size}
       color={favorite ? "#ef4444" : "#000"} // czerwony jak ulubiony
