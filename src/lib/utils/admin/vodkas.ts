@@ -123,4 +123,5 @@ const generateEmptyStores = () =>
     image: store.image,
     priceHistory: [],
     price: 0,
+    lastUpdate: null,
   }));
