@@ -37,13 +37,13 @@ const VodkaCard = ({ vodka }: { vodka: VodkaProps }) => {
   return (
     <div
       ref={divRef}
-      className={`relative overflow-visible flex justify-between items-stretch bg-akcent rounded-lg w-full transition-opacity duration-500 
+      className={`relative overflow-visible flex justify-between items-stretch bg-akcent rounded-lg w-full h-full transition-opacity duration-500 
                     ${selected && "opacity-50"} ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
       <div
-        className="flex flex-col justify-center gap-6 rounded-ss-lg rounded-es-lg w-full transition-all duration-500 
+        className="flex flex-col justify-between gap-6 rounded-ss-lg rounded-es-lg w-full transition-all duration-500 
                     ease-in-out cursor-pointer hover:bg-button group flex-1 relative overflow-hidden p-4"
         onClick={handleVodkaClick}
       >

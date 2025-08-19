@@ -80,7 +80,7 @@ const PriceHistoryChart = ({
       <h4 className="sub-header mb-2">Historia cen</h4>
 
       <div className="w-full aspect-[4/3] min-h-[250px]">
-        <ResponsiveContainer width="100%" height="85%">
+        <ResponsiveContainer width="100%" height="65%">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
             <XAxis dataKey="date" stroke="#ddd" />

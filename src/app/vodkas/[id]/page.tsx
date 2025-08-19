@@ -1,6 +1,5 @@
 "use client";
 
-import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import { useVodkaData } from "@/hooks/useVodkaData";
 import { VodkaVariant } from "@/types/VodkaProps";
@@ -13,6 +12,7 @@ import { useSession } from "next-auth/react";
 import PriceHistoryChart from "@/components/vodka/PriceHistoryChart";
 import { useRating } from "@/hooks/useRating";
 import RatingStars from "@/components/ui/RatingStars";
+import VodkaPageSkeleton from "@/components/ui/VodkaPageSkeleton";
 
 const VodkaPage = () => {
   const params = useParams();
@@ -31,12 +31,13 @@ const VodkaPage = () => {
     }
   }, [vodka]);
 
-  if (loading) return <LoadingOverlay message="Wczytuję wybrany trunek..." />;
+  if (loading) return <VodkaPageSkeleton />;
+
   if (!id || !vodka)
     return <h1 className="header">Nie znaleziono takiej wódki.</h1>;
 
   return (
-    <section className="flex flex-col justify-start items-center w-full md:w-2/3 min-h-screen">
+    <section className="flex flex-col justify-start items-center w-full md:w-2/3">
       <div className="flex flex-col md:flex-row justify-evenly items-center gap-6 w-full py-10 border-2 border-b-0 rounded-ss-lg rounded-se-lg border-button shadow-inner-button">
         <Image
           src={vodka.imageSrc}
@@ -45,14 +46,14 @@ const VodkaPage = () => {
           height={128}
           className="drop-shadow-logo w-24 lg:w-32 xl:w-40"
         />
-        <div className="flex flex-col justify-center items-center gap-4 lg:scale-125 xl:scale-150">
-          <div className="flex justify-center items-center gap-6 relative">
-            <h2 className="sub-header">{vodka.name}</h2>
-            <h2 className="sub-header text-orange-500 font-bold">
+        <aside className="flex flex-col justify-center items-center gap-4 lg:scale-125 xl:scale-150">
+          <div className="flex justify-center items-center gap-6">
+            <h2 className="vodka-header">{vodka.name}</h2>
+            <span className="font-semibold text-base md:text-lg bg-orange-500/90 text-primary px-2 py-0.5 rounded-full">
               {vodka.alcoholPercentage}%
-            </h2>
+            </span>
             {status === "authenticated" && (
-              <div className="flex justify-center items-center -translate-y-1">
+              <div className="flex justify-center items-center">
                 <FavoriteIcon vodkaId={vodka._id} />
               </div>
             )}
@@ -62,7 +63,8 @@ const VodkaPage = () => {
               <div
                 key={index}
                 className={`text-sm p-1 transition-colors duration-300 ease-in-out hover:bg-blue-500 hover:text-primary w-full flex flex-1 justify-center items-center ${
-                  variant === selectedVariant && "bg-button text-primary"
+                  variant === selectedVariant &&
+                  "bg-button text-primary pointer-events-none"
                 } cursor-pointer`}
                 onClick={() => setSelectedVariant(variant)}
               >
@@ -80,7 +82,13 @@ const VodkaPage = () => {
               </li>
             ))}
           </ul>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center gap-1">
+            <p className="text-slate-500">
+              Średnia cena:{" "}
+              <span className="text-red-500 font-bold">
+                {selectedVariant?.averagePrice}zł
+              </span>
+            </p>
             <RatingStars
               averageRating={averageRating}
               ratingsCount={ratingsCount}
@@ -88,20 +96,16 @@ const VodkaPage = () => {
               editable={!!session}
               onRate={rate}
             />
-            <p className="text-slate-500">
-              Średnia cena:{" "}
-              <span className="text-red-500 font-bold">
-                {selectedVariant?.averagePrice}zł
-              </span>
-            </p>
             <span className="text-sm text-button italic">
               {VODKA_FLAVOR_OPTIONS.find(
                 (option) => vodka.flavor === option.value
               )?.label || vodka.flavor}
             </span>
           </div>
-        </div>
+        </aside>
       </div>
+
+      {/* Price history chart */}
       <div className="bg-button text-primary w-full p-4 flex-1 rounded-es-lg rounded-ee-lg whitespace-pre-line flex flex-col gap-4">
         <PriceHistoryChart variant={selectedVariant} />
         {/* Vodka description */}

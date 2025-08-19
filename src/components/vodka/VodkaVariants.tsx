@@ -22,7 +22,7 @@ const VodkaVariants = ({
             "bg-button text-primary pointer-events-none"
           } cursor-pointer`}
           onClick={() =>
-            selected || (!selected && handleVariantChange!(vodka._id, variant))
+            selected || (!selected && handleVariantChange(vodka._id, variant))
           }
         >
           {variant.volume}L

@@ -1,7 +1,6 @@
 "use client";
 
 import FilterPanel from "@/components/filter/FilterPanel";
-import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import Modal from "@/components/modal/Modal";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
 import { useSession } from "next-auth/react";
 import VodkaCard from "@/components/vodka/VodkaCard";
+import VodkaCardSkeleton from "@/components/ui/VodkaCardSkeleton";
 
 const VodkasPage = () => {
   const { vodkas, loading } = useVodkas();
@@ -61,8 +61,6 @@ const VodkasPage = () => {
     onlyFavorites,
   ]);
 
-  if (loading) return <LoadingOverlay message="Wczytuję alkohol..." />;
-
   return (
     <section className="flex flex-col justify-center items-center gap-4 w-full py-10">
       <div className="flex flex-col justify-center items-center gap-6 w-full">
@@ -97,13 +95,25 @@ const VodkasPage = () => {
 
           {/* List of vodkas */}
           <aside className="w-full md:w-2/3">
-            <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
-              {vodkaList?.map((vodka) => (
-                <li key={vodka._id} className="w-full">
-                  <VodkaCard vodka={vodka} />
-                </li>
-              ))}
-            </ul>
+            {loading ? (
+              // Wczytywanie → pokaż skeletony
+              <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <li key={i} className="w-full h-full">
+                    <VodkaCardSkeleton />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              // Są wyniki → normalne karty
+              <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
+                {vodkaList?.map((vodka) => (
+                  <li key={vodka._id} className="w-full h-full">
+                    <VodkaCard vodka={vodka} />
+                  </li>
+                ))}
+              </ul>
+            )}
           </aside>
         </div>
       </div>
