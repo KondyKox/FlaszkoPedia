@@ -172,7 +172,7 @@ const UserPage = () => {
             <div className="w-full flex flex-col gap-2 overflow-y-auto max-h-[500px] pr-2">
               {favorites.map((fav) => (
                 <div key={fav._id} className="flex-1">
-                  <VodkaCard vodka={fav} />
+                  <VodkaCard vodkaId={fav._id} />
                 </div>
               ))}
             </div>

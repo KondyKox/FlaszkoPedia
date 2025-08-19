@@ -8,12 +8,13 @@ import { VodkaProps } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils/filter";
 import { useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
-import { useSession } from "next-auth/react";
 import VodkaCard from "@/components/vodka/VodkaCard";
 import VodkaCardSkeleton from "@/components/ui/VodkaCardSkeleton";
+import { useFavorites } from "@/hooks/useFavorites";
 
 const VodkasPage = () => {
   const { vodkas, loading } = useVodkas();
+  const { favorites } = useFavorites();
   const {
     sortBy,
     sortAscending,
@@ -24,7 +25,6 @@ const VodkasPage = () => {
   const [search, setSearch] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(1024);
-  const { data: session, status } = useSession();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -37,7 +37,7 @@ const VodkasPage = () => {
           flavorFilter,
           bottleSizeFilter,
           onlyFavorites,
-          session
+          favorites
         ),
         sortBy,
         sortAscending

@@ -37,13 +37,14 @@ export const FavoritesProvider = ({
       const res = await fetch("/api/vodkas/favorites");
       if (!res.ok) throw new Error("Fetch favorites error.");
       const data: VodkaProps[] = await res.json();
+      console.log("Favorites:", data);
       setFavorites(data);
     } catch (err) {
       console.error("Favorites fetch error:", err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [status]);
 
   const isFavorite = (id: string) =>
     favorites.some((vodka) => vodka._id === id);
@@ -60,17 +61,14 @@ export const FavoritesProvider = ({
 
       if (!res.ok) throw new Error("Failed to update favorites.");
 
-      if (isFav) {
-        setFavorites((prev) => prev.filter((vodka) => vodka._id !== id));
-      } else {
-        const vodkaToAdd = vodkas.find((v) => v._id === id);
-        if (vodkaToAdd) {
-          setFavorites((prev) => [...prev, vodkaToAdd]);
-        }
-      }
+      setFavorites((prev) =>
+        isFav
+          ? prev.filter((v) => v._id !== id)
+          : [...prev, vodkas.find((v) => v._id === id)!]
+      );
 
       // Można też zrobić re-fetch dla bezpieczeństwa
-      //   await fetchFavorites();
+      // await fetchFavorites();
     } catch (err) {
       console.error("Toggle favorite error:", err);
     }
@@ -78,7 +76,7 @@ export const FavoritesProvider = ({
 
   useEffect(() => {
     fetchFavorites();
-  }, []);
+  }, [fetchFavorites]);
 
   return (
     <FavoritesContext.Provider

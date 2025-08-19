@@ -9,32 +9,26 @@ export const filterVodkas = (
   flavorFilter: string,
   bottleSizeFilter: number,
   onlyFavorites: boolean,
-  session: Session | null
+  favorites: VodkaProps[]
 ) => {
-  let filteredVodkas = vodkas.filter((vodka) =>
-    normalizeString(vodka.name).includes(normalizeString(search))
+  let filteredVodkas = vodkas.filter((v) =>
+    normalizeString(v.name).includes(normalizeString(search))
   );
 
-  if (flavorFilter && flavorFilter !== "")
-    filteredVodkas = filteredVodkas.filter(
-      (vodka) => vodka.flavor === flavorFilter
-    );
+  if (flavorFilter)
+    filteredVodkas = filteredVodkas.filter((v) => v.flavor === flavorFilter);
 
-  if (onlyFavorites && session?.user?.favorites) {
-    filteredVodkas = filteredVodkas.filter((vodka) =>
-      session.user.favorites?.includes(vodka._id)
+  if (onlyFavorites) {
+    filteredVodkas = filteredVodkas.filter((v) =>
+      favorites.some((fav) => fav._id === v._id)
     );
   }
 
-  // Filtrowanie po pojemności (modyfikacja selectedVariant)
-  filteredVodkas = filteredVodkas.map((vodka) => {
-    const selectedVariant = vodka.variants.find(
-      (variant) => variant.volume === bottleSizeFilter
-    );
-
-    return selectedVariant
-      ? { ...vodka, selectedVariant: selectedVariant || vodka.variants[0] }
-      : vodka;
+  filteredVodkas = filteredVodkas.map((v) => {
+    const selectedVariant =
+      v.variants.find((variant) => variant.volume === bottleSizeFilter) ??
+      v.variants[0];
+    return { ...v, selectedVariant };
   });
 
   return filteredVodkas;
