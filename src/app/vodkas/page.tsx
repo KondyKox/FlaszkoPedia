@@ -6,7 +6,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useVodkas } from "@/hooks/useVodkas";
 import { VodkaProps } from "@/types/VodkaProps";
 import { filterVodkas, sortVodkas } from "@/lib/utils/vodkaUtils/filter";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFilters } from "@/hooks/useFilters";
 import { useSession } from "next-auth/react";
 import VodkaCard from "@/components/vodka/VodkaCard";
@@ -21,7 +21,6 @@ const VodkasPage = () => {
     flavorFilter,
     onlyFavorites,
   } = useFilters();
-  const [vodkaList, setVodkaList] = useState<VodkaProps[] | null>(null);
   const [search, setSearch] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery(1024);
@@ -29,37 +28,21 @@ const VodkasPage = () => {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  useEffect(() => {
-    if (loading || !vodkas) return;
-    setVodkaList(vodkas);
-  }, [loading, vodkas]);
-
-  // Set 'selectedVariant' equal to 'bottleSizeFilter'
-  useEffect(() => {
-    if (loading || !vodkas || !vodkaList) return;
-
-    // Filtrowanie i sortowanie
-    const filteredVodkas = filterVodkas(
-      vodkas,
-      search,
-      flavorFilter,
-      bottleSizeFilter,
-      onlyFavorites,
-      session
-    );
-    const sortedVodkas = sortVodkas(filteredVodkas, sortBy, sortAscending);
-
-    setVodkaList(sortedVodkas);
-  }, [
-    bottleSizeFilter,
-    vodkas,
-    loading,
-    search,
-    sortBy,
-    sortAscending,
-    flavorFilter,
-    onlyFavorites,
-  ]);
+  // od razu filtrujemy i sortujemy z contextu
+  const displayedVodkas: VodkaProps[] = vodkas
+    ? sortVodkas(
+        filterVodkas(
+          vodkas,
+          search,
+          flavorFilter,
+          bottleSizeFilter,
+          onlyFavorites,
+          session
+        ),
+        sortBy,
+        sortAscending
+      )
+    : [];
 
   return (
     <section className="flex flex-col justify-center items-center gap-4 w-full py-10">
@@ -107,9 +90,9 @@ const VodkasPage = () => {
             ) : (
               // Są wyniki → normalne karty
               <ul className="grid justify-items-center align-items-start grid-cols-1 xl:grid-cols-2 gap-x-2 gap-y-4 w-full">
-                {vodkaList?.map((vodka) => (
+                {displayedVodkas.map((vodka) => (
                   <li key={vodka._id} className="w-full h-full">
-                    <VodkaCard vodka={vodka} />
+                    <VodkaCard vodkaId={vodka._id} />
                   </li>
                 ))}
               </ul>

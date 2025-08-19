@@ -47,6 +47,7 @@ const Navbar = () => {
         <Link
           href={`${status === "authenticated" ? "/user" : "/auth"}`}
           className="cursor-pointer rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary hover:drop-shadow-logo"
+          title="Panel użytkownika"
         >
           <UserIcon className="w-10 h-10" />
         </Link>
@@ -90,6 +91,7 @@ const Navbar = () => {
           <Link
             href={`${status === "authenticated" ? "/user" : "/auth"}`}
             className="cursor-pointer rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-button hover:text-primary hover:drop-shadow-logo"
+            title="Panel użytkownika"
           >
             <UserIcon className="w-10 h-10" />
           </Link>

@@ -6,10 +6,7 @@ import { createContext, useEffect, useState } from "react";
 interface VodkasContextType {
   vodkas: VodkaProps[];
   loading: boolean;
-  handleVariantChange: (
-    vodkaId: string,
-    variant: VodkaProps["selectedVariant"]
-  ) => void;
+  handleVariantChange: (vodkaId: string, volume: number) => void;
   refreshVodkas: () => Promise<void>;
   addVodka: (vodka: VodkaProps) => void;
   updateVodka: (updatedVodka: VodkaProps) => void;
@@ -48,14 +45,18 @@ export const VodkasProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   // Change vodka variant
-  const handleVariantChange = (
-    vodkaId: string,
-    variant: VodkaProps["selectedVariant"]
-  ) => {
+  const handleVariantChange = (vodkaId: string, volume: number) => {
+    if (!volume || !vodkaId) return;
+
     setVodkas((prev) =>
-      prev.map((v) =>
-        v._id === vodkaId ? { ...v, selectedVariant: variant } : v
-      )
+      prev.map((v) => {
+        if (v._id !== vodkaId) return v;
+
+        const foundVariant = v.variants.find((vv) => vv.volume === volume);
+        if (!foundVariant) return v;
+
+        return { ...v, selectedVariant: { ...foundVariant } };
+      })
     );
   };
 

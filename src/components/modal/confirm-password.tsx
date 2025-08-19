@@ -49,7 +49,7 @@ const ConfirmPassword = ({
 
   return (
     <Modal isOpen={isOpen} onClose={() => onClose()}>
-      <div className="flex flex-col justify-center items-center gap-6 w-full">
+      <div className="flex flex-col justify-center items-center gap-6 w-full px-4 py-8">
         <InputPassword
           inputId="confirmPassword"
           onChange={(e) =>
@@ -58,7 +58,7 @@ const ConfirmPassword = ({
               userPassword: e.target.value,
             }))
           }
-          label="Nowe hasło"
+          label="Hasło"
           placeholder="Potwierdź hasło..."
         />
         <button

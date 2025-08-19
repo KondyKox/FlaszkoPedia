@@ -3,13 +3,7 @@ import { VodkaProps } from "@/types/VodkaProps";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-const VodkaVariants = ({
-  vodka,
-  selected,
-}: {
-  vodka: VodkaProps;
-  selected: boolean;
-}) => {
+const VodkaVariants = ({ vodka }: { vodka: VodkaProps }) => {
   const { handleVariantChange } = useVodkas();
 
   return (
@@ -18,12 +12,10 @@ const VodkaVariants = ({
         <div
           key={index}
           className={`text-sm p-2 md:p-4 transition-colors duration-300 ease-in-out hover:bg-blue-500 hover:text-primary w-full flex flex-1 justify-center items-center ${
-            variant === vodka.selectedVariant &&
+            variant.volume === vodka.selectedVariant?.volume &&
             "bg-button text-primary pointer-events-none"
           } cursor-pointer`}
-          onClick={() =>
-            selected || (!selected && handleVariantChange(vodka._id, variant))
-          }
+          onClick={() => handleVariantChange(vodka._id, variant.volume)}
         >
           {variant.volume}L
         </div>

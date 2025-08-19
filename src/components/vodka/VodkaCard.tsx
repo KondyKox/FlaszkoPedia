@@ -1,13 +1,14 @@
 // import ArrowIcon from "./ArrowIcon";
 import { useEffect, useRef, useState } from "react";
-import { VodkaProps } from "@/types/VodkaProps";
 import { useSelectedVodka } from "@/hooks/useSelectedVodka";
 import VodkaHeader from "./VodkaHeader";
 import VodkaStores from "./VodkaStores";
 import VodkaMeta from "./VodkaMeta";
 import VodkaVariants from "./VodkaVariants";
+import { useVodkaData } from "@/hooks/useVodkaData";
 
-const VodkaCard = ({ vodka }: { vodka: VodkaProps }) => {
+const VodkaCard = ({ vodkaId }: { vodkaId: string }) => {
+  const { vodka } = useVodkaData(vodkaId);
   const { selectedVodka, setSelectedVodka } = useSelectedVodka();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const selected = vodka === selectedVodka;
@@ -34,6 +35,8 @@ const VodkaCard = ({ vodka }: { vodka: VodkaProps }) => {
     };
   }, []);
 
+  if (!vodka) return null;
+
   return (
     <div
       ref={divRef}
@@ -51,7 +54,7 @@ const VodkaCard = ({ vodka }: { vodka: VodkaProps }) => {
         <VodkaStores vodka={vodka} />
         <VodkaMeta vodka={vodka} />
       </div>
-      <VodkaVariants vodka={vodka} selected={selected} />
+      <VodkaVariants vodka={vodka} />
     </div>
   );
 };
