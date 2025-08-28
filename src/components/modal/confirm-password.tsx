@@ -1,11 +1,11 @@
 import { useState } from "react";
 import LoadingText from "../loading/LoadingText";
-import FeedbackMessage from "../ui/FeedbackMessage";
 import Modal from "./Modal";
 import { checkPassword } from "@/lib/utils/user";
 import { ConfirmModalProps } from "@/types/ModalProps";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import InputPassword from "../auth/InputPassword";
+import { useFeedbacks } from "@/hooks/useFeedbacks";
 
 const ConfirmPassword = ({
   isOpen,
@@ -17,17 +17,15 @@ const ConfirmPassword = ({
   if (!isOpen) return;
 
   const [checking, setChecking] = useState<boolean>(false);
-  const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
-  const [feedback, setFeedback] = useState<string>("");
   const { animate, triggerAnimation } = useAnimateFeedback();
+  const { addFeedback } = useFeedbacks();
 
   const handlePasswordCheck = async () => {
     try {
       setChecking(true);
 
       const { message, success } = await checkPassword(formData.repPassword);
-      if (message) setFeedback(message);
-      setIsSuccessful(success);
+      if (message && success) addFeedback(message, success);
 
       if (success) {
         setTimeout(() => {
@@ -37,8 +35,7 @@ const ConfirmPassword = ({
       }
     } catch (error) {
       console.error(error);
-      setIsSuccessful(false);
-      setFeedback("Nie udało się sprawdzić hasła.");
+      addFeedback("Nie udało się sprawdzić hasła.", false);
     } finally {
       setChecking(false);
     }
@@ -67,9 +64,6 @@ const ConfirmPassword = ({
         >
           {checking ? <LoadingText /> : "Potwierdź hasło"}
         </button>
-        <FeedbackMessage isSuccessful={isSuccessful} animate={animate}>
-          {feedback}
-        </FeedbackMessage>
       </div>
     </Modal>
   );

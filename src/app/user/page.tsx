@@ -4,10 +4,10 @@ import LoadingOverlay from "@/components/loading/LoadingOverlay";
 import LoadingText from "@/components/loading/LoadingText";
 import ConfirmPassword from "@/components/modal/confirm-password";
 import CustomEyeIcon from "@/components/ui/CustomEyeIcon";
-import FeedbackMessage from "@/components/ui/FeedbackMessage";
 import VodkaCard from "@/components/vodka/VodkaCard";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useFeedbacks } from "@/hooks/useFeedbacks";
 import { updateUser } from "@/lib/utils/user";
 import { FormData } from "@/types/AuthProps";
 import { signOut, useSession } from "next-auth/react";
@@ -26,10 +26,9 @@ const UserPage = () => {
     password: "",
     repPassword: "",
   });
-  const [feedback, setFeedback] = useState<string>("");
-  const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
   const { animate, triggerAnimation } = useAnimateFeedback();
   const router = useRouter();
+  const { addFeedback } = useFeedbacks();
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, email: session?.user.email || "" }));
@@ -46,14 +45,12 @@ const UserPage = () => {
         formData.email,
         formData.password
       );
-      if (message) setFeedback(message);
+      if (message && success) addFeedback(message, success);
 
-      setIsSuccessful(success);
       await update();
     } catch (error) {
       console.error(error);
-      setIsSuccessful(false);
-      setFeedback("Nie udało się zaktualizować danych.");
+      addFeedback("Nie udało się zaktualizować danych.", false);
     }
 
     triggerAnimation();
@@ -125,9 +122,6 @@ const UserPage = () => {
               className="top-2"
             />
           </div>
-          <FeedbackMessage isSuccessful={isSuccessful} animate={animate}>
-            {feedback}
-          </FeedbackMessage>
 
           {/* User buttons */}
           <nav className="flex justify-center items-center flex-col gap-4 w-full border-t-2 py-4">

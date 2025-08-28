@@ -36,10 +36,20 @@ export default {
           "0%": { opacity: "0", transform: "translateX(-20px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
+        "slide-in": {
+          "0%": { opacity: "0", transform: "translateY(20px) scale(0.9)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        "slide-out": {
+          "0%": { opacity: "1", transform: "translateY(0) scale(1)" },
+          "100%": { opacity: "0", transform: "translateY(20px) scale(0.9)" },
+        },
       },
       animation: {
         "slide-left": "slide-left 0.6s ease-out forwards",
         "slide-right": "slide-right 0.6s ease-out forwards",
+        "slide-in": "slide-in 0.3s ease-out forwards",
+        "slide-out": "slide-out 0.3s ease-out forwards",
       },
     },
   },

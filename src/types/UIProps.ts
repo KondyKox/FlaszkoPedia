@@ -1,15 +1,7 @@
-import { ReactNode } from "react";
-
 export type EyeIconProps = {
   showPassword: boolean;
   togglePassword: () => void;
   className?: string;
-};
-
-export type FeedbackMessageProps = {
-  isSuccessful: boolean;
-  animate: boolean;
-  children: ReactNode;
 };
 
 export type RatingStarsProps = {

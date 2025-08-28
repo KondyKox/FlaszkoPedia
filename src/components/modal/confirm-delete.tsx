@@ -1,9 +1,9 @@
 import { VodkaModalProps } from "@/types/ModalProps";
 import Modal from "./Modal";
-import FeedbackMessage from "../ui/FeedbackMessage";
 import { useState } from "react";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { deleteVodka } from "@/lib/utils/admin/vodkas";
+import { useFeedbacks } from "@/hooks/useFeedbacks";
 
 const ConfirmDelete = ({
   isOpen,
@@ -13,9 +13,8 @@ const ConfirmDelete = ({
 }: VodkaModalProps) => {
   if (!isOpen) return;
 
-  const [successful, setSuccessful] = useState<boolean>(false);
-  const [feedback, setFeedback] = useState<string>("");
   const { animate, triggerAnimation } = useAnimateFeedback();
+  const { addFeedback } = useFeedbacks();
 
   const handleDeleteVodka = async () => {
     const vodkaId = selectedVodka?._id;
@@ -23,11 +22,9 @@ const ConfirmDelete = ({
 
     try {
       const { message, success } = await deleteVodka(vodkaId);
-      if (message) setFeedback(message);
-      setSuccessful(success);
+      if (message && success) addFeedback(message, success);
     } catch (error) {
-      setSuccessful(false);
-      setFeedback("Nie udało się usunąć wódki.");
+      addFeedback("Nie udało się usunąć wódki.", false);
       console.error("Failed to delete vodka:", error);
     }
 
@@ -57,9 +54,6 @@ const ConfirmDelete = ({
           </button>
         </div>
       </div>
-      <FeedbackMessage isSuccessful={successful} animate={animate}>
-        {feedback}
-      </FeedbackMessage>
     </Modal>
   );
 };

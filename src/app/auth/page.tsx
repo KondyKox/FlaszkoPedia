@@ -2,9 +2,9 @@
 
 import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
-import SocialButton from "@/components/auth/SocialButton";
-import FeedbackMessage from "@/components/ui/FeedbackMessage";
+// import SocialButton from "@/components/auth/SocialButton";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
+import { useFeedbacks } from "@/hooks/useFeedbacks";
 import { registerUser } from "@/lib/utils/auth";
 import { FormData } from "@/types/AuthProps";
 import { signIn } from "next-auth/react";
@@ -14,8 +14,6 @@ import { useState } from "react";
 const AuthPage = () => {
   const [formType, setFormType] = useState<"login" | "register">("register");
   const [loading, setLoading] = useState<boolean>(false);
-  const [feedback, setFeedback] = useState<string>("");
-  const [successful, setSuccessful] = useState<boolean>(false);
   const { animate, triggerAnimation } = useAnimateFeedback();
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -23,6 +21,7 @@ const AuthPage = () => {
     password: "",
     repPassword: "",
   });
+  const { addFeedback } = useFeedbacks();
 
   // UI
   const toggleFormType = () => {
@@ -62,8 +61,7 @@ const AuthPage = () => {
       setLoading(true);
       if (formData.password !== formData.repPassword) {
         console.error("Passwords do not match!");
-        setFeedback("Hasła się nie zgadzają");
-        setSuccessful(false);
+        addFeedback("Hasła się nie zgadzają", false);
         return;
       }
 
@@ -71,13 +69,11 @@ const AuthPage = () => {
         formData.email,
         formData.password
       );
-      if (message) setFeedback(message);
-      setSuccessful(success);
+      if (message && success) addFeedback(message, success);
 
       handleLogin();
     } catch (error) {
-      setFeedback("Nie udało się zarejestrować");
-      setSuccessful(false);
+      addFeedback("Nie udało się zarejestrować", false);
     } finally {
       setLoading(false);
     }
@@ -94,18 +90,15 @@ const AuthPage = () => {
       });
 
       if (res?.error) {
-        setFeedback(res.error || "Nie udało się zalogować.");
-        setSuccessful(false);
+        addFeedback(res.error || "Nie udało się zalogować.", false);
         return;
       }
 
-      setFeedback("Zalogowano pomyślnie");
-      setSuccessful(true);
+      addFeedback("Zalogowano pomyślnie", true);
 
       setTimeout(() => router.push("/"), 2000);
     } catch (error) {
-      setFeedback("Nie udało się zalogować");
-      setSuccessful(false);
+      addFeedback("Nie udało się zalogować", false);
     } finally {
       setLoading(false);
     }
@@ -137,9 +130,6 @@ const AuthPage = () => {
             setSuccessful={setSuccessful}
           />
         </div> */}
-        <FeedbackMessage isSuccessful={successful} animate={animate}>
-          {feedback}
-        </FeedbackMessage>
       </form>
       <button
         className="btn btn-secondary w-full py-2"

@@ -2,11 +2,11 @@ import Image from "next/image";
 import InputGroup from "../auth/InputGroup";
 import { VODKA_FLAVOR_OPTIONS } from "@/constants/filterOptions";
 import Store from "../vodka/Store";
-import FeedbackMessage from "../ui/FeedbackMessage";
 import { useAnimateFeedback } from "@/hooks/useAnimateFeedback";
 import { useState } from "react";
 import { addVodka, updateVodka } from "@/lib/utils/admin/vodkas";
 import { VodkaFormProps } from "@/types/ModalProps";
+import { useFeedbacks } from "@/hooks/useFeedbacks";
 
 // Vodka methods
 const submitVodka = {
@@ -23,9 +23,8 @@ const VodkaForm = ({
 }: VodkaFormProps) => {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number>(0);
   const selectedVariant = formData.variants[selectedVariantIndex];
-  const [successful, setSuccessful] = useState<boolean>(false);
-  const [feedback, setFeedback] = useState<string>("");
   const { animate, triggerAnimation } = useAnimateFeedback();
+  const { addFeedback } = useFeedbacks();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,12 +44,10 @@ const VodkaForm = ({
       };
 
       const { message, success } = await submitVodka[action](formattedFormData);
-      if (message) setFeedback(message);
-      setSuccessful(success);
+      if (message && success) addFeedback(message, success);
     } catch (error) {
       const verb = action === "add" ? "dodać" : "zaktualizować";
-      setSuccessful(false);
-      setFeedback(`Nie udało się ${verb} wódki.`);
+      addFeedback(`Nie udało się ${verb} wódki.`, false);
       console.error(
         `Failed to ${action === "add" ? "add" : "update"} vodka:`,
         error
@@ -209,9 +206,6 @@ const VodkaForm = ({
           {action === "add" ? "Dodaj wódkę" : "Aktualizuj"}
         </button>
       </form>
-      <FeedbackMessage isSuccessful={successful} animate={animate}>
-        {feedback}
-      </FeedbackMessage>
     </>
   );
 };
